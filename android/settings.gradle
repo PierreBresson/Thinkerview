@@ -1,0 +1,9 @@
+rootProject.name = 'thinkerview'
+include ':react-native-vector-icons'
+project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
+include ':react-native-check-app-install'
+project(':react-native-check-app-install').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-check-app-install/android')
+include ':react-native-youtube'
+project(':react-native-youtube').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-youtube/android')
+
+include ':app'
