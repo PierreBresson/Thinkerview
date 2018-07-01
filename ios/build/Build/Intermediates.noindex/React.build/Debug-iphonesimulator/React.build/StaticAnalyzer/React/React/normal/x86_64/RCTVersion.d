@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Base/RCTVersion.m \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Base/RCTVersion.h
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Base/RCTVersion.m \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Base/RCTVersion.h

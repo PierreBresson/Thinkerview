@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
  <key>clang_version</key>
-<string>Apple LLVM version 9.1.0 (clang-902.0.39.2)</string>
+<string>Apple LLVM version 9.0.0 (clang-900.0.39.2)</string>
  <key>files</key>
  <array>
-  <string>/Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Base/RCTModuleMethod.mm</string>
+  <string>/Users/pielou/Github/thinkerview/node_modules/react-native/React/Base/RCTModuleMethod.mm</string>
  </array>
  <key>diagnostics</key>
  <array>

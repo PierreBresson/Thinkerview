@@ -1,5 +1,5 @@
 dependencies: \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/Libraries/Text/TextInput/RCTBackedTextInputDelegateAdapter.m \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/Libraries/Text/TextInput/RCTBackedTextInputDelegateAdapter.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/Libraries/Text/TextInput/RCTBackedTextInputViewProtocol.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/Libraries/Text/TextInput/RCTBackedTextInputDelegate.h
+  /Users/pielou/Github/thinkerview/node_modules/react-native/Libraries/Text/TextInput/RCTBackedTextInputDelegateAdapter.m \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/Libraries/Text/TextInput/RCTBackedTextInputDelegateAdapter.h \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/Libraries/Text/TextInput/RCTBackedTextInputViewProtocol.h \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/Libraries/Text/TextInput/RCTBackedTextInputDelegate.h

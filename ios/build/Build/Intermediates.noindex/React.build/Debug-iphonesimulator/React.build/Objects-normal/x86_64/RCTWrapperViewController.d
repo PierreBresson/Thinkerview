@@ -1,19 +1,19 @@
 dependencies: \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Views/RCTWrapperViewController.m \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Views/RCTWrapperViewController.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Base/RCTEventDispatcher.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Base/RCTBridge.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Base/RCTBridgeDelegate.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Base/RCTJavaScriptLoader.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Base/RCTDefines.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Base/RCTBridgeModule.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Base/RCTFrameUpdate.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Base/RCTInvalidating.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Views/RCTNavItem.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Views/RCTComponent.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Base/RCTUtils.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Base/RCTAssert.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Views/UIView+React.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGEnums.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGMacros.h \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/node_modules/react-native/React/Views/RCTAutoInsetsProtocol.h
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Views/RCTWrapperViewController.m \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Views/RCTWrapperViewController.h \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Base/RCTEventDispatcher.h \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Base/RCTBridge.h \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Base/RCTBridgeDelegate.h \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Base/RCTJavaScriptLoader.h \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Base/RCTDefines.h \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Base/RCTBridgeModule.h \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Base/RCTFrameUpdate.h \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Base/RCTInvalidating.h \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Views/RCTNavItem.h \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Views/RCTComponent.h \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Base/RCTUtils.h \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Base/RCTAssert.h \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Views/UIView+React.h \
+  /Users/pielou/Github/thinkerview/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGEnums.h \
+  /Users/pielou/Github/thinkerview/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGMacros.h \
+  /Users/pielou/Github/thinkerview/node_modules/react-native/React/Views/RCTAutoInsetsProtocol.h

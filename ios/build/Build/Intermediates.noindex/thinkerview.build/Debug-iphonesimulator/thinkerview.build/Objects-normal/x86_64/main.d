@@ -1,3 +1,2 @@
-dependencies: \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/ios/thinkerview/main.m \
-  /Users/pierre.bresson/Documents/Projects/thinkerview/ios/thinkerview/AppDelegate.h
+dependencies: /Users/pielou/Github/thinkerview/ios/thinkerview/main.m \
+  /Users/pielou/Github/thinkerview/ios/thinkerview/AppDelegate.h
