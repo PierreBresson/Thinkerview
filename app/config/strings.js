@@ -1,7 +1,14 @@
 const strings = {
     errorLoading: "Une erreur est survenue. Merci d'essayer à nouveau.",
+    share: {
+        title: "Thinkerview",
+        subject: "Thinkerview",
+        copyLink: "Copier le lien"
+    },
     homeScreen: {
-        header: "Vidéos"
+        header: "Bonjour,",
+        subHeaderStart: "Voici les ",
+        subHeaderEnd: " derniers interviews réalisés par l'équipe Thinkerview."
     },
     aboutScreen: {
         about: "A propos",
@@ -16,6 +23,9 @@ const strings = {
     },
     articleScreen: {
         noYoutube: "Cannot display video player because it's relialying on Youtube app. Please install Youtube App first."
+    },
+    headerComponent: {
+        back: "Retour"
     }
   };
   

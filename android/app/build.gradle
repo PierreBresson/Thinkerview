@@ -138,6 +138,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-share')
     compile project(':react-native-vector-icons')
     compile project(':react-native-check-app-install')
     compile project(':react-native-youtube')
