@@ -9,17 +9,13 @@ export class ShareSocial extends React.Component {
     super(props);    
   }
 
-  onCancel = () => {      
-    //dosome
-  }
-
   render() {
     let { shareSocialOpen, title, url_video } = this.props;    
     return (
       <ShareSheet
         style={styles.container}
         visible={shareSocialOpen}
-        onCancel={()=>this.onCancel()}
+        onCancel={()=>{}}
       >
         <Button
           iconSrc={{ uri: TWITTER_ICON }}

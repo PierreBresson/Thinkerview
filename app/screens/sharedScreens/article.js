@@ -11,7 +11,8 @@ export default class ArticleScreen extends React.Component {
     super(props);
     this.state = {
       youtubeNativePlayer: false,
-      height: 215
+      height: 215,
+      shareSocialOpen: false,
     };
   }
 
@@ -63,7 +64,10 @@ export default class ArticleScreen extends React.Component {
 
     return (
       <ReactNative.View style={config.styles.containerNoPadding}>
-        <Components.default.Header onPress={()=>this.props.navigation.goBack()}/>
+        <Components.default.Header 
+          onPressLeft={()=>this.props.navigation.goBack()} 
+          onPressRight={()=>this.setState({ shareSocialOpen: !this.state.shareSocialOpen})
+        }/>
         <ReactNative.View style={config.styles.container}>
           {this.renderVideo(video_id)}
           <ReactNative.Text style={styles.header}>
@@ -72,6 +76,7 @@ export default class ArticleScreen extends React.Component {
           <ReactNative.Text style={styles.body}>
             {_.capitalize(body)}
           </ReactNative.Text>
+          <Components.default.ShareSocial shareSocialOpen={this.state.shareSocialOpen}/>
         </ReactNative.View>
       </ReactNative.View>
     );

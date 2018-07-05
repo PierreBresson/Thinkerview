@@ -13,12 +13,11 @@ export class Header extends React.Component {
   }
 
   render() {
-    let { header, onPress } = this.props;
+    let { header, onPressLeft, onPressRight } = this.props;
     return (
         <ReactNative.View style={styles.container}>
-            <Components.default.ShareSocial shareSocialOpen={this.state.shareSocialOpen}/>
             <ReactNative.View style={styles.containerBtn}>
-                <ReactNative.TouchableOpacity style={styles.backBtn} onPress={onPress}>
+                <ReactNative.TouchableOpacity style={styles.backBtn} onPress={onPressLeft}>
                     <IconEntypo
                         name={"chevron-left"}
                         size={32}
@@ -32,7 +31,7 @@ export class Header extends React.Component {
               {header?<ReactNative.Text numberOfLines={1} style={styles.header}>{header}</ReactNative.Text>:null}
             </ReactNative.View>
             <ReactNative.View style={styles.containerBtnRight}>
-              <ReactNative.TouchableOpacity onPress={()=>this.setState({ shareSocialOpen: !this.state.shareSocialOpen})}>
+              <ReactNative.TouchableOpacity onPress={onPressRight}>
                 <IconEntypo
                   name={"share"}
                   size={22}

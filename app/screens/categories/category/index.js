@@ -36,9 +36,7 @@ export default class HomeScreen extends React.Component {
 
   renderIntro = () => {
     const category_name = this.props.navigation.getParam("category_name");
-    return (
-      <Components.default.Header onPress={()=>this.props.navigation.goBack()} header={category_name}/>
-    );
+    return <Components.default.Header onPressLeft={()=>this.props.navigation.goBack()} header={category_name}/>;
   };
 
   renderItem = (item, index) => {

@@ -3,7 +3,9 @@ const strings = {
     share: {
         title: "Thinkerview",
         subject: "Thinkerview",
-        copyLink: "Copier le lien"
+        url: "https://thinkerview.com",
+        message: "Sympa la vidéo thinkerview!",
+        copyLink: "Copier le lien",
     },
     homeScreen: {
         header: "Bonjour,",
