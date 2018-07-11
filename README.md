@@ -14,6 +14,7 @@ v1
 - fix crash on Android with Standalone player
 - release android version
 - fix slow animation when sharing button is clicked (iOS)
+
 v2
 - improve UI/UX
 - allow user to play only audio (podcast feature)
