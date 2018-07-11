@@ -63,7 +63,7 @@ export default class ArticleScreen extends React.Component {
     let { title, body, video_id } = item;
 
     return (
-      <ReactNative.View style={config.styles.containerNoPadding}>
+      <ReactNative.ScrollView style={config.styles.containerNoPadding}>
         <Components.default.Header 
           onPressLeft={()=>this.props.navigation.goBack()} 
           onPressRight={()=>this.setState({ shareSocialOpen: !this.state.shareSocialOpen})
@@ -78,7 +78,7 @@ export default class ArticleScreen extends React.Component {
           </ReactNative.Text>
           <Components.default.ShareSocial shareSocialOpen={this.state.shareSocialOpen}/>
         </ReactNative.View>
-      </ReactNative.View>
+      </ReactNative.ScrollView>
     );
   }
 }
