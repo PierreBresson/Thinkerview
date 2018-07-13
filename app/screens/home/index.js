@@ -44,7 +44,7 @@ export default class HomeScreen extends React.Component {
             <ReactNative.Text style={styles.subHeaderColor}>{subHeader}</ReactNative.Text> 
             {config.strings.homeScreen.subHeaderEnd}
           </ReactNative.Text>
-        :""}
+        :<ReactNative.Text></ReactNative.Text>}
       </ReactNative.View>
     );
   };
@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
   headerView: {
     paddingTop: 40,
     paddingBottom: 10,
-    paddingLeft: 20
+    paddingLeft: 20,
+    paddingRight: 20
   },
   header: {
     fontSize: 30,
