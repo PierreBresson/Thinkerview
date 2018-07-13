@@ -24,6 +24,7 @@ const strings = {
         header: "Catégories"
     },
     articleScreen: {
+        playVideo: "Lire la vidéo",
         noYoutube: "Cannot display video player because it's relialying on Youtube app. Please install Youtube App first."
     },
     headerComponent: {

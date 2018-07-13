@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     headerView: { 
         alignItems: "center", 
         justifyContent: "center", 
-        paddingTop: 60, 
+        paddingTop: ReactNative.Platform.OS === "ios" ? 60 : 30, 
         paddingBottom: 30 
     },
     header: {

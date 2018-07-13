@@ -23,7 +23,7 @@ export class VideoItem extends React.Component {
         <ReactNative.Image
           style={styles.img}
           resizeMode="cover"
-          source={{ uri: img_url ? img_url : 'https://picsum.photos/400/200/?random' }}
+          source={{ uri: img_url ? img_url : '' }}
         />
         <ReactNative.View style={styles.textView}>
           <ReactNative.Text numberOfLines={3} style={styles.text}>
