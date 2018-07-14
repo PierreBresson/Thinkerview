@@ -7,12 +7,11 @@ Watch Thinkerview videos.
 ![alt tag](https://github.com/PierreBresson/thinkerview/blob/master/screen3.jpg)
 
 # Download
-Download app on the [App Store](https://itunes.apple.com/us/app/thinkerview/id1406076265?ls=1&mt=8).
+iOS : [App Store](https://itunes.apple.com/us/app/thinkerview/id1406076265?ls=1&mt=8)
+Android : [Google Play](https://play.google.com/store/apps/details?id=com.veiligzwanger)
 
 # Roadmap
-v1
-- fix crash on Android with Standalone player
-- release android version
+v1.2
 - fix slow animation when sharing button is clicked (iOS)
 
 v2
