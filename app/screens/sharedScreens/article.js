@@ -4,6 +4,7 @@ import * as Components from "../../components";
 import YouTube, { YouTubeStandaloneAndroid } from 'react-native-youtube';
 import IconEntypo from "react-native-vector-icons/Entypo";
 import { AppInstalledChecker } from "react-native-check-app-install";
+import TrackPlayer from 'react-native-track-player';
 import config from "../../config";
 import _ from "lodash";
 
@@ -30,6 +31,32 @@ export default class ArticleScreen extends React.Component {
         }
       });
     }
+  }
+
+  playAudio = (audio_link, img_url) => {
+    TrackPlayer.setupPlayer()
+      .then(() => {
+        var track = {
+          id: 'unique track id',
+          url: audio_link,
+          title: 'Thinkerview',
+          artist: 'Thinkerview',
+          album: 'Thinkerview',
+          genre: 'Interview',
+          date: '2014-05-20T07:00:00+00:00', 
+          artwork: img_url,
+        };
+        TrackPlayer.add([track])
+          .then(() => {
+            TrackPlayer.play();
+          })
+          .catch(err=>{
+            console.log(err)
+          });;
+      })
+      .catch(err=>{
+        console.log(err)
+      });
   }
 
   playVideo = (video_id) => {
@@ -81,10 +108,29 @@ export default class ArticleScreen extends React.Component {
       );
   }
 
+  renderAudio = (audio_link, img_url) => {
+    if(audio_link && img_url)
+      return (
+        <ReactNative.View style={{flex: 1}}>
+          <ReactNative.TouchableOpacity style={styles.btn} onPress={()=>this.playAudio(audio_link, img_url)}>
+            <IconEntypo
+              name={"note"}
+              size={40}
+              color={config.colors.thinkerGreen}
+              style={styles.iconShare}
+            />
+            <ReactNative.Text style={styles.btnText}>
+              {config.strings.articleScreen.playVideo}
+            </ReactNative.Text>
+          </ReactNative.TouchableOpacity>
+        </ReactNative.View>
+      );
+  }
+
   render() {
     let item = this.props.navigation.getParam("item");
     if (!item) return null;
-    let { title, body, video_id, img_url } = item;
+    let { title, body, video_id, img_url, audio_link } = item;
 
     return (
       <ReactNative.ScrollView style={config.styles.containerNoPadding}>
@@ -97,6 +143,8 @@ export default class ArticleScreen extends React.Component {
 
           {this.renderVideoAndroid(img_url, video_id)}
           {this.renderVideoIOS(video_id)}
+
+          {this.renderAudio(audio_link, img_url)}
 
           <ReactNative.Text style={styles.header}>
             {_.capitalize(title)}

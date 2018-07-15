@@ -11,6 +11,7 @@ export default cleanWPjson = (json) => {
             body: he.unescape(json_item.content.rendered.replace(/<\/?[^>]+(>|$)/g, "")),
             img_url: getYoutubeVideoImageURL(json_item.acf.youtube_link),
             video_id: getYoutubeVideoID(json_item.acf.youtube_link),
+            audio_link: json_item.acf.audio_link
         };
         cleanJSON.push(item);
     })
