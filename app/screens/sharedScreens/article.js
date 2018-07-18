@@ -36,14 +36,13 @@ export default class ArticleScreen extends React.Component {
   playAudio = (audio_link, img_url) => {
     TrackPlayer.setupPlayer()
       .then(() => {
-        var track = {
+        TrackPlayer.reset();
+        let track = {
           id: 'unique track id',
           url: audio_link,
-          title: 'Thinkerview',
-          artist: 'Thinkerview',
-          album: 'Thinkerview',
-          genre: 'Interview',
-          date: '2014-05-20T07:00:00+00:00', 
+          title: 'title',
+          artist: 'subTitle',
+          album: 'Interview',
           artwork: img_url,
         };
         TrackPlayer.add([track])
