@@ -1,4 +1,5 @@
 import icons from "./icons";
+import images from "./images"
 import colors from "./colors";
 import strings from "./strings";
 import fonts from "./fonts";
@@ -7,6 +8,7 @@ import privateKeys from "./privateKeys";
 
 export default {
   icons: icons,
+  images: images,
   colors: colors,
   fonts: fonts,
   strings: strings,

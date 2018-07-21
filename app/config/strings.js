@@ -8,9 +8,7 @@ const strings = {
         copyLink: "Copier le lien",
     },
     homeScreen: {
-        header: "Bonjour,",
-        subHeaderStart: "Voici les ",
-        subHeaderEnd: " derniers interviews réalisés par l'équipe Thinkerview."
+        header: "Les interviews",
     },
     aboutScreen: {
         about: "A propos",
@@ -26,6 +24,9 @@ const strings = {
     articleScreen: {
         playVideo: "Lire la vidéo",
         noYoutube: "Cannot display video player because it's relialying on Youtube app. Please install Youtube App first."
+    },
+    podcastScreen: {
+        header: "Podcast",
     },
     headerComponent: {
         back: "Retour"

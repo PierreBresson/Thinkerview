@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import ReactNative, { StyleSheet } from "react-native";
 import IconEntypo from "react-native-vector-icons/Entypo";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import { AppProvider } from '../context/';
 import config from "../config";
 
 import HomeScreen from "../screens/home";
 import CategoriesScreen from "../screens/categories";
 import CategoryScreen from "../screens/categories/category";
+import PodcastScreen from "../screens/podcast"
 import AboutScreen from "../screens/about";
 
 import ArticleScreen from "../screens/sharedScreens/article";
@@ -15,7 +18,7 @@ import ArticleScreen from "../screens/sharedScreens/article";
 import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
 
-export default createBottomTabNavigator(
+const TabScreens = createBottomTabNavigator(
   {
     Home: {
       screen: createStackNavigator(
@@ -42,14 +45,14 @@ export default createBottomTabNavigator(
         tabBarIcon: ({ tintColor, focused }) =>
           focused ? (
             <IconEntypo
-              name={"home"}
+              name={"folder-video"}
               size={28}
               color={config.colors.thinkerGreen}
               style={styles.icon}
             />
           ) : (
             <IconEntypo
-              name={"home"}
+              name={"folder-video"}
               size={28}
               color={config.colors.blackTorn}
               style={styles.icon}
@@ -97,20 +100,41 @@ export default createBottomTabNavigator(
           )
       }
     },
+    Podcast: {
+      screen: PodcastScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor, focused }) =>
+          focused ? (
+            <FontAwesome
+              name={"podcast"}
+              size={28}
+              color={config.colors.thinkerGreen}
+              style={styles.icon}
+            />
+          ) : (
+            <FontAwesome
+              name={"podcast"}
+              size={28}
+              color={config.colors.blackTorn}
+              style={styles.icon}
+            />
+          )
+      }
+    },
     About: {
       screen: AboutScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor, focused }) =>
           focused ? (
             <IconEntypo
-              name={"user"}
+              name={"info-with-circle"}
               size={28}
               color={config.colors.thinkerGreen}
               style={styles.icon}
             />
           ) : (
             <IconEntypo
-              name={"user"}
+              name={"info-with-circle"}
               size={28}
               color={config.colors.blackTorn}
               style={styles.icon}
@@ -135,6 +159,20 @@ export default createBottomTabNavigator(
     }
   }
 );
+
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+  }
+  
+  render() {
+    return (
+      <AppProvider>
+        <TabScreens />
+      </AppProvider>
+    );
+  }
+}
 
 const marginIosIconTab = 10;
 const styles = StyleSheet.create({

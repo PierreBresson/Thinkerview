@@ -1,5 +1,5 @@
 import React from "react";
-import ReactNative, { StyleSheet } from "react-native";
+import { ActivityIndicator, View, Text, SectionList, StyleSheet } from "react-native";
 import * as Components from "../../components";
 import config from "../../config";
 
@@ -33,49 +33,76 @@ export default class CategoriesScreen extends React.Component {
 
   renderIntro = () => {
     return (
-      <ReactNative.View style={styles.headerView}>
-        <ReactNative.Text style={styles.header}>{config.strings.categoryScreen.header}</ReactNative.Text>
-      </ReactNative.View>
+      <View style={styles.headerView}>
+        <Text style={styles.header}>
+          {config.strings.categoryScreen.header}
+        </Text>
+      </View>
     );
   };
 
-  renderItem = (item,index) => {      
+  renderActivityIndicator = () => {
+    if(!this.state.refreshing)
+      return <View/>;
+    return (
+      <View>
+        <ActivityIndicator size="large" color="black" />
+      </View>
+    )
+  }
+
+  renderItem = (item,index) => {
     return(
       <Components.default.CategoryItem
         item={item}
-        onPress={()=>{this.props.navigation.navigate("Category", { category_id: item.id, category_name: item.name })}}
-      />
+        onPress={()=>{
+          this.props.navigation.navigate("Category", { 
+            category_id: item.id, 
+            category_name: item.name 
+        })
+      }}/>
     );
   };
 
   render() {
     return (
-      <ReactNative.View style={config.styles.containerNoPadding} >
-        {this.renderIntro()}
-        <ReactNative.SectionList
-          refreshing={this.state.refreshing}
+      <View style={config.styles.containerNoPadding}>
+        <SectionList
+          refreshing={false}
           onRefresh={()=>this.getData()}
           sections={[
             {
               data: [1],
               keyExtractor: (item, index) => index,
+              renderItem: (item, index) => this.renderIntro()
+            },
+            {
+              data: [1],
+              keyExtractor: (item, index) => index,
+              renderItem: (item, index) => this.renderActivityIndicator()
+            },
+            {
+              data: [1],
+              keyExtractor: (item, index) => index,
               renderItem: (item, index) => {
                 return(
-                  <ReactNative.View style={styles.errorView}>
-                    <ReactNative.Text style={styles.error}>{ this.state.err ? config.strings.errorLoading : "" }</ReactNative.Text>
-                  </ReactNative.View>
+                  <View style={styles.errorView}>
+                    <Text style={styles.error}>
+                      { this.state.err ? config.strings.errorLoading : "" }
+                    </Text>
+                  </View>
                 )
               }
             },
             {
-              data: this.state.data?this.state.data:"",
+              data: this.state.data ? this.state.data:"",
               keyExtractor: (item, index) => item.id,
               renderItem: (item, index) =>
-                this.renderItem(item.item, item.index)
+                this.state.refreshing? <View/> : this.renderItem(item.item, item.index)
             }
           ]}
         />
-      </ReactNative.View>
+      </View>
     );
   }
 }
@@ -83,13 +110,14 @@ export default class CategoriesScreen extends React.Component {
 const styles = StyleSheet.create({
     headerView: { 
         alignItems: "center", 
-        justifyContent: "center", 
-        paddingTop: ReactNative.Platform.OS === "ios" ? 60 : 30, 
-        paddingBottom: 30 
+        paddingTop: 40,
+        paddingBottom: 20 
     },
     header: {
-        fontSize: 30,
-        fontFamily: config.fonts.titleFont 
+      fontSize: 28,
+      fontFamily: config.fonts.titleFont,
+      paddingBottom: 6,
+      color: config.colors.blackTorn
     },
     errorView: {
       flex:1, 

@@ -1,5 +1,5 @@
 import React from "react";
-import ReactNative, { StyleSheet } from "react-native";
+import { ActivityIndicator, Text, View, SectionList, StyleSheet } from "react-native";
 import * as Components from "../../components";
 import config from "../../config";
 
@@ -13,7 +13,6 @@ export default class HomeScreen extends React.Component {
       data: null,
       refreshing: false,
       err: false,
-      subHeader: null
     };
   }
 
@@ -26,28 +25,33 @@ export default class HomeScreen extends React.Component {
     getAllPosts()
         .then(res => {
             const data = cleanWPjson(res);
-            this.setState({ refreshing: false, err: false, data, subHeader: data.length });
+            this.setState({ refreshing: false, err: false, data});
         })
         .catch(err => {
-            this.setState({ refreshing: false, err: true, subHeader: null });
+            this.setState({ refreshing: false, err: true });
             console.log(err)
         })
   }
 
-  renderIntro = (subHeader) => {
+  renderIntro = () => {
     return (
-      <ReactNative.View style={styles.headerView}>
-        <ReactNative.Text style={styles.header}>{config.strings.homeScreen.header}</ReactNative.Text>
-        {subHeader?
-          <ReactNative.Text style={styles.subHeader}>
-            {config.strings.homeScreen.subHeaderStart}
-            <ReactNative.Text style={styles.subHeaderColor}>{subHeader}</ReactNative.Text> 
-            {config.strings.homeScreen.subHeaderEnd}
-          </ReactNative.Text>
-        :<ReactNative.Text></ReactNative.Text>}
-      </ReactNative.View>
+      <View style={styles.headerView}>
+        <Text style={styles.header}>
+          {config.strings.homeScreen.header}
+        </Text>
+      </View>
     );
   };
+
+  renderActivityIndicator = () => {
+    if(!this.state.refreshing)
+      return <View/>;
+    return (
+      <View>
+        <ActivityIndicator size="large" color="black" />
+      </View>
+    )
+  }
 
   renderItem = (item, index) => {
     return (
@@ -62,56 +66,58 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-    <ReactNative.View style={config.styles.containerNoPadding} >
-      {this.renderIntro(this.state.subHeader)}
-      <ReactNative.SectionList
-        refreshing={this.state.refreshing}
+    <View style={config.styles.containerNoPadding} >
+      <SectionList
+        refreshing={false}
         onRefresh={()=>this.getData()}
         sections={[
           {
             data: [1],
             keyExtractor: (item, index) => index,
+            renderItem: (item, index) => this.renderIntro()
+          },
+          {
+            data: [1],
+            keyExtractor: (item, index) => index,
+            renderItem: (item, index) => this.renderActivityIndicator()
+          },
+          {
+            data: [1],
+            keyExtractor: (item, index) => index,
             renderItem: (item, index) => {
               return(
-                <ReactNative.View style={styles.errorView}>
-                  <ReactNative.Text style={styles.error}>{ this.state.err ? config.strings.errorLoading : "" }</ReactNative.Text>
-                </ReactNative.View>
+                <View style={styles.errorView}>
+                  <Text style={styles.error}>
+                    { this.state.err ? config.strings.errorLoading : "" }
+                  </Text>
+                </View>
               )
             }
           },
           {
             data: this.state.data ? this.state.data : "",
             keyExtractor: (item, index) => item.id,
-            renderItem: (item, index) => this.renderItem(item.item, item.index)
+            renderItem: (item, index) => 
+              this.state.refreshing? <View/> : this.renderItem(item.item, item.index)
           }
         ]}
       />
-    </ReactNative.View>
+    </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   headerView: {
+    alignItems: "center",
     paddingTop: 40,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20
+    paddingBottom: 20,
   },
   header: {
-    fontSize: 30,
+    fontSize: 28,
     fontFamily: config.fonts.titleFont,
     paddingBottom: 6,
     color: config.colors.blackTorn
-  },
-  subHeader: {
-    fontSize: 20,
-    fontFamily: config.fonts.bodyFont,
-    color: config.colors.blackTorn
-  },
-  subHeaderColor: {
-    fontFamily: config.fonts.titleFont,
-    color: config.colors.thinkerGreen
   },
   errorView: {
     flex:1, 
