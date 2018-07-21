@@ -16,7 +16,8 @@ import ArticleScreen from "../screens/sharedScreens/article";
 
 // Temporary fix for not show a warning due to react navigation
 import { YellowBox } from 'react-native';
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Remote debugger is in a background tab which may cause apps to perform slowly']);
+console.ignoredYellowBox = ['Remote debugger'];
 
 const TabScreens = createBottomTabNavigator(
   {

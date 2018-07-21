@@ -10,7 +10,10 @@ export class PlayerButton extends React.Component {
 
   render() {
     let sizeIcon = 46;
-    let { iconName, onPress} = this.props;
+    let { iconName, onPress } = this.props;
+    console.log(this.props.iconName)
+    if(iconName!="controller-play"&&iconName!="controller-pause"&&iconName!="controller-fast-backward"&&iconName!="controller-fast-forward")
+      iconName = "controller-play";
     if(iconName=="controller-play"||iconName=="controller-pause")
       sizeIcon = 60;
     return (

@@ -2,15 +2,16 @@ import React from "react";
 import { Image, Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import Slider from "react-native-slider";
 import * as Components from "../../components";
+import { AppConsumer } from '../../context';
 import config from "../../config";
 
 export default class PodcastScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sliderValue: 0,
+      sliderValue: 50,
       title: 'François Ruffin sans filtre',
-      subTitle: 'Politique'
+      subTitle: 'Politique',
     }
   }
 
@@ -24,14 +25,15 @@ export default class PodcastScreen extends React.Component {
     )
   }
 
-  renderInfoPodast= (title,subTitle) => {
+  renderInfoPodast= (context) => {
+    const { title, artist } = context.track;
     return(
       <View style={styles.infoPodastView}>
         <Text style={styles.title}>
           {title}
         </Text>
         <Text style={styles.subTitle}>
-          {subTitle}
+          {artist}
         </Text>
       </View>
     );
@@ -52,20 +54,20 @@ export default class PodcastScreen extends React.Component {
     )
   }
 
-  renderControls = () => {
+  renderControls = (context) => {
     return(
       <View style={styles.controlView}>
         <Components.default.PlayerButton
           iconName={"controller-fast-backward"}
-          onPress={()=>{}}
+          onPress={()=>context.back15()}
         />
         <Components.default.PlayerButton
-          iconName={"controller-play"}
-          onPress={()=>{}}
+          iconName={context.giveStateIcon()}
+          onPress={()=>context.playPause()}
         />
         <Components.default.PlayerButton
           iconName={"controller-fast-forward"}
-          onPress={()=>{}}
+          onPress={()=>context.forward15()}
         />
       </View>
     )
@@ -73,21 +75,25 @@ export default class PodcastScreen extends React.Component {
 
   render() {
     return (
-      <View style={config.styles.container}>
-        {this.renderIntro()}
-        <View style={{flex:1}}>
-          <Image 
-            style={styles.coverImage}
-            resizeMode={'contain'}
-            source={config.images.logo}
-          />
-          <View style={styles.bottomView}>
-            {this.renderInfoPodast(this.state.title,this.state.subTitle)}
-            {this.renderSlider()}
-            {this.renderControls()}
+      <AppConsumer>
+      { (context) => (
+        <View style={config.styles.container} ref={(ref) => { this.context = context; }}>
+          {this.renderIntro()}
+          <View style={{flex:1}}>
+            <Image 
+              style={styles.coverImage}
+              resizeMode={'contain'}
+              source={config.images.logo}
+            />
+            <View style={styles.bottomView}>
+              {this.renderInfoPodast(context)}
+              {this.renderSlider()}
+              {this.renderControls(context)}
+            </View>
           </View>
         </View>
-      </View>
+      )}
+      </AppConsumer>
     );
   }
 }

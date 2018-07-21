@@ -1,10 +1,10 @@
 import React from "react";
-import ReactNative, { Platform, StyleSheet } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Platform, StyleSheet } from "react-native";
 import * as Components from "../../components";
 import YouTube, { YouTubeStandaloneAndroid } from 'react-native-youtube';
 import IconEntypo from "react-native-vector-icons/Entypo";
 import { AppInstalledChecker } from "react-native-check-app-install";
-import TrackPlayer from 'react-native-track-player';
+import { AppConsumer } from '../../context';
 import config from "../../config";
 import _ from "lodash";
 
@@ -33,31 +33,6 @@ export default class ArticleScreen extends React.Component {
     }
   }
 
-  playAudio = (audio_link, img_url) => {
-    TrackPlayer.setupPlayer()
-      .then(() => {
-        TrackPlayer.reset();
-        let track = {
-          id: 'unique track id',
-          url: audio_link,
-          title: 'title',
-          artist: 'subTitle',
-          album: 'Interview',
-          artwork: img_url,
-        };
-        TrackPlayer.add([track])
-          .then(() => {
-            TrackPlayer.play();
-          })
-          .catch(err=>{
-            console.log(err)
-          });;
-      })
-      .catch(err=>{
-        console.log(err)
-      });
-  }
-
   playVideo = (video_id) => {
     YouTubeStandaloneAndroid.playVideo({
       apiKey: config.privateKeys.youtube_api_token, 
@@ -73,20 +48,20 @@ export default class ArticleScreen extends React.Component {
     if (Platform.OS === "android")
       if (this.state.youtubeNativePlayer)
         return (
-          <ReactNative.View style={{flex: 1}}>
-            <ReactNative.Image source={{uri: img_url}} style={styles.img} />
-            <ReactNative.TouchableOpacity style={styles.btn} onPress={()=>this.playVideo(video_id)}>
+          <View style={{flex: 1}}>
+            <Image source={{uri: img_url}} style={styles.img} />
+            <TouchableOpacity style={styles.btn} onPress={()=>this.playVideo(video_id)}>
               <IconEntypo
                 name={"video"}
                 size={40}
                 color={config.colors.thinkerGreen}
                 style={styles.iconShare}
               />
-              <ReactNative.Text style={styles.btnText}>
+              <Text style={styles.btnText}>
                 {config.strings.articleScreen.playVideo}
-              </ReactNative.Text>
-            </ReactNative.TouchableOpacity>
-          </ReactNative.View>
+              </Text>
+            </TouchableOpacity>
+          </View>
         );
   };
 
@@ -107,22 +82,22 @@ export default class ArticleScreen extends React.Component {
       );
   }
 
-  renderAudio = (audio_link, img_url) => {
-    if(audio_link && img_url)
+  renderAudio = (audio_link, img_url, title) => {
+    if(audio_link && img_url && title)
       return (
-        <ReactNative.View style={{flex: 1}}>
-          <ReactNative.TouchableOpacity style={styles.btn} onPress={()=>this.playAudio(audio_link, img_url)}>
+        <View style={{flex: 1}}>
+          <TouchableOpacity style={styles.btn} onPress={()=>this.context.playPodcast(audio_link, img_url, title)}>
             <IconEntypo
               name={"note"}
               size={40}
               color={config.colors.thinkerGreen}
               style={styles.iconShare}
             />
-            <ReactNative.Text style={styles.btnText}>
+            <Text style={styles.btnText}>
               {config.strings.articleScreen.playVideo}
-            </ReactNative.Text>
-          </ReactNative.TouchableOpacity>
-        </ReactNative.View>
+            </Text>
+          </TouchableOpacity>
+        </View>
       );
   }
 
@@ -132,30 +107,34 @@ export default class ArticleScreen extends React.Component {
     let { title, body, video_id, img_url, audio_link } = item;
 
     return (
-      <ReactNative.ScrollView style={config.styles.containerNoPadding}>
-        <Components.default.Header
-          share
-          onPressLeft={()=>this.props.navigation.goBack()} 
-          onPressRight={()=>this.setState({ shareSocialOpen: !this.state.shareSocialOpen})
-        }/>
-        <ReactNative.View style={config.styles.container}>
+      <AppConsumer>
+      { (context) => (
+        <ScrollView style={config.styles.containerNoPadding} ref={(ref) => { this.context = context; }}>
+          <Components.default.Header
+            share
+            onPressLeft={()=>this.props.navigation.goBack()} 
+            onPressRight={()=>this.setState({ shareSocialOpen: !this.state.shareSocialOpen})
+          }/>
+          <View style={config.styles.container}>
 
-          {this.renderVideoAndroid(img_url, video_id)}
-          {this.renderVideoIOS(video_id)}
+            {this.renderVideoAndroid(img_url, video_id)}
+            {this.renderVideoIOS(video_id)}
 
-          {this.renderAudio(audio_link, img_url)}
+            {this.renderAudio(audio_link, img_url, title)}
 
-          <ReactNative.Text style={styles.header}>
-            {_.capitalize(title)}
-          </ReactNative.Text>
+            <Text style={styles.header}>
+              {_.capitalize(title)}
+            </Text>
 
-          <ReactNative.Text style={styles.body}>
-            {_.capitalize(body)}
-          </ReactNative.Text>
+            <Text style={styles.body}>
+              {_.capitalize(body)}
+            </Text>
 
-          <Components.default.ShareSocial shareSocialOpen={this.state.shareSocialOpen}/>
-        </ReactNative.View>
-      </ReactNative.ScrollView>
+            <Components.default.ShareSocial shareSocialOpen={this.state.shareSocialOpen}/>
+          </View>
+        </ScrollView>
+      )}
+      </AppConsumer>
     );
   }
 }
