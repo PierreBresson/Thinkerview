@@ -1,7 +1,6 @@
 import React from "react";
 import { Image, Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import Slider from "react-native-slider";
-import IconEntypo from "react-native-vector-icons/Entypo";
 import * as Components from "../../components";
 import config from "../../config";
 
@@ -9,7 +8,9 @@ export default class PodcastScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sliderValue: 0
+      sliderValue: 0,
+      title: 'François Ruffin sans filtre',
+      subTitle: 'Politique'
     }
   }
 
@@ -54,36 +55,18 @@ export default class PodcastScreen extends React.Component {
   renderControls = () => {
     return(
       <View style={styles.controlView}>
-        <TouchableOpacity
-          style={styles.controlBtn}
+        <Components.default.PlayerButton
+          iconName={"controller-fast-backward"}
           onPress={()=>{}}
-        >
-          <IconEntypo
-            name={"controller-fast-backward"}
-            size={64}
-            color={config.colors.blackTorn}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.controlBtn}
+        />
+        <Components.default.PlayerButton
+          iconName={"controller-play"}
           onPress={()=>{}}
-        >
-          <IconEntypo
-            name={"controller-play"}
-            size={64}
-            color={config.colors.blackTorn}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.controlBtn}
+        />
+        <Components.default.PlayerButton
+          iconName={"controller-fast-forward"}
           onPress={()=>{}}
-        >
-          <IconEntypo
-            name={"controller-fast-forward"}
-            size={64}
-            color={config.colors.blackTorn}
-          />
-        </TouchableOpacity>
+        />
       </View>
     )
   }
@@ -99,7 +82,7 @@ export default class PodcastScreen extends React.Component {
             source={config.images.logo}
           />
           <View style={styles.bottomView}>
-            {this.renderInfoPodast('François Ruffin sans filtre','Politique')}
+            {this.renderInfoPodast(this.state.title,this.state.subTitle)}
             {this.renderSlider()}
             {this.renderControls()}
           </View>
@@ -159,9 +142,4 @@ const styles = StyleSheet.create({
     flex:1,
     flexDirection: 'row',
   },
-  controlBtn: {
-    flex:1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
 });

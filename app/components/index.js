@@ -4,6 +4,7 @@ import { VideoItem } from "./listItem/videoItem";
 import { DisplayNetwork } from "./displayNetwork"
 import { Header } from "./header";
 import { ShareSocial } from "./shareSocial";
+import { PlayerButton } from "./playerButton";
 
 export default {
     FlatButton,
@@ -11,5 +12,6 @@ export default {
     VideoItem,
     DisplayNetwork,
     Header,
-    ShareSocial
+    ShareSocial,
+    PlayerButton
 }
