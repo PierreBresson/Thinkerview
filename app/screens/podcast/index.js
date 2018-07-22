@@ -1,17 +1,26 @@
-import React from "react";
-import { Image, Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import React, { Component }  from "react";
+import { Image, Text, View, StyleSheet } from "react-native";
+import { connect } from 'react-redux';
+import TrackPlayer from 'react-native-track-player';
 import Slider from "react-native-slider";
 import * as Components from "../../components";
-import { AppConsumer } from '../../context';
 import config from "../../config";
 
-export default class PodcastScreen extends React.Component {
+class PodcastScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       sliderValue: 50,
       title: 'François Ruffin sans filtre',
       subTitle: 'Politique',
+    }
+  }
+
+  _togglePlayPause = () => {
+    if(this.props.player_state == TrackPlayer.STATE_PAUSED) {
+        TrackPlayer.play();
+    } else {
+        TrackPlayer.pause();
     }
   }
 
@@ -25,15 +34,15 @@ export default class PodcastScreen extends React.Component {
     )
   }
 
-  renderInfoPodast= (context) => {
-    const { title, artist } = context.track;
+  renderInfoPodast= () => {
+    let { title, subTitle } = this.props.track;
     return(
       <View style={styles.infoPodastView}>
         <Text style={styles.title}>
           {title}
         </Text>
         <Text style={styles.subTitle}>
-          {artist}
+          {subTitle}
         </Text>
       </View>
     );
@@ -54,20 +63,21 @@ export default class PodcastScreen extends React.Component {
     )
   }
 
-  renderControls = (context) => {
+  renderControls = () => {
+    console.log(this.props.player_state);
     return(
       <View style={styles.controlView}>
         <Components.default.PlayerButton
-          iconName={"controller-fast-backward"}
-          onPress={()=>context.back15()}
+          iconName={"replay-10"}
+          onPress={()=>{}}
         />
         <Components.default.PlayerButton
-          iconName={context.giveStateIcon()}
-          onPress={()=>context.playPause()}
+          iconName={this.props.player_state == TrackPlayer.STATE_PAUSED ? "controller-play" : "controller-paus"}
+          onPress={async () => this._togglePlayPause()}
         />
         <Components.default.PlayerButton
-          iconName={"controller-fast-forward"}
-          onPress={()=>context.forward15()}
+          iconName={"forward-10"}
+          onPress={()=>{}}
         />
       </View>
     )
@@ -75,9 +85,7 @@ export default class PodcastScreen extends React.Component {
 
   render() {
     return (
-      <AppConsumer>
-      { (context) => (
-        <View style={config.styles.container} ref={(ref) => { this.context = context; }}>
+        <View style={config.styles.container}>
           {this.renderIntro()}
           <View style={{flex:1}}>
             <Image 
@@ -86,14 +94,12 @@ export default class PodcastScreen extends React.Component {
               source={config.images.logo}
             />
             <View style={styles.bottomView}>
-              {this.renderInfoPodast(context)}
+              {this.renderInfoPodast()}
               {this.renderSlider()}
-              {this.renderControls(context)}
+              {this.renderControls()}
             </View>
           </View>
         </View>
-      )}
-      </AppConsumer>
     );
   }
 }
@@ -149,3 +155,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
+
+function mapStateToProps(state) {
+  return {
+      player_state: state.playback.player_state,
+      track: state.track
+  };
+}
+
+module.exports = connect(mapStateToProps)(PodcastScreen);

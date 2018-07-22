@@ -1,6 +1,7 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import IconEntypo from "react-native-vector-icons/Entypo";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import config from "../config";
 
 export class PlayerButton extends React.Component {
@@ -9,25 +10,34 @@ export class PlayerButton extends React.Component {
   }
 
   render() {
-    let sizeIcon = 46;
     let { iconName, onPress } = this.props;
-    console.log(this.props.iconName)
-    if(iconName!="controller-play"&&iconName!="controller-pause"&&iconName!="controller-fast-backward"&&iconName!="controller-fast-forward")
-      iconName = "controller-play";
-    if(iconName=="controller-play"||iconName=="controller-pause")
-      sizeIcon = 60;
-    return (
-      <TouchableOpacity
-        style={styles.controlBtn}
-        onPress={onPress}
-      >
-        <IconEntypo
-          name={iconName}
-          size={sizeIcon}
-          color={config.colors.blackTorn}
-        />
-      </TouchableOpacity>
-    );
+    if(iconName=="forward-10"||iconName=="replay-10") { 
+      return (
+        <TouchableOpacity
+          style={styles.controlBtn}
+          onPress={onPress}
+        >
+          <MaterialIcons
+            name={iconName}
+            size={46}
+            color={config.colors.blackTorn}
+          />
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity
+          style={styles.controlBtn}
+          onPress={onPress}
+        >
+          <IconEntypo
+            name={iconName}
+            size={46}
+            color={config.colors.blackTorn}
+          />
+        </TouchableOpacity>
+      );
+    }
   }
 }
 

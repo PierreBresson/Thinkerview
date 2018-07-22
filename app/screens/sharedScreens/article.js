@@ -1,14 +1,17 @@
 import React from "react";
 import { View, Text, ScrollView, TouchableOpacity, Platform, StyleSheet } from "react-native";
 import * as Components from "../../components";
+import { connect } from 'react-redux';
+import { updateTrackInfo } from '../../logic/actions'
 import YouTube, { YouTubeStandaloneAndroid } from 'react-native-youtube';
+import TrackPlayer from 'react-native-track-player';
 import IconEntypo from "react-native-vector-icons/Entypo";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { AppInstalledChecker } from "react-native-check-app-install";
-import { AppConsumer } from '../../context';
 import config from "../../config";
 import _ from "lodash";
 
-export default class ArticleScreen extends React.Component {
+class ArticleScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,7 +36,7 @@ export default class ArticleScreen extends React.Component {
     }
   }
 
-  playVideo = (video_id) => {
+  _playVideo = (video_id) => {
     YouTubeStandaloneAndroid.playVideo({
       apiKey: config.privateKeys.youtube_api_token, 
       videoId: video_id, 
@@ -50,7 +53,7 @@ export default class ArticleScreen extends React.Component {
         return (
           <View style={{flex: 1}}>
             <Image source={{uri: img_url}} style={styles.img} />
-            <TouchableOpacity style={styles.btn} onPress={()=>this.playVideo(video_id)}>
+            <TouchableOpacity style={styles.btn} onPress={()=>this._playVideo(video_id)}>
               <IconEntypo
                 name={"video"}
                 size={40}
@@ -82,19 +85,38 @@ export default class ArticleScreen extends React.Component {
       );
   }
 
+  _playPodcast = async (audio_link, img_url, title) => {
+    await TrackPlayer.setupPlayer({});
+    await TrackPlayer.add({
+      id: audio_link,
+      url: audio_link,
+      title: title,
+      artist: 'subTitle',
+      album: 'Interview',
+      artwork: img_url,
+    });
+    TrackPlayer.play();
+    this.props.updateTrackInfo({ prop: "title", value: title })
+    this.props.updateTrackInfo({ prop: "subTitle", value: 'subTitle' })
+    this.props.updateTrackInfo({ prop: "url", value: audio_link })
+    this.props.updateTrackInfo({ prop: "artword", value: img_url })
+
+    this.props.navigation.navigate("Podcast");
+  }
+
   renderAudio = (audio_link, img_url, title) => {
     if(audio_link && img_url && title)
       return (
         <View style={{flex: 1}}>
-          <TouchableOpacity style={styles.btn} onPress={()=>this.context.playPodcast(audio_link, img_url, title)}>
-            <IconEntypo
-              name={"note"}
+          <TouchableOpacity style={styles.btn} onPress={()=>this._playPodcast(audio_link, img_url, title)}>
+            <FontAwesome
+              name={"podcast"}
               size={40}
               color={config.colors.thinkerGreen}
               style={styles.iconShare}
             />
             <Text style={styles.btnText}>
-              {config.strings.articleScreen.playVideo}
+              {config.strings.articleScreen.playPodcast}
             </Text>
           </TouchableOpacity>
         </View>
@@ -107,34 +129,30 @@ export default class ArticleScreen extends React.Component {
     let { title, body, video_id, img_url, audio_link } = item;
 
     return (
-      <AppConsumer>
-      { (context) => (
-        <ScrollView style={config.styles.containerNoPadding} ref={(ref) => { this.context = context; }}>
-          <Components.default.Header
-            share
-            onPressLeft={()=>this.props.navigation.goBack()} 
-            onPressRight={()=>this.setState({ shareSocialOpen: !this.state.shareSocialOpen})
-          }/>
-          <View style={config.styles.container}>
+      <ScrollView style={config.styles.containerNoPadding}>
+        <Components.default.Header
+          share
+          onPressLeft={()=>this.props.navigation.goBack()} 
+          onPressRight={()=>this.setState({ shareSocialOpen: !this.state.shareSocialOpen})
+        }/>
+        <View style={config.styles.container}>
 
-            {this.renderVideoAndroid(img_url, video_id)}
-            {this.renderVideoIOS(video_id)}
+          {this.renderVideoAndroid(img_url, video_id)}
+          {this.renderVideoIOS(video_id)}
 
-            {this.renderAudio(audio_link, img_url, title)}
+          {this.renderAudio(audio_link, img_url, title)}
 
-            <Text style={styles.header}>
-              {_.capitalize(title)}
-            </Text>
+          <Text style={styles.header}>
+            {_.capitalize(title)}
+          </Text>
 
-            <Text style={styles.body}>
-              {_.capitalize(body)}
-            </Text>
+          <Text style={styles.body}>
+            {_.capitalize(body)}
+          </Text>
 
-            <Components.default.ShareSocial shareSocialOpen={this.state.shareSocialOpen}/>
-          </View>
-        </ScrollView>
-      )}
-      </AppConsumer>
+          <Components.default.ShareSocial shareSocialOpen={this.state.shareSocialOpen}/>
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -173,3 +191,18 @@ const styles = StyleSheet.create({
     marginTop: 10
   }
 });
+
+function mapStateToProps(state) {
+  return {
+      player_state: state.playback.player_state,
+      track: state.track
+  };
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateTrackInfo: ({ prop, value }) => dispatch(updateTrackInfo({ prop, value })),
+  };
+};
+
+module.exports = connect(mapStateToProps,mapDispatchToProps)(ArticleScreen);
