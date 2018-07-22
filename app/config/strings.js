@@ -24,12 +24,11 @@ const strings = {
     articleScreen: {
         playVideo: "Lire la vidéo",
         playPodcast: "Écouter le podcast",
-        noYoutube: "Cannot display video player because it's relialying on Youtube app. Please install Youtube App first."
+        noYoutube: "Merci d'installer Youtube pour pouvoir lire la vidéo."
     },
     podcastScreen: {
         header: "Podcast",
-        title: "Thinkerview",
-        subTitle: "Aucun podcast sélectionné"
+        title: "Aucun podcast sélectionné"
     },
     headerComponent: {
         back: "Retour"

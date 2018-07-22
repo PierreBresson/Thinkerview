@@ -37,9 +37,8 @@ function playbackReducer(state = initialStatePlaybackReducer, action) {
 
 const initialTrackReducer = {
     title: config.strings.podcastScreen.title,
-    subTitle: config.strings.podcastScreen.subTitle,
     url: null,
-    artwork: config.strings.articleScreen.playVideo
+    artwork: null
 }
 
 function trackReducer(state = initialTrackReducer, action) {
@@ -47,7 +46,7 @@ function trackReducer(state = initialTrackReducer, action) {
         case UPDATE_TRACK_INFO:
             return {
                 ...state,
-                [action.payload.prop]: action.payload.value
+                ...action.info
             };
         default:
             return state;

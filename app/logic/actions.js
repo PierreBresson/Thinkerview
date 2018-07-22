@@ -13,21 +13,21 @@ export const UPDATE_TRACK_INFO = 'UPDATE_TRACK_INFO';
 export function playbackState(state) {
     return {
         type: PLAYBACK_STATE,
-        state: state
+        state
     };
 }
 
 export function playbackTrack(track) {
     return {
         type: PLAYBACK_TRACK,
-        track: track
+        track
     };
 }
 
-export function updateTrackInfo({ prop, value }) {
+export function updateTrackInfo(info) {
     return {
         type: UPDATE_TRACK_INFO,
-        payload: { prop, value }
+        info
     };
 }
 

@@ -11,8 +11,6 @@ class PodcastScreen extends Component {
     super(props);
     this.state = {
       sliderValue: 50,
-      title: 'François Ruffin sans filtre',
-      subTitle: 'Politique',
     }
   }
 
@@ -35,14 +33,10 @@ class PodcastScreen extends Component {
   }
 
   renderInfoPodast= () => {
-    let { title, subTitle } = this.props.track;
     return(
       <View style={styles.infoPodastView}>
         <Text style={styles.title}>
-          {title}
-        </Text>
-        <Text style={styles.subTitle}>
-          {subTitle}
+          {this.props.track.title}
         </Text>
       </View>
     );
@@ -63,13 +57,17 @@ class PodcastScreen extends Component {
     )
   }
 
+  _addOrRemoveSeconds = async (seconds) => {
+    let position = await TrackPlayer.getPosition();
+    TrackPlayer.seekTo(position+seconds);
+  }
+
   renderControls = () => {
-    console.log(this.props.player_state);
     return(
       <View style={styles.controlView}>
         <Components.default.PlayerButton
           iconName={"replay-10"}
-          onPress={()=>{}}
+          onPress={()=>this._addOrRemoveSeconds(-10)}
         />
         <Components.default.PlayerButton
           iconName={this.props.player_state == TrackPlayer.STATE_PAUSED ? "controller-play" : "controller-paus"}
@@ -77,21 +75,22 @@ class PodcastScreen extends Component {
         />
         <Components.default.PlayerButton
           iconName={"forward-10"}
-          onPress={()=>{}}
+          onPress={()=>this._addOrRemoveSeconds(10)}
         />
       </View>
     )
   }
 
   render() {
+    let { artwork } = this.props.track;    
     return (
         <View style={config.styles.container}>
           {this.renderIntro()}
           <View style={{flex:1}}>
             <Image 
-              style={styles.coverImage}
+              style={styles.artwork}
               resizeMode={'contain'}
-              source={config.images.logo}
+              source={artwork?{uri: artwork}:config.images.logo}
             />
             <View style={styles.bottomView}>
               {this.renderInfoPodast()}
@@ -114,9 +113,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: config.fonts.titleFont
   },
-  coverImage: {
-    flex:1,
-    alignSelf: 'center'
+  artwork: {
+    flex: 1, 
+    width: null, 
+    height: null
   },
   bottomView: {
     flex: 1,
@@ -129,13 +129,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontFamily: config.fonts.titleFont
-  },
-  subTitle: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    fontSize: 14,
-    fontFamily: config.fonts.bodyFont
+    fontFamily: config.fonts.titleFont,
+    textAlign: 'center'
   },
   track: {
     height: 2,

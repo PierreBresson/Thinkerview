@@ -20,6 +20,18 @@ class ArticleScreen extends React.Component {
     };
   }
 
+  secondsToHms = (d) => {
+    d = Number(d);
+    var h = Math.floor(d / 3600);
+    var m = Math.floor(d % 3600 / 60);
+    var s = Math.floor(d % 3600 % 60);
+
+    var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+    var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+    var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+    return hDisplay + mDisplay + sDisplay; 
+}
+
   componentWillMount() {
     if (Platform.OS === "ios") {
       this.setState({
@@ -86,6 +98,7 @@ class ArticleScreen extends React.Component {
   }
 
   _playPodcast = async (audio_link, img_url, title) => {
+    TrackPlayer.stop();
     await TrackPlayer.setupPlayer({});
     await TrackPlayer.add({
       id: audio_link,
@@ -95,12 +108,16 @@ class ArticleScreen extends React.Component {
       album: 'Interview',
       artwork: img_url,
     });
-    TrackPlayer.play();
-    this.props.updateTrackInfo({ prop: "title", value: title })
-    this.props.updateTrackInfo({ prop: "subTitle", value: 'subTitle' })
-    this.props.updateTrackInfo({ prop: "url", value: audio_link })
-    this.props.updateTrackInfo({ prop: "artword", value: img_url })
-
+    await TrackPlayer.play();
+    let duration = await TrackPlayer.getDuration();
+    console.log(duration);
+    
+    let info = {
+      title: title,
+      url: audio_link,
+      artwork: img_url,
+    }
+    this.props.updateTrackInfo(info)
     this.props.navigation.navigate("Podcast");
   }
 
@@ -201,7 +218,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateTrackInfo: ({ prop, value }) => dispatch(updateTrackInfo({ prop, value })),
+    updateTrackInfo: (info) => dispatch(updateTrackInfo(info)),
   };
 };
 
