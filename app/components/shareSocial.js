@@ -4,7 +4,7 @@ import Share, { ShareSheet, Button } from "react-native-share";
 import config from "../config";
 
 
-export class ShareSocial extends React.Component {
+export default class ShareSocial extends React.Component {
   constructor(props) {
     super(props);    
   }

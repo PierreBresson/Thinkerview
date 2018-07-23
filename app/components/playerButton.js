@@ -4,7 +4,7 @@ import IconEntypo from "react-native-vector-icons/Entypo";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import config from "../config";
 
-export class PlayerButton extends React.Component {
+export default class PlayerButton extends React.Component {
   constructor(props) {
     super(props);
   }

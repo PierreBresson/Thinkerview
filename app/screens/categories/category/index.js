@@ -1,6 +1,7 @@
 import React from "react";
-import ReactNative, { StyleSheet } from "react-native";
-import * as Components from "../../../components";
+import { View, SectionList, Text, StyleSheet } from "react-native";
+import Header from "../../../components/header";
+import VideoItem from "../../../components/listItem/videoItem"
 import config from "../../../config";
 
 import getAllPostsFromACategory from "../../../services/api/getAllPostsFromACategory";
@@ -36,12 +37,12 @@ export default class HomeScreen extends React.Component {
 
   renderIntro = () => {
     const category_name = this.props.navigation.getParam("category_name");
-    return <Components.default.Header onPressLeft={()=>this.props.navigation.goBack()} header={category_name}/>;
+    return <Header onPressLeft={()=>this.props.navigation.goBack()} header={category_name}/>;
   };
 
   renderItem = (item, index) => {
     return (
-      <Components.default.VideoItem
+      <VideoItem
         item={item}
         onPress={() => {
           this.props.navigation.navigate("Article", { item });
@@ -52,9 +53,9 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-    <ReactNative.View style={config.styles.containerNoPadding} >
+    <View style={config.styles.containerNoPadding} >
       {this.renderIntro()}
-      <ReactNative.SectionList
+      <SectionList
         refreshing={this.state.refreshing}
         onRefresh={()=>this.getData()}
         sections={[
@@ -63,9 +64,9 @@ export default class HomeScreen extends React.Component {
             keyExtractor: (item, index) => index,
             renderItem: (item, index) => {
               return(
-                <ReactNative.View style={styles.errorView}>
-                  <ReactNative.Text style={styles.error}>{ this.state.err ? config.strings.errorLoading : "" }</ReactNative.Text>
-                </ReactNative.View>
+                <View style={styles.errorView}>
+                  <Text style={styles.error}>{ this.state.err ? config.strings.errorLoading : "" }</Text>
+                </View>
               )
             }
           },
@@ -76,7 +77,7 @@ export default class HomeScreen extends React.Component {
           }
         ]}
       />
-    </ReactNative.View>
+    </View>
     );
   }
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, ScrollView, TouchableOpacity, Platform, StyleSheet } from "react-native";
-import * as Components from "../../components";
+import Header from "../../components/header";
+import ShareSocial from "../../components/shareSocial";
 import { connect } from 'react-redux';
 import { updateTrackInfo } from '../../logic/actions'
 import YouTube, { YouTubeStandaloneAndroid } from 'react-native-youtube';
@@ -147,7 +148,7 @@ class ArticleScreen extends React.Component {
 
     return (
       <ScrollView style={config.styles.containerNoPadding}>
-        <Components.default.Header
+        <Header
           share
           onPressLeft={()=>this.props.navigation.goBack()} 
           onPressRight={()=>this.setState({ shareSocialOpen: !this.state.shareSocialOpen})
@@ -167,7 +168,7 @@ class ArticleScreen extends React.Component {
             {_.capitalize(body)}
           </Text>
 
-          <Components.default.ShareSocial shareSocialOpen={this.state.shareSocialOpen}/>
+          <ShareSocial shareSocialOpen={this.state.shareSocialOpen}/>
         </View>
       </ScrollView>
     );

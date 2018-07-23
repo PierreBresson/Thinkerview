@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivityIndicator, Text, View, SectionList, StyleSheet } from "react-native";
-import * as Components from "../../components";
+import VideoItem from "../../components/listItem/videoItem";
 import config from "../../config";
 
 import getAllPosts from "../../services/api/getAllPosts";
@@ -55,7 +55,7 @@ export default class HomeScreen extends React.Component {
 
   renderItem = (item, index) => {
     return (
-      <Components.default.VideoItem
+      <VideoItem
         item={item}
         onPress={() => {
           this.props.navigation.navigate("Article", { item });

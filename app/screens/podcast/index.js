@@ -3,7 +3,7 @@ import { Image, Text, View, StyleSheet } from "react-native";
 import { connect } from 'react-redux';
 import TrackPlayer from 'react-native-track-player';
 import Slider from "react-native-slider";
-import * as Components from "../../components";
+import PlayerButton from "../../components/playerButton";
 import config from "../../config";
 
 class PodcastScreen extends Component {
@@ -65,15 +65,15 @@ class PodcastScreen extends Component {
   renderControls = () => {
     return(
       <View style={styles.controlView}>
-        <Components.default.PlayerButton
+        <PlayerButton
           iconName={"replay-10"}
           onPress={()=>this._addOrRemoveSeconds(-10)}
         />
-        <Components.default.PlayerButton
+        <PlayerButton
           iconName={this.props.player_state == TrackPlayer.STATE_PAUSED ? "controller-play" : "controller-paus"}
           onPress={async () => this._togglePlayPause()}
         />
-        <Components.default.PlayerButton
+        <PlayerButton
           iconName={"forward-10"}
           onPress={()=>this._addOrRemoveSeconds(10)}
         />

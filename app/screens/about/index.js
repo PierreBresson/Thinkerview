@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View, ScrollView, StyleSheet } from "react-native";
-import * as Components from "../../components";
+import DisplayNetwork from "../../components/displayNetwork";
 import config from "../../config";
 
 export default class AboutScreen extends React.Component {
@@ -14,7 +14,7 @@ export default class AboutScreen extends React.Component {
         <Text style={styles.body}>
           {config.strings.aboutScreen.aboutAuthor}
         </Text>
-        <Components.default.DisplayNetwork
+        <DisplayNetwork
           twitter_url={config.urls.links.author.twitter}
           website_url={config.urls.links.author.website}
           github_url={config.urls.links.author.github}
@@ -28,7 +28,7 @@ export default class AboutScreen extends React.Component {
             {config.strings.aboutScreen.thinkerviewDescription}
           </Text>
 
-          <Components.default.DisplayNetwork
+          <DisplayNetwork
             facebook_url={config.urls.links.thinkerview.facebook}
             twitter_url={config.urls.links.thinkerview.twitter}
             youtube_url={config.urls.links.thinkerview.youtube}
@@ -46,7 +46,7 @@ export default class AboutScreen extends React.Component {
           {config.strings.aboutScreen.licenceDescription}
         </Text>
 
-        <Components.default.DisplayNetwork creative_commons_url={config.urls.links.licence.creative_commons}/>
+        <DisplayNetwork creative_commons_url={config.urls.links.licence.creative_commons}/>
 
       </ScrollView>
     );

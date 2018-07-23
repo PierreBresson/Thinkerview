@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivityIndicator, View, Text, SectionList, StyleSheet } from "react-native";
-import * as Components from "../../components";
+import CategoryItem from "../../components/listItem/categoryItem";
 import config from "../../config";
 
 import getAllCategories from "../../services/api/getAllCategories";
@@ -53,7 +53,7 @@ export default class CategoriesScreen extends React.Component {
 
   renderItem = (item,index) => {
     return(
-      <Components.default.CategoryItem
+      <CategoryItem
         item={item}
         onPress={()=>{
           this.props.navigation.navigate("Category", { 
