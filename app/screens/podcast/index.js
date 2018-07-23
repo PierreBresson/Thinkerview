@@ -2,16 +2,13 @@ import React, { Component }  from "react";
 import { Image, Text, View, StyleSheet } from "react-native";
 import { connect } from 'react-redux';
 import TrackPlayer from 'react-native-track-player';
-import Slider from "react-native-slider";
 import PlayerButton from "../../components/playerButton";
+import ProgressBar from "../../components/progressBar"
 import config from "../../config";
 
 class PodcastScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      sliderValue: 50,
-    }
   }
 
   _togglePlayPause = () => {
@@ -40,21 +37,6 @@ class PodcastScreen extends Component {
         </Text>
       </View>
     );
-  }
-
-  renderSlider = () => {
-    return(
-      <Slider
-        disabled={true}
-        minimumTrackTintColor={config.colors.thinkerGreen}
-        trackStyle={styles.track}
-        thumbStyle={styles.thumb}
-        style={{width:'100%'}}
-        maximumValue={100}
-        value={this.state.sliderValue}
-        onValueChange={(value) => this.setState({sliderValue: value})} 
-      />
-    )
   }
 
   _addOrRemoveSeconds = async (seconds) => {
@@ -94,7 +76,7 @@ class PodcastScreen extends Component {
             />
             <View style={styles.bottomView}>
               {this.renderInfoPodast()}
-              {this.renderSlider()}
+              <ProgressBar/>
               {this.renderControls()}
             </View>
           </View>
@@ -131,19 +113,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: config.fonts.titleFont,
     textAlign: 'center'
-  },
-  track: {
-    height: 2,
-    borderRadius: 1,
-  },
-  thumb: {
-    width: 15,
-    height: 15,
-    borderRadius: 15 / 2,
-    backgroundColor: config.colors.thinkerGreen,
-    shadowOffset: {width: 0, height: 2},
-    shadowRadius: 2,
-    shadowOpacity: 0.35,
   },
   controlView: {
     flex:1,
