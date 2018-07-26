@@ -12,7 +12,6 @@ class ProgressBar extends ProgressComponent {
         const position = formatTime(Math.floor(this.state.position));
         const duration = formatTime(Math.floor(this.state.duration));
         const info = position + ' / ' + duration;
-console.log(this.state.duration);
 
         let progress = this.getProgress() * 100;
         let buffered = this.getBufferedProgress() * 100;

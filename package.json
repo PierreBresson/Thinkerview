@@ -15,13 +15,13 @@
     "react-native-check-app-install": "0.0.4",
     "react-native-share": "^1.0.27",
     "react-native-slider": "^0.11.0",
-    "react-native-track-player": "^0.2.4",
+    "react-native-track-player": "github:react-native-kit/react-native-track-player#dev",
     "react-native-vector-icons": "4.6.0",
     "react-native-youtube": "1.1.0",
     "react-navigation": "2.5.5",
-		"react-redux": "^5.0.6",
-		"redux": "^3.7.2",
-		"redux-thunk": "^2.2.0"
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "babel-jest": "23.2.0",

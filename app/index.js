@@ -178,6 +178,8 @@ class App extends PureComponent {
               TrackPlayer.CAPABILITY_PLAY,
               TrackPlayer.CAPABILITY_PAUSE,
               TrackPlayer.CAPABILITY_SEEK_TO,
+              TrackPlayer.CAPABILITY_JUMP_BACKWARD,
+              TrackPlayer.CAPABILITY_JUMP_FORWARD
           ]
       });
   }
