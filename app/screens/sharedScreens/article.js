@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ScrollView, TouchableOpacity, Platform, StyleSheet } from "react-native";
+import { View, Text, Image, ScrollView, TouchableOpacity, Platform, StyleSheet } from "react-native";
 import Header from "../../components/header";
 import ShareSocial from "../../components/shareSocial";
 import { connect } from 'react-redux';
