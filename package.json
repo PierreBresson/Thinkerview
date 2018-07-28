@@ -16,7 +16,7 @@
     "react-native-share": "1.0.23",
     "react-native-slider": "0.11.0",
     "react-native-track-player": "github:react-native-kit/react-native-track-player#dev",
-    "react-native-vector-icons": "4.6.0",
+    "react-native-vector-icons": "5.0.0",
     "react-native-youtube": "1.1.0",
     "react-navigation": "2.5.5",
     "react-redux": "5.0.7",

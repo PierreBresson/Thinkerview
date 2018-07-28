@@ -3,6 +3,11 @@ package com.thinkerview;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
+import com.oblador.vectoricons.VectorIconsPackage;
+import guichaguri.trackplayer.TrackPlayer;
+import cl.json.RNSharePackage;
+import com.rpt.reactnativecheckpackageinstallation.CheckPackageInstallationPackage;
 import guichaguri.trackplayer.TrackPlayer;
 import cl.json.RNSharePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -28,6 +33,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeYouTube(),
+            new VectorIconsPackage(),
+            new TrackPlayer(),
+            new RNSharePackage(),
+            new CheckPackageInstallationPackage(),
             new TrackPlayer(),
             new RNSharePackage(),
             new VectorIconsPackage(),
