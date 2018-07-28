@@ -31,7 +31,6 @@ export default class HomeScreen extends React.Component {
         })
         .catch(err => {
             this.setState({ refreshing: false, err: true });
-            console.log(err)
         })
   }
 

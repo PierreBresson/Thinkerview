@@ -3,7 +3,7 @@ import { View, Text, Image, ScrollView, TouchableOpacity, Platform, StyleSheet }
 import Header from "../../components/header";
 import ShareSocial from "../../components/shareSocial";
 import { connect } from 'react-redux';
-import { updateTrackInfo } from '../../logic/actions'
+import { updateTrackInfo } from '../../actions'
 import YouTube, { YouTubeStandaloneAndroid } from 'react-native-youtube';
 import TrackPlayer from 'react-native-track-player';
 import IconEntypo from "react-native-vector-icons/Entypo";
@@ -96,16 +96,13 @@ class ArticleScreen extends React.Component {
       album: 'Interview',
       artwork: img_url,
     });
-    await TrackPlayer.play();
-    let duration = await TrackPlayer.getDuration();
-    console.log(duration);
-    
+    await TrackPlayer.play();    
     let info = {
       title: title,
       url: audio_link,
       artwork: img_url,
-    }
-    this.props.updateTrackInfo(info)
+    }    
+    this.props.updateTrackInfo(info);
     this.props.navigation.navigate("Podcast");
   }
 
@@ -198,10 +195,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return {
-      player_state: state.playback.player_state,
-      track: state.track
-  };
+  return {};
 }
 
 const mapDispatchToProps = dispatch => {
@@ -210,4 +204,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-module.exports = connect(mapStateToProps,mapDispatchToProps)(ArticleScreen);
+export default connect(mapStateToProps,mapDispatchToProps)(ArticleScreen);

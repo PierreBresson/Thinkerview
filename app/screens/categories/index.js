@@ -52,6 +52,8 @@ export default class CategoriesScreen extends React.Component {
   }
 
   renderItem = (item,index) => {
+    if(item.id === config.interview_category_id)
+      return null;
     return(
       <CategoryItem
         item={item}

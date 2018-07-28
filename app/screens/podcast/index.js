@@ -12,6 +12,7 @@ class PodcastScreen extends Component {
   }
 
   _togglePlayPause = () => {
+    console.log(this.props)
     if(this.props.player_state == TrackPlayer.STATE_PAUSED) {
         TrackPlayer.play();
     } else {
@@ -122,8 +123,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-      player_state: state.playback.player_state,
-      track: state.track
+      player_state: state.player.player_state,
+      track: state.player.track
   };
 }
 

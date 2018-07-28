@@ -7,6 +7,7 @@ import urls from "./urls";
 import privateKeys from "./privateKeys";
 
 export default {
+  interview_category_id: 9,
   icons: icons,
   images: images,
   colors: colors,

@@ -5,9 +5,9 @@ import IconEntypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import reducers from './logic/reducers';
+import getRootReducer from "./reducers";
 import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
-import { updatePlayback } from './logic/actions';
+import { updatePlayback } from './actions/playerActions';
 import config from "./config";
 
 import HomeScreen from "./screens/home";
@@ -166,7 +166,7 @@ const TabScreens = createBottomTabNavigator(
 );
 
 class App extends PureComponent {
-  static store = createStore(reducers, applyMiddleware(thunkMiddleware));
+  static store = createStore(getRootReducer(), applyMiddleware(thunkMiddleware));
 
   async componentDidMount() {
       AppState.addEventListener('change', this._handleStateChange);
@@ -177,9 +177,10 @@ class App extends PureComponent {
           capabilities: [
               TrackPlayer.CAPABILITY_PLAY,
               TrackPlayer.CAPABILITY_PAUSE,
-              TrackPlayer.CAPABILITY_SEEK_TO,
-              TrackPlayer.CAPABILITY_JUMP_BACKWARD,
-              TrackPlayer.CAPABILITY_JUMP_FORWARD
+              // Not ready yet bollow
+              // TrackPlayer.CAPABILITY_SEEK_TO,
+              // TrackPlayer.CAPABILITY_JUMP_BACKWARD,
+              // TrackPlayer.CAPABILITY_JUMP_FORWARD
           ]
       });
   }
@@ -221,7 +222,7 @@ const styles = StyleSheet.create({
 import { AppRegistry } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 
-import createEventHandler from './logic/event-handler';
+import createEventHandler from './player-handler';
 
 AppRegistry.registerComponent('thinkerview', () => App);
 TrackPlayer.registerEventHandler(createEventHandler(App.store));

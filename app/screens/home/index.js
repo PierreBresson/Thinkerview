@@ -1,36 +1,20 @@
 import React from "react";
 import { ActivityIndicator, Text, View, SectionList, StyleSheet } from "react-native";
+import { connect } from "react-redux";
+import { interviewsFetcher } from "../../actions";
 import VideoItem from "../../components/listItem/videoItem";
 import config from "../../config";
 
-import getAllPosts from "../../services/api/getAllPosts";
-import cleanWPjson from "../../services/staticServices/cleanWPjson";
-
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
-      refreshing: false,
-      err: false,
-    };
+      page: 1
+    }
   }
 
-  componentWillMount() {
-    this.getData();
-  }
-
-  getData = () => {
-    this.setState({ refreshing: true, err: false });
-    getAllPosts()
-        .then(res => {
-            const data = cleanWPjson(res);
-            this.setState({ refreshing: false, err: false, data});
-        })
-        .catch(err => {
-            this.setState({ refreshing: false, err: true });
-            console.log(err)
-        })
+  componentDidMount() {
+    this.props.interviewsFetcher(this.state.page);
   }
 
   renderIntro = () => {
@@ -44,7 +28,7 @@ export default class HomeScreen extends React.Component {
   };
 
   renderActivityIndicator = () => {
-    if(!this.state.refreshing)
+    if(!this.props.interviews.isFetchingInterviews)
       return <View/>;
     return (
       <View>
@@ -53,9 +37,10 @@ export default class HomeScreen extends React.Component {
     )
   }
 
-  renderItem = (item, index) => {
+  renderItem = (item, index) => {    
     return (
       <VideoItem
+        key={index}
         item={item}
         onPress={() => {
           this.props.navigation.navigate("Article", { item });
@@ -69,7 +54,7 @@ export default class HomeScreen extends React.Component {
     <View style={config.styles.containerNoPadding} >
       <SectionList
         refreshing={false}
-        onRefresh={()=>this.getData()}
+        onRefresh={()=>{this.props.interviewsFetcher(this.state.page)}}
         sections={[
           {
             data: [1],
@@ -88,17 +73,17 @@ export default class HomeScreen extends React.Component {
               return(
                 <View style={styles.errorView}>
                   <Text style={styles.error}>
-                    { this.state.err ? config.strings.errorLoading : "" }
+                    { this.props.interviews.errorFetchingInterviews ? config.strings.errorLoading : "" }
                   </Text>
                 </View>
               )
             }
           },
           {
-            data: this.state.data ? this.state.data : "",
+            data: this.props.interviews.data ? this.props.interviews.data : "",
             keyExtractor: (item, index) => item.id,
             renderItem: (item, index) => 
-              this.state.refreshing? <View/> : this.renderItem(item.item, item.index)
+              this.props.interviews.isFetchingInterviews ? <View/> : this.renderItem(item.item, item.id)
           }
         ]}
       />
@@ -128,3 +113,17 @@ const styles = StyleSheet.create({
     fontFamily: config.fonts.bodyFont
   },
 });
+
+const mapStateToProps = state => {
+  return {
+    interviews: state.interviews,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    interviewsFetcher: (page) => dispatch(interviewsFetcher(page)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

@@ -1,19 +1,24 @@
-import { combineReducers } from 'redux';
 import {
     PLAYBACK_INIT,
     PLAYBACK_STATE,
     PLAYBACK_TRACK,
     UPDATE_TRACK_INFO
-} from './actions';
+} from "../actions/types";
+
 import TrackPlayer from 'react-native-track-player';
 import config from '../config'
 
-const initialStatePlaybackReducer = {
+const initialPlayerReducer = {
     init: null,
-    player_state: TrackPlayer.STATE_PAUSED
+    player_state: TrackPlayer.STATE_PAUSED,
+    track: {
+        title: config.strings.podcastScreen.title,
+        url: null,
+        artwork: null
+    }
 }
 
-function playbackReducer(state = initialStatePlaybackReducer, action) {
+export default playerReducer = (state = initialPlayerReducer, action) => {
     switch(action.type) {
         case PLAYBACK_INIT:
             return {
@@ -30,30 +35,12 @@ function playbackReducer(state = initialStatePlaybackReducer, action) {
                 ...state,
                 currentTrack: action.track
             };
-        default:
-            return state;
-    }
-}
-
-const initialTrackReducer = {
-    title: config.strings.podcastScreen.title,
-    url: null,
-    artwork: null
-}
-
-function trackReducer(state = initialTrackReducer, action) {
-    switch(action.type) {
         case UPDATE_TRACK_INFO:
             return {
                 ...state,
-                ...action.info
+                track: action.info
             };
         default:
             return state;
     }
 }
-
-module.exports = combineReducers({
-    playback: playbackReducer,
-    track: trackReducer,
-});

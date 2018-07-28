@@ -1,14 +1,10 @@
 import TrackPlayer from 'react-native-track-player';
-// import { loadTracks } from './utils';
 
-// export const UPDATE_LIBRARY = 'UPDATE_LIBRARY';
-// export const LIBRARY_STATUS = 'LIBRARY_STATUS';
-
-export const PLAYBACK_INIT = 'PLAYBACK_INIT';
-export const PLAYBACK_STATE = 'PLAYBACK_STATE';
-export const PLAYBACK_TRACK = 'PLAYBACK_TRACK';
-
-export const UPDATE_TRACK_INFO = 'UPDATE_TRACK_INFO';
+import {
+    PLAYBACK_STATE,
+    PLAYBACK_TRACK,
+    UPDATE_TRACK_INFO,
+} from "./types";
 
 export function playbackState(state) {
     return {
@@ -24,7 +20,7 @@ export function playbackTrack(track) {
     };
 }
 
-export function updateTrackInfo(info) {
+export function updateTrackInfo(info) {    
     return {
         type: UPDATE_TRACK_INFO,
         info
