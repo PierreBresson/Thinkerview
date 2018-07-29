@@ -5,6 +5,7 @@ import {
   View,
   SectionList,
   StyleSheet,
+  StatusBar,
   TouchableOpacity
 } from "react-native";
 import { connect } from "react-redux";
@@ -90,6 +91,7 @@ class HomeScreen extends React.Component {
     } = this.props.interviews;
     return (
       <View style={config.styles.containerNoPadding}>
+        <StatusBar barStyle={"dark-content"} />
         <CategoryModal />
         <SectionList
           refreshing={false}
