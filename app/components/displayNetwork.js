@@ -1,5 +1,5 @@
 import React from "react";
-import ReactNative, { StyleSheet } from "react-native";
+import { TouchableOpacity, Linking, View, StyleSheet } from "react-native";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import config from "../config";
 
@@ -11,7 +11,7 @@ const PAYPAL = "paypal";
 const GITHUB = "github";
 const CREATIVE_COMMONS = "creative-commons";
 
-export class DisplayNetwork extends React.Component {
+export default class DisplayNetwork extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -34,22 +34,22 @@ export class DisplayNetwork extends React.Component {
       return null;
 
     return(
-      <ReactNative.TouchableOpacity onPress={()=>ReactNative.Linking.openURL(socialMediaUrl)}>
+      <TouchableOpacity onPress={()=>Linking.openURL(socialMediaUrl)}>
         <IconEntypo
           name={socialMediaName}
           size={26}
           color={this.findColor(socialMediaName)}
           style={styles.icon}
         />
-      </ReactNative.TouchableOpacity>
+      </TouchableOpacity>
     );
   }
 
   render() {
     let { facebook_url, twitter_url, youtube_url, website_url, paypal_url, github_url, creative_commons_url } = this.props
     return(
-      <ReactNative.View>
-          <ReactNative.View style={styles.iconContainer}>
+      <View>
+          <View style={styles.iconContainer}>
             {this.renderItem(facebook_url, FACEBOOK)}
             {this.renderItem(twitter_url, TWITTER)}
             {this.renderItem(youtube_url, YOUTUBE)}
@@ -57,8 +57,8 @@ export class DisplayNetwork extends React.Component {
             {this.renderItem(paypal_url, PAYPAL)}
             {this.renderItem(github_url, GITHUB)}
             {this.renderItem(creative_commons_url, CREATIVE_COMMONS)}
-          </ReactNative.View>
-      </ReactNative.View>
+          </View>
+      </View>
     );
   }
 }

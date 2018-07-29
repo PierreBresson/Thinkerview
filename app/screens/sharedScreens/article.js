@@ -1,22 +1,36 @@
 import React from "react";
-import ReactNative, { Platform, StyleSheet } from "react-native";
-import * as Components from "../../components";
-import YouTube, { YouTubeStandaloneAndroid } from 'react-native-youtube';
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Platform,
+  StyleSheet
+} from "react-native";
+import Header from "../../components/header";
+import ShareSocial from "../../components/shareSocial";
+import { connect } from "react-redux";
+import { updateTrackInfo, shareSocialAction } from "../../actions";
+import YouTube, { YouTubeStandaloneAndroid } from "react-native-youtube";
+import TrackPlayer from "react-native-track-player";
 import IconEntypo from "react-native-vector-icons/Entypo";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { AppInstalledChecker } from "react-native-check-app-install";
 import config from "../../config";
 import _ from "lodash";
 
-export default class ArticleScreen extends React.Component {
+class ArticleScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      youtubeNativePlayer: false,
-      shareSocialOpen: false,
+      youtubeNativePlayer: false
     };
   }
 
   componentWillMount() {
+    console.log(this.props.article);
+
     if (Platform.OS === "ios") {
       this.setState({
         youtubeNativePlayer: true
@@ -32,39 +46,42 @@ export default class ArticleScreen extends React.Component {
     }
   }
 
-  playVideo = (video_id) => {
+  _playVideo = video_id => {
     YouTubeStandaloneAndroid.playVideo({
-      apiKey: config.privateKeys.youtube_api_token, 
-      videoId: video_id, 
-      autoplay: true, 
-      startTime: 0,
+      apiKey: config.privateKeys.youtube_api_token,
+      videoId: video_id,
+      autoplay: true,
+      startTime: 0
     })
-      .then(() => console.log('Standalone Player Exited'))
-      .catch(errorMessage => console.error(errorMessage))
-  }
+      .then(() => console.log("Standalone Player Exited"))
+      .catch(errorMessage => console.error(errorMessage));
+  };
 
   renderVideoAndroid = (img_url, video_id) => {
     if (Platform.OS === "android")
       if (this.state.youtubeNativePlayer)
         return (
-          <ReactNative.View style={{flex: 1}}>
-            <ReactNative.Image source={{uri: img_url}} style={styles.img} />
-            <ReactNative.TouchableOpacity style={styles.btn} onPress={()=>this.playVideo(video_id)}>
+          <View style={{ flex: 1 }}>
+            <Image source={{ uri: img_url }} style={styles.img} />
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => this._playVideo(video_id)}
+            >
               <IconEntypo
                 name={"video"}
                 size={40}
                 color={config.colors.thinkerGreen}
                 style={styles.iconShare}
               />
-              <ReactNative.Text style={styles.btnText}>
+              <Text style={styles.btnText}>
                 {config.strings.articleScreen.playVideo}
-              </ReactNative.Text>
-            </ReactNative.TouchableOpacity>
-          </ReactNative.View>
+              </Text>
+            </TouchableOpacity>
+          </View>
         );
   };
 
-  renderVideoIOS = (video_id) => {
+  renderVideoIOS = video_id => {
     if (Platform.OS === "ios")
       return (
         <YouTube
@@ -79,36 +96,78 @@ export default class ArticleScreen extends React.Component {
           apiKey={config.privateKeys.youtube_api_token}
         />
       );
-  }
+  };
+
+  _playPodcast = async (audio_link, img_url, title) => {
+    TrackPlayer.reset();
+    await TrackPlayer.add({
+      id: audio_link,
+      url: audio_link,
+      title: title,
+      artist: "Thinkerview",
+      album: "Interview",
+      artwork: img_url
+    });
+    await TrackPlayer.play();
+    let info = {
+      title: title,
+      url: audio_link,
+      artwork: img_url
+    };
+    this.props.updateTrackInfo(info);
+    this.props.navigation.navigate("Podcast");
+  };
+
+  renderAudio = (audio_link, img_url, title) => {
+    if (audio_link && img_url && title)
+      return (
+        <View style={{ flex: 1 }}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => this._playPodcast(audio_link, img_url, title)}
+          >
+            <FontAwesome
+              name={"podcast"}
+              size={40}
+              color={config.colors.thinkerGreen}
+              style={styles.iconShare}
+            />
+            <Text style={styles.btnText}>
+              {config.strings.articleScreen.playPodcast}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      );
+  };
 
   render() {
-    let item = this.props.navigation.getParam("item");
-    if (!item) return null;
-    let { title, body, video_id, img_url } = item;
-
+    let {
+      title,
+      body,
+      video_id,
+      img_url,
+      audio_link
+    } = this.props.article.articleSelected;
     return (
-      <ReactNative.ScrollView style={config.styles.containerNoPadding}>
-        <Components.default.Header
+      <ScrollView style={config.styles.containerNoPadding}>
+        <Header
           share
-          onPressLeft={()=>this.props.navigation.goBack()} 
-          onPressRight={()=>this.setState({ shareSocialOpen: !this.state.shareSocialOpen})
-        }/>
-        <ReactNative.View style={config.styles.container}>
-
+          onPressLeft={() => this.props.navigation.goBack()}
+          onPressRight={() => this.props.shareSocialAction()}
+        />
+        <View style={config.styles.container}>
           {this.renderVideoAndroid(img_url, video_id)}
           {this.renderVideoIOS(video_id)}
 
-          <ReactNative.Text style={styles.header}>
-            {_.capitalize(title)}
-          </ReactNative.Text>
+          {this.renderAudio(audio_link, img_url, title)}
 
-          <ReactNative.Text style={styles.body}>
-            {_.capitalize(body)}
-          </ReactNative.Text>
+          <Text style={styles.header}>{_.capitalize(title)}</Text>
 
-          <Components.default.ShareSocial shareSocialOpen={this.state.shareSocialOpen}/>
-        </ReactNative.View>
-      </ReactNative.ScrollView>
+          <Text style={styles.body}>{_.capitalize(body)}</Text>
+
+          <ShareSocial />
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -121,19 +180,19 @@ const styles = StyleSheet.create({
   header: {
     paddingTop: Platform.OS === "ios" ? 20 : 0,
     fontSize: 20,
-    fontFamily: config.fonts.titleFont,
+    fontFamily: config.fonts.titleFont
   },
   body: {
     fontSize: 16,
     fontFamily: config.fonts.bodyFont,
-    paddingTop: 10,
+    paddingTop: 10
   },
   imgContainer: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center"
   },
   img: {
-    height: 200,
+    height: 200
   },
   btn: {
     marginTop: 18,
@@ -147,3 +206,21 @@ const styles = StyleSheet.create({
     marginTop: 10
   }
 });
+
+function mapStateToProps(state) {
+  return {
+    article: state.article
+  };
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    shareSocialAction: () => dispatch(shareSocialAction()),
+    updateTrackInfo: info => dispatch(updateTrackInfo(info))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ArticleScreen);

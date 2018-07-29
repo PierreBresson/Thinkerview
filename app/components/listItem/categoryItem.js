@@ -3,7 +3,7 @@ import ReactNative, { StyleSheet } from "react-native";
 import config from "../../config";
 import _ from "lodash";
 
-export class CategoryItem extends React.Component {
+export default class CategoryItem extends React.Component {
   constructor(props) {
     super(props);
   }

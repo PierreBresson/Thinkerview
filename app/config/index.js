@@ -1,4 +1,5 @@
 import icons from "./icons";
+import images from "./images"
 import colors from "./colors";
 import strings from "./strings";
 import fonts from "./fonts";
@@ -6,7 +7,9 @@ import urls from "./urls";
 import privateKeys from "./privateKeys";
 
 export default {
+  interview_category_id: 9,
   icons: icons,
+  images: images,
   colors: colors,
   fonts: fonts,
   strings: strings,

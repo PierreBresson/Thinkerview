@@ -1,9 +1,9 @@
 import React from "react";
-import ReactNative, { StyleSheet } from "react-native";
+import { Platform, TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import config from "../config";
 
-export class Header extends React.Component {
+export default class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,32 +14,32 @@ export class Header extends React.Component {
   render() {
     let { header, onPressLeft, onPressRight, share } = this.props;
     return (
-        <ReactNative.View style={styles.container}>
-            <ReactNative.View style={styles.containerBtnLeft}>
-                <ReactNative.TouchableOpacity style={styles.backBtn} onPress={onPressLeft}>
+        <View style={styles.container}>
+            <View style={styles.containerBtnLeft}>
+                <TouchableOpacity style={styles.backBtn} onPress={onPressLeft}>
                     <IconEntypo
                         name={"chevron-left"}
                         size={32}
                         color={config.colors.blackTorn}
                         style={styles.iconBack}
                     />
-                    <ReactNative.Text style={styles.backText}>{config.strings.headerComponent.back}</ReactNative.Text>
-                </ReactNative.TouchableOpacity>
-            </ReactNative.View>
-            <ReactNative.View style={styles.headerView}>
-              {header?<ReactNative.Text numberOfLines={1} style={styles.header}>{header}</ReactNative.Text>:null}
-            </ReactNative.View>
-            {share?<ReactNative.View style={styles.containerBtnRight}>
-              <ReactNative.TouchableOpacity onPress={onPressRight}>
+                    <Text style={styles.backText}>{config.strings.headerComponent.back}</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.headerView}>
+              {header?<Text numberOfLines={1} style={styles.header}>{header}</Text>:null}
+            </View>
+            {share?<View style={styles.containerBtnRight}>
+              <TouchableOpacity onPress={onPressRight}>
                 <IconEntypo
                   name={"share"}
                   size={22}
                   color={config.colors.thinkerGreen}
                   style={styles.iconShare}
                 />
-              </ReactNative.TouchableOpacity>
-            </ReactNative.View>:<ReactNative.View style={styles.containerBtnRight}/>}
-        </ReactNative.View>
+              </TouchableOpacity>
+            </View>:<View style={styles.containerBtnRight}/>}
+        </View>
     );
   }
 }
@@ -47,7 +47,7 @@ export class Header extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    paddingTop: ReactNative.Platform.OS === "ios" ? 40 : 20,
+    paddingTop: Platform.OS === "ios" ? 40 : 20,
     paddingBottom: 10,
   },
   containerBtnLeft: {

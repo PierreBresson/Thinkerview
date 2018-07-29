@@ -1,9 +1,9 @@
 import React from "react";
-import ReactNative, { StyleSheet } from "react-native";
+import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
 import config from "../../config";
 import _ from "lodash";
 
-export class VideoItem extends React.Component {
+export default class VideoItem extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -16,21 +16,21 @@ export class VideoItem extends React.Component {
       return null;
 
     return (
-      <ReactNative.TouchableOpacity
+      <TouchableOpacity
         style={[styles.container, style]}
         onPress={onPress}
       >
-        <ReactNative.Image
+        <Image
           style={styles.img}
           resizeMode="cover"
           source={{ uri: img_url ? img_url : '' }}
         />
-        <ReactNative.View style={styles.textView}>
-          <ReactNative.Text numberOfLines={3} style={styles.text}>
+        <View style={styles.textView}>
+          <Text numberOfLines={3} style={styles.text}>
             {_.capitalize(title)}
-          </ReactNative.Text>
-        </ReactNative.View>
-      </ReactNative.TouchableOpacity>
+          </Text>
+        </View>
+      </TouchableOpacity>
     );
   }
 }

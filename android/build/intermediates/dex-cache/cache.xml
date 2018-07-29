@@ -3,12 +3,48 @@
 
     <item
         is-multidex="false"
+        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="f2e3b9bc1ec25f652e8007ce7774c991e38f6a00">
+        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/internal_impl-25.0.0_562086a48e0b957d71aac3ef51c2731953d0fbd9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="8bc45ce1f63d1a391fd38b32a201be5a42f9c95d">
+        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-25.0.0_df8d594a1a9fc18b261de72b5f92ec3a72b38f70.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/pielou/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.0.0/support-annotations-25.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="a22d2cc94da87b254451fa8ed28afc30b4653773">
+        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/support-annotations-25.0.0_be19c1fec7a6fbcd13e9310fd0efa2d28ed264d4.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
         sha1="26674000177e45447a0326a6ad84612761199a13">
         <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-ui-25.0.0_8c28139ea2d11dcb9aaba00f7635711e223914c1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline/1.3.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="48c7f54c2515a2312d3a4481d10c43fbb807f3af">
+        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-1.3.0_a5d4efce2ae471adb09360702ff4c69e12ff3d17.jar" />
     </item>
     <item
         is-multidex="false"
@@ -27,6 +63,33 @@
         revision="23.0.1"
         sha1="c03c08c9934b23c8c09c803345ec51a74119127b">
         <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-okhttp3-1.3.0_f7b99b7c972c26a358072166d355b1cbe64b7022.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="53a420cd4f49274db6bd43475f8006ba67ef6bbd">
+        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.android.support-animated-vector-drawable-25.0.0_5fb018b654217e0668b9873efbbcd1018eb4e009.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.55.4/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="e31331bdf6b5952badadbfc171f04b95c55d3b16">
+        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.facebook.react-react-native-0.55.4_9d51e853691d3681a2d0608dd26b04a4362910e1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.facebook.fresco/drawee/1.3.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="c65a2e39d54023bac3aef64a2f0cff89289c7ff6">
+        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-drawee-1.3.0_94e76a7227b7c88c57f0de82a81ecb34ccb5347e.jar" />
     </item>
     <item
         is-multidex="false"
@@ -75,132 +138,6 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/pielou/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-urlconnection/3.6.0/3f9b16b774f2c36cfd86dd2053d0b3059531dacc/okhttp-urlconnection-3.6.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="3f9b16b774f2c36cfd86dd2053d0b3059531dacc">
-        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/okhttp-urlconnection-3.6.0_c0afc9736acf26a4a8f7d017f7e897184290af6e.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fbcore/1.3.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="37345de2ed2772f385eaeec37a9c2ff0fea99ad7">
-        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fbcore-1.3.0_b38a93b51056b7c26a3a7ad06574a3b38f861b6b.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/thinkerview/react-native-youtube/unspecified/jars/libs/YouTubeAndroidPlayerApi.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="a62cbd1027677c96026b383de62307faa6a4da8f">
-        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/YouTubeAndroidPlayerApi_9444f23fea591d20405e1273515dc2be60480b33.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="07daa0b6e1d455c82a38422ffe287c18823d339a">
-        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-fragment-25.0.0_47c57adf9fb5ece9991cb121be704ecee8ebab52.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/pielou/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.13.0/a9283170b7305c8d92d25aff02a6ab7e45d06cbe/okio-1.13.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="a9283170b7305c8d92d25aff02a6ab7e45d06cbe">
-        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/okio-1.13.0_36d8f7e319f57aafea85a702f16181211c15a744.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/thinkerview/react-native-youtube/unspecified/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="4128b63b44ca334c6f6ff32b620b426b480f739d">
-        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/thinkerview-react-native-youtube-unspecified_0cb4a38171198c675f1bd017dd120118049eff8f.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="4ccbcda5c72027c7f7c14be9ff8640d9cb0d8da0">
-        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-utils-25.0.0_06781dd10a50d99855151b6df07fedd1f75af7d0.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/libs/internal_impl-25.0.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="f2e3b9bc1ec25f652e8007ce7774c991e38f6a00">
-        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/internal_impl-25.0.0_562086a48e0b957d71aac3ef51c2731953d0fbd9.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="8bc45ce1f63d1a391fd38b32a201be5a42f9c95d">
-        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-25.0.0_df8d594a1a9fc18b261de72b5f92ec3a72b38f70.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/pielou/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.0.0/support-annotations-25.0.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="a22d2cc94da87b254451fa8ed28afc30b4653773">
-        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/support-annotations-25.0.0_be19c1fec7a6fbcd13e9310fd0efa2d28ed264d4.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline/1.3.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="48c7f54c2515a2312d3a4481d10c43fbb807f3af">
-        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-1.3.0_a5d4efce2ae471adb09360702ff4c69e12ff3d17.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="53a420cd4f49274db6bd43475f8006ba67ef6bbd">
-        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.android.support-animated-vector-drawable-25.0.0_5fb018b654217e0668b9873efbbcd1018eb4e009.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.55.4/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="e31331bdf6b5952badadbfc171f04b95c55d3b16">
-        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.facebook.react-react-native-0.55.4_9d51e853691d3681a2d0608dd26b04a4362910e1.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.facebook.fresco/drawee/1.3.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="c65a2e39d54023bac3aef64a2f0cff89289c7ff6">
-        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-drawee-1.3.0_94e76a7227b7c88c57f0de82a81ecb34ccb5347e.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -237,12 +174,30 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/pielou/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-urlconnection/3.6.0/3f9b16b774f2c36cfd86dd2053d0b3059531dacc/okhttp-urlconnection-3.6.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="3f9b16b774f2c36cfd86dd2053d0b3059531dacc">
+        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/okhttp-urlconnection-3.6.0_c0afc9736acf26a4a8f7d017f7e897184290af6e.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fresco/1.3.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
         sha1="fe85b87215e405f5917d40ae4960488ac9224b74">
         <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fresco-1.3.0_c454f54af2733a6abc8f8bc055d59cafd9df0cf9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fbcore/1.3.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="37345de2ed2772f385eaeec37a9c2ff0fea99ad7">
+        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fbcore-1.3.0_b38a93b51056b7c26a3a7ad06574a3b38f861b6b.jar" />
     </item>
     <item
         is-multidex="false"
@@ -255,12 +210,39 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/thinkerview/react-native-youtube/unspecified/jars/libs/YouTubeAndroidPlayerApi.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="a62cbd1027677c96026b383de62307faa6a4da8f">
+        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/YouTubeAndroidPlayerApi_9444f23fea591d20405e1273515dc2be60480b33.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/thinkerview/react-native-track-player/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="2ff4c3468893d7ccca67392c26a7999d3aa2bcfe">
+        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/thinkerview-react-native-track-player-unspecified_fd0578e20a39467b8392a19614b675049e897081.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.55.4/jars/libs/infer-annotations-4.0.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
         sha1="9809e90be788acdb479b2b44e2112f3295a03068">
         <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/infer-annotations-4.0_bff267953766471f39bdbb375e4fc294c58b2b75.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="07daa0b6e1d455c82a38422ffe287c18823d339a">
+        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-fragment-25.0.0_47c57adf9fb5ece9991cb121be704ecee8ebab52.jar" />
     </item>
     <item
         is-multidex="false"
@@ -309,6 +291,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/pielou/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.13.0/a9283170b7305c8d92d25aff02a6ab7e45d06cbe/okio-1.13.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="a9283170b7305c8d92d25aff02a6ab7e45d06cbe">
+        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/okio-1.13.0_36d8f7e319f57aafea85a702f16181211c15a744.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/pielou/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.0/5871fb60dc68d67da54a663c3fd636a10a532948/jsr305-3.0.0.jar"
         jumboMode="false"
         optimize="true"
@@ -333,6 +324,24 @@
         revision="23.0.1"
         sha1="4ce240860256ab1d3c38ee4f35d4776c9d85de1f">
         <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/thinkerview-react-native-check-app-install-unspecified_b82fe7a8e0948854d9abc25c00156c2c2d4bbf76.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/thinkerview/react-native-youtube/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="4128b63b44ca334c6f6ff32b620b426b480f739d">
+        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/thinkerview-react-native-youtube-unspecified_0cb4a38171198c675f1bd017dd120118049eff8f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/pielou/Github/thinkerview/android/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="4ccbcda5c72027c7f7c14be9ff8640d9cb0d8da0">
+        <dex dex="/Users/pielou/Github/thinkerview/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-utils-25.0.0_06781dd10a50d99855151b6df07fedd1f75af7d0.jar" />
     </item>
 
 </items>
