@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Platform,
   ActivityIndicator,
   Text,
   View,
@@ -89,9 +90,11 @@ class HomeScreen extends React.Component {
       data,
       isFetchingInterviews
     } = this.props.interviews;
+    let barStyle = "dark-content";
+    if (Platform.OS === "android") barStyle = "light-content";
     return (
       <View style={config.styles.containerNoPadding}>
-        <StatusBar barStyle={"dark-content"} />
+        <StatusBar barStyle={barStyle} />
         <CategoryModal />
         <SectionList
           refreshing={false}
