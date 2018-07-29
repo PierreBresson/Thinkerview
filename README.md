@@ -4,10 +4,7 @@ Watch Thinkerview videos and listen to podcast.
 
 ## Screenshots
 
-![alt tag](https://github.com/PierreBresson/thinkerview/blob/master/screen1.jpg)
-![alt tag](https://github.com/PierreBresson/thinkerview/blob/master/screen2.jpg)
-![alt tag](https://github.com/PierreBresson/thinkerview/blob/master/screen3.jpg)
-![alt tag](https://github.com/PierreBresson/thinkerview/blob/master/screen4.jpg)
+Some screenshots are available [here] :(https://github.com/PierreBresson/thinkerview/tree/master/screenshots)
 
 # Download
 
