@@ -6,13 +6,13 @@ Watch Thinkerview videos and listen to podcast.
 
 Some screenshots are available [here](https://github.com/PierreBresson/thinkerview/tree/master/screenshots)
 
-# Download
+## Download
 
 iOS : [App Store](https://itunes.apple.com/us/app/thinkerview/id1406076265?ls=1&mt=8)
 
 Android : [Google Play](https://play.google.com/store/apps/details?id=com.thinkerview)
 
-# Roadmap
+## Roadmap
 
 See [project](https://github.com/PierreBresson/thinkerview/projects)
 
