@@ -1,13 +1,13 @@
 import {
-    FETCHING_INTERVIEWS,
-    FETCHING_INTERVIEWS_SUCCESS,
-    FETCHING_INTERVIEWS_ERROR,
-  } from "./types";
+  FETCHING_INTERVIEWS,
+  FETCHING_INTERVIEWS_SUCCESS,
+  FETCHING_INTERVIEWS_ERROR
+} from "./types";
 import getInterviews from "../services/api/getInterviews";
 
 export const gettingInterviews = () => {
   return {
-    type: FETCHING_INTERVIEWS,
+    type: FETCHING_INTERVIEWS
   };
 };
 
@@ -26,14 +26,14 @@ export const gettingInterviewsFailure = err => {
   };
 };
 
-export const interviewsFetcher = (page=1) => {    
+export const interviewsFetcher = (page = 1, category_id = 0) => {
   return (dispatch, getState) => {
     dispatch(gettingInterviews());
-    getInterviews(page)
+    getInterviews(page, category_id)
       .then(res => {
-        dispatch(gettingInterviewsSuccess(res,page==1?true:false));
+        dispatch(gettingInterviewsSuccess(res, page == 1 ? true : false));
       })
-      .catch(err => {        
+      .catch(err => {
         dispatch(gettingInterviewsFailure(err));
       });
   };

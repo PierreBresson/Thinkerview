@@ -1,27 +1,32 @@
 import React, { PureComponent } from "react";
 import { AppState, View, Platform, StyleSheet } from "react-native";
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { createStore, applyMiddleware } from 'redux';
-import thunkMiddleware from 'redux-thunk';
+import { createStore, applyMiddleware } from "redux";
+import thunkMiddleware from "redux-thunk";
 import getRootReducer from "./reducers";
-import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
-import { updatePlayback } from './actions/playerActions';
+import {
+  createBottomTabNavigator,
+  createStackNavigator
+} from "react-navigation";
+import { updatePlayback } from "./actions/playerActions";
 import config from "./config";
 
 import HomeScreen from "./screens/home";
-import CategoriesScreen from "./screens/categories";
-import CategoryScreen from "./screens/categories/category";
-import PodcastScreen from "./screens/podcast"
+import PodcastScreen from "./screens/podcast";
 import AboutScreen from "./screens/about";
 
 import ArticleScreen from "./screens/sharedScreens/article";
 
 // Temporary fix for not show a warning due to react navigation
-import { YellowBox } from 'react-native';
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Remote debugger is in a background tab which may cause apps to perform slowly']);
-console.ignoredYellowBox = ['Remote debugger'];
+import { YellowBox } from "react-native";
+YellowBox.ignoreWarnings([
+  "Warning: isMounted(...) is deprecated",
+  "Module RCTImageLoader",
+  "Remote debugger is in a background tab which may cause apps to perform slowly"
+]);
+console.ignoredYellowBox = ["Remote debugger"];
 
 const TabScreens = createBottomTabNavigator(
   {
@@ -29,7 +34,7 @@ const TabScreens = createBottomTabNavigator(
       screen: createStackNavigator(
         {
           Home: {
-            screen: HomeScreen,
+            screen: HomeScreen
           },
           Article: {
             screen: ArticleScreen
@@ -58,46 +63,6 @@ const TabScreens = createBottomTabNavigator(
           ) : (
             <IconEntypo
               name={"folder-video"}
-              size={28}
-              color={config.colors.blackTorn}
-              style={styles.icon}
-            />
-          )
-      }
-    },
-    Categories: {
-      screen: createStackNavigator(
-        {
-          Categories: {
-            screen: CategoriesScreen,
-          },
-          Category: {
-            screen: CategoryScreen
-          },
-          Article: {
-            screen: ArticleScreen
-          }
-        },
-        {
-          headerMode: "none",
-          header: null,
-          navigationOptions: {
-            header: null
-          }
-        }
-      ),
-      navigationOptions: {
-        tabBarIcon: ({ tintColor, focused }) =>
-          focused ? (
-            <IconEntypo
-              name={"list"}
-              size={28}
-              color={config.colors.thinkerGreen}
-              style={styles.icon}
-            />
-          ) : (
-            <IconEntypo
-              name={"list"}
               size={28}
               color={config.colors.blackTorn}
               style={styles.icon}
@@ -146,7 +111,7 @@ const TabScreens = createBottomTabNavigator(
             />
           )
       }
-    },
+    }
   },
   {
     animationEnabled: true,
@@ -166,41 +131,43 @@ const TabScreens = createBottomTabNavigator(
 );
 
 class App extends PureComponent {
-  static store = createStore(getRootReducer(), applyMiddleware(thunkMiddleware));
+  static store = createStore(
+    getRootReducer(),
+    applyMiddleware(thunkMiddleware)
+  );
 
   async componentDidMount() {
-      AppState.addEventListener('change', this._handleStateChange);
+    AppState.addEventListener("change", this._handleStateChange);
 
-      // TODO remove temp code
-      await TrackPlayer.setupPlayer({});
-      TrackPlayer.updateOptions({
-          capabilities: [
-              TrackPlayer.CAPABILITY_PLAY,
-              TrackPlayer.CAPABILITY_PAUSE,
-              // Not ready yet bollow
-              // TrackPlayer.CAPABILITY_SEEK_TO,
-              // TrackPlayer.CAPABILITY_JUMP_BACKWARD,
-              // TrackPlayer.CAPABILITY_JUMP_FORWARD
-          ]
-      });
+    // TODO remove temp code
+    await TrackPlayer.setupPlayer({});
+    TrackPlayer.updateOptions({
+      capabilities: [
+        TrackPlayer.CAPABILITY_PLAY,
+        TrackPlayer.CAPABILITY_PAUSE
+        // Not ready yet bollow
+        // TrackPlayer.CAPABILITY_SEEK_TO,
+        // TrackPlayer.CAPABILITY_JUMP_BACKWARD,
+        // TrackPlayer.CAPABILITY_JUMP_FORWARD
+      ]
+    });
   }
 
   componentWillUnmount() {
-      AppState.removeEventListener('change', this._handleStateChange);
+    AppState.removeEventListener("change", this._handleStateChange);
   }
 
   _handleStateChange(appState) {
-      if(appState == 'active') {
-          // Updates the playback information when the app is back from background mode
-          App.store.dispatch(updatePlayback());
-      }
+    if (appState == "active") {
+      // Updates the playback information when the app is back from background mode
+      App.store.dispatch(updatePlayback());
+    }
   }
-
 
   render() {
     return (
       <Provider store={App.store}>
-          <TabScreens />
+        <TabScreens />
       </Provider>
     );
   }
@@ -219,10 +186,10 @@ const styles = StyleSheet.create({
   }
 });
 
-import { AppRegistry } from 'react-native';
-import TrackPlayer from 'react-native-track-player';
+import { AppRegistry } from "react-native";
+import TrackPlayer from "react-native-track-player";
 
-import createEventHandler from './player-handler';
+import createEventHandler from "./player-handler";
 
-AppRegistry.registerComponent('thinkerview', () => App);
+AppRegistry.registerComponent("thinkerview", () => App);
 TrackPlayer.registerEventHandler(createEventHandler(App.store));

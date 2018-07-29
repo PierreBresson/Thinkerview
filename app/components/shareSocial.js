@@ -1,21 +1,27 @@
 import React from "react";
 import ReactNative, { StyleSheet } from "react-native";
+import { connect } from "react-redux";
+import { shareSocialAction } from "../actions";
 import Share, { ShareSheet, Button } from "react-native-share";
 import config from "../config";
 
-
-export default class ShareSocial extends React.Component {
+class ShareSocial extends React.Component {
   constructor(props) {
-    super(props);    
+    super(props);
   }
 
+  onCancel = () => {
+    this.props.shareSocialAction();
+  };
+
   render() {
-    let { shareSocialOpen, title, url_video } = this.props;    
+    let { shareSocialOpen } = this.props.article;
+    let { title, url_video } = this.props.article.articleSelected;
     return (
       <ShareSheet
         style={styles.container}
         visible={shareSocialOpen}
-        onCancel={()=>{}}
+        onCancel={() => this.onCancel()}
       >
         <Button
           iconSrc={{ uri: TWITTER_ICON }}
@@ -28,7 +34,7 @@ export default class ShareSocial extends React.Component {
                 url: url_video,
                 subject: config.strings.share.subject,
                 social: "twitter"
-              })
+              });
             }, 300);
           }}
         >
@@ -39,13 +45,13 @@ export default class ShareSocial extends React.Component {
           onPress={() => {
             this.onCancel();
             setTimeout(() => {
-                Share.shareSingle({
-                  title: config.strings.share.title,
-                  message: title,
-                  url: url_video,
-                  subject: config.strings.share.subject,
-                  social: "facebook"
-                })
+              Share.shareSingle({
+                title: config.strings.share.title,
+                message: title,
+                url: url_video,
+                subject: config.strings.share.subject,
+                social: "facebook"
+              });
             }, 300);
           }}
         >
@@ -56,27 +62,26 @@ export default class ShareSocial extends React.Component {
           onPress={() => {
             this.onCancel();
             setTimeout(() => {
-              ReactNative.Linking
-              .canOpenURL("whatsapp://send")
-              .then(supported => {
-                if (!supported) {
-                  Share.shareSingle({
-                    title: config.strings.share.title,
-                    message: title,
-                    url: url_video,
-                    subject: config.strings.share.subject,
-                    social: "whatsapp"
-                  });
-                } else {
-                  return ReactNative.Linking.openURL(
-                    "whatsapp://send?text=" +
-                      config.strings.share.message +
-                      " " +
-                      url_video
-                  );
-                }
-              })
-              .catch(err => console.error("An error occurred", err));
+              ReactNative.Linking.canOpenURL("whatsapp://send")
+                .then(supported => {
+                  if (!supported) {
+                    Share.shareSingle({
+                      title: config.strings.share.title,
+                      message: title,
+                      url: url_video,
+                      subject: config.strings.share.subject,
+                      social: "whatsapp"
+                    });
+                  } else {
+                    return ReactNative.Linking.openURL(
+                      "whatsapp://send?text=" +
+                        config.strings.share.message +
+                        " " +
+                        url_video
+                    );
+                  }
+                })
+                .catch(err => console.error("An error occurred", err));
             }, 300);
           }}
         >
@@ -137,10 +142,10 @@ export default class ShareSocial extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        padding: 'absolute',
-        bottom: 0
-    }
+  container: {
+    padding: "absolute",
+    bottom: 0
+  }
 });
 
 //  twitter icon
@@ -171,5 +176,19 @@ const CLIPBOARD_ICON =
 const MORE_ICON =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAAAQlBMVEUAAABEREQ9PT0/Pz8/Pz9AQEA7OzszMzM/Pz8/Pz9FRUU/Pz8/Pz9VVVUAAAA/Pz8+Pj4/Pz8/Pz9BQUFAQEA/Pz+e9yGtAAAAFnRSTlMAD5bv9KgaFJ/yGv+zAwGltPH9LyD5QNQoVwAAAF5JREFUSMft0EkKwCAQRFHHqEnUON3/qkmDuHMlZlVv95GCRsYAAAD+xYVU+hhprHPWjDy1koJPx+L63L5XiJQx9PQPpZiOEz3n0qs2ylZ7lkyZ9oyXzl76MAAAgD1eJM8FMZg0rF4AAAAASUVORK5CYII=";
 
+const mapStateToProps = state => {
+  return {
+    article: state.article
+  };
+};
 
-  
+const mapDispatchToProps = dispatch => {
+  return {
+    shareSocialAction: () => dispatch(shareSocialAction())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ShareSocial);

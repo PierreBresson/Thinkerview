@@ -1,11 +1,19 @@
 import React from "react";
-import { View, Text, Image, ScrollView, TouchableOpacity, Platform, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Platform,
+  StyleSheet
+} from "react-native";
 import Header from "../../components/header";
 import ShareSocial from "../../components/shareSocial";
-import { connect } from 'react-redux';
-import { updateTrackInfo } from '../../actions'
-import YouTube, { YouTubeStandaloneAndroid } from 'react-native-youtube';
-import TrackPlayer from 'react-native-track-player';
+import { connect } from "react-redux";
+import { updateTrackInfo, shareSocialAction } from "../../actions";
+import YouTube, { YouTubeStandaloneAndroid } from "react-native-youtube";
+import TrackPlayer from "react-native-track-player";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { AppInstalledChecker } from "react-native-check-app-install";
@@ -16,12 +24,13 @@ class ArticleScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      youtubeNativePlayer: false,
-      shareSocialOpen: false,
+      youtubeNativePlayer: false
     };
   }
 
   componentWillMount() {
+    console.log(this.props.article);
+
     if (Platform.OS === "ios") {
       this.setState({
         youtubeNativePlayer: true
@@ -37,24 +46,27 @@ class ArticleScreen extends React.Component {
     }
   }
 
-  _playVideo = (video_id) => {
+  _playVideo = video_id => {
     YouTubeStandaloneAndroid.playVideo({
-      apiKey: config.privateKeys.youtube_api_token, 
-      videoId: video_id, 
-      autoplay: true, 
-      startTime: 0,
+      apiKey: config.privateKeys.youtube_api_token,
+      videoId: video_id,
+      autoplay: true,
+      startTime: 0
     })
-      .then(() => console.log('Standalone Player Exited'))
-      .catch(errorMessage => console.error(errorMessage))
-  }
+      .then(() => console.log("Standalone Player Exited"))
+      .catch(errorMessage => console.error(errorMessage));
+  };
 
   renderVideoAndroid = (img_url, video_id) => {
     if (Platform.OS === "android")
       if (this.state.youtubeNativePlayer)
         return (
-          <View style={{flex: 1}}>
-            <Image source={{uri: img_url}} style={styles.img} />
-            <TouchableOpacity style={styles.btn} onPress={()=>this._playVideo(video_id)}>
+          <View style={{ flex: 1 }}>
+            <Image source={{ uri: img_url }} style={styles.img} />
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => this._playVideo(video_id)}
+            >
               <IconEntypo
                 name={"video"}
                 size={40}
@@ -69,7 +81,7 @@ class ArticleScreen extends React.Component {
         );
   };
 
-  renderVideoIOS = (video_id) => {
+  renderVideoIOS = video_id => {
     if (Platform.OS === "ios")
       return (
         <YouTube
@@ -84,7 +96,7 @@ class ArticleScreen extends React.Component {
           apiKey={config.privateKeys.youtube_api_token}
         />
       );
-  }
+  };
 
   _playPodcast = async (audio_link, img_url, title) => {
     TrackPlayer.reset();
@@ -92,25 +104,28 @@ class ArticleScreen extends React.Component {
       id: audio_link,
       url: audio_link,
       title: title,
-      artist: 'subTitle',
-      album: 'Interview',
-      artwork: img_url,
+      artist: "Thinkerview",
+      album: "Interview",
+      artwork: img_url
     });
-    await TrackPlayer.play();    
+    await TrackPlayer.play();
     let info = {
       title: title,
       url: audio_link,
-      artwork: img_url,
-    }    
+      artwork: img_url
+    };
     this.props.updateTrackInfo(info);
     this.props.navigation.navigate("Podcast");
-  }
+  };
 
   renderAudio = (audio_link, img_url, title) => {
-    if(audio_link && img_url && title)
+    if (audio_link && img_url && title)
       return (
-        <View style={{flex: 1}}>
-          <TouchableOpacity style={styles.btn} onPress={()=>this._playPodcast(audio_link, img_url, title)}>
+        <View style={{ flex: 1 }}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => this._playPodcast(audio_link, img_url, title)}
+          >
             <FontAwesome
               name={"podcast"}
               size={40}
@@ -123,36 +138,34 @@ class ArticleScreen extends React.Component {
           </TouchableOpacity>
         </View>
       );
-  }
+  };
 
   render() {
-    let item = this.props.navigation.getParam("item");
-    if (!item) return null;
-    let { title, body, video_id, img_url, audio_link } = item;
-
+    let {
+      title,
+      body,
+      video_id,
+      img_url,
+      audio_link
+    } = this.props.article.articleSelected;
     return (
       <ScrollView style={config.styles.containerNoPadding}>
         <Header
           share
-          onPressLeft={()=>this.props.navigation.goBack()} 
-          onPressRight={()=>this.setState({ shareSocialOpen: !this.state.shareSocialOpen})
-        }/>
+          onPressLeft={() => this.props.navigation.goBack()}
+          onPressRight={() => this.props.shareSocialAction()}
+        />
         <View style={config.styles.container}>
-
           {this.renderVideoAndroid(img_url, video_id)}
           {this.renderVideoIOS(video_id)}
 
           {this.renderAudio(audio_link, img_url, title)}
 
-          <Text style={styles.header}>
-            {_.capitalize(title)}
-          </Text>
+          <Text style={styles.header}>{_.capitalize(title)}</Text>
 
-          <Text style={styles.body}>
-            {_.capitalize(body)}
-          </Text>
+          <Text style={styles.body}>{_.capitalize(body)}</Text>
 
-          <ShareSocial shareSocialOpen={this.state.shareSocialOpen}/>
+          <ShareSocial />
         </View>
       </ScrollView>
     );
@@ -167,19 +180,19 @@ const styles = StyleSheet.create({
   header: {
     paddingTop: Platform.OS === "ios" ? 20 : 0,
     fontSize: 20,
-    fontFamily: config.fonts.titleFont,
+    fontFamily: config.fonts.titleFont
   },
   body: {
     fontSize: 16,
     fontFamily: config.fonts.bodyFont,
-    paddingTop: 10,
+    paddingTop: 10
   },
   imgContainer: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center"
   },
   img: {
-    height: 200,
+    height: 200
   },
   btn: {
     marginTop: 18,
@@ -195,13 +208,19 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    article: state.article
+  };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateTrackInfo: (info) => dispatch(updateTrackInfo(info)),
+    shareSocialAction: () => dispatch(shareSocialAction()),
+    updateTrackInfo: info => dispatch(updateTrackInfo(info))
   };
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(ArticleScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ArticleScreen);
