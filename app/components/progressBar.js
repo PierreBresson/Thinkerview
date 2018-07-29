@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
         color: '#c0c0c0',
         fontSize: 16,
         fontWeight: '300',
-        margin: 10
     },
     bar: {
         backgroundColor: '#575757',
