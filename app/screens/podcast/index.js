@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
   },
   bottomView: {
     flex: 1,
-    // paddingTop: 30,
     paddingBottom: 10
   },
   infoPodastView: {
