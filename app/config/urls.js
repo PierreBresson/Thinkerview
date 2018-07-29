@@ -1,9 +1,11 @@
 const urls = {
     api: {
-        base_url: "https://thinkerview.pierrebresson.com/wp-json/wp/v2/",
+        podcast_download: "https://thinkerview.com/podcast-download/",
+        base_url: "https://thinkerview.com/wp-json/wp/v2/",
         all_posts: "posts?per_page=100",
         all_categories: "categories",
-        all_posts_from_a_category: "posts?categories=",
+        category: "posts?categories=",
+        page: "&page="
     },
     links: {
         author: {
