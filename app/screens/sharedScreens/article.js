@@ -149,25 +149,26 @@ class ArticleScreen extends React.Component {
       audio_link
     } = this.props.article.articleSelected;
     return (
-      <ScrollView style={config.styles.containerNoPadding}>
-        <Header
-          share
-          onPressLeft={() => this.props.navigation.goBack()}
-          onPressRight={() => this.props.shareSocialAction()}
-        />
-        <View style={config.styles.container}>
-          {this.renderVideoAndroid(img_url, video_id)}
-          {this.renderVideoIOS(video_id)}
+      <View style={{ flex: 1 }}>
+        <ScrollView style={config.styles.containerNoPadding}>
+          <Header
+            share
+            onPressLeft={() => this.props.navigation.goBack()}
+            onPressRight={() => this.props.shareSocialAction()}
+          />
+          <View style={[config.styles.container, { height: "100%" }]}>
+            {this.renderVideoAndroid(img_url, video_id)}
+            {this.renderVideoIOS(video_id)}
 
-          {this.renderAudio(audio_link, img_url, title)}
+            {this.renderAudio(audio_link, img_url, title)}
 
-          <Text style={styles.header}>{_.capitalize(title)}</Text>
+            <Text style={styles.header}>{_.capitalize(title)}</Text>
 
-          <Text style={styles.body}>{_.capitalize(body)}</Text>
-
-          <ShareSocial />
-        </View>
-      </ScrollView>
+            <Text style={styles.body}>{_.capitalize(body)}</Text>
+          </View>
+        </ScrollView>
+        <ShareSocial />
+      </View>
     );
   }
 }
@@ -195,8 +196,8 @@ const styles = StyleSheet.create({
     height: 200
   },
   btn: {
-    marginTop: 18,
-    marginBottom: 18,
+    marginTop: 10,
+    marginBottom: 8,
     flexDirection: "row"
   },
   btnText: {

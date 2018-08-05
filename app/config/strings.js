@@ -4,7 +4,8 @@ const strings = {
     title: "Thinkerview",
     subject: "Thinkerview",
     url: "https://thinkerview.com",
-    message: "Sympa la vidéo thinkerview!",
+    url_article: "https://thinkerview.com/?p=",
+    message: "Thinkerview",
     copyLink: "Copier le lien"
   },
   homeScreen: {},
