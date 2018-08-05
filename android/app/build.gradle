@@ -151,7 +151,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-vector-icons')
     implementation project(':react-native-track-player')
     implementation project(':react-native-share')
     implementation project(':react-native-vector-icons')
