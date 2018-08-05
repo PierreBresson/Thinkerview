@@ -2,7 +2,6 @@ import React from "react";
 import { TouchableOpacity, Linking, View, StyleSheet } from "react-native";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import config from "../config";
 
 const FACEBOOK = "facebook";
@@ -50,17 +49,6 @@ export default class DisplayNetwork extends React.Component {
           />
         </TouchableOpacity>
       );
-    if (library == "FontAwesome")
-      return (
-        <TouchableOpacity onPress={() => Linking.openURL(socialMediaUrl)}>
-          <FontAwesome
-            name={socialMediaName}
-            size={26}
-            color={this.findColor(socialMediaName)}
-            style={styles.icon}
-          />
-        </TouchableOpacity>
-      );
     if (library === "entypo")
       return (
         <TouchableOpacity onPress={() => Linking.openURL(socialMediaUrl)}>
@@ -91,7 +79,7 @@ export default class DisplayNetwork extends React.Component {
         <View style={styles.iconContainer}>
           {this.renderItem(facebook_url, FACEBOOK)}
           {this.renderItem(twitter_url, TWITTER)}
-          {this.renderItem(youtube_url, YOUTUBE, "FontAwesome")}
+          {this.renderItem(youtube_url, YOUTUBE)}
           {this.renderItem(website_url, LINK)}
           {this.renderItem(paypal_url, PAYPAL)}
           {this.renderItem(github_url, GITHUB)}
