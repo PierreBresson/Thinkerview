@@ -21,20 +21,27 @@ export default class AboutScreen extends React.Component {
         />
 
         <View style={styles.subHeaderView}>
-          <Text style={styles.subHeader}>{config.strings.aboutScreen.thinkerview}</Text>
+          <Text style={styles.subHeader}>
+            {config.strings.aboutScreen.thinkerview}
+          </Text>
         </View>
 
-          <Text style={styles.body}>
-            {config.strings.aboutScreen.thinkerviewDescription}
-          </Text>
+        <Text style={styles.body}>
+          {config.strings.aboutScreen.thinkerviewDescription}
+        </Text>
 
-          <DisplayNetwork
-            facebook_url={config.urls.links.thinkerview.facebook}
-            twitter_url={config.urls.links.thinkerview.twitter}
-            youtube_url={config.urls.links.thinkerview.youtube}
-            website_url={config.urls.links.thinkerview.website}
-            paypal_url={config.urls.links.thinkerview.tipeee}
-          />
+        <DisplayNetwork
+          facebook_url={config.urls.links.thinkerview.facebook}
+          twitter_url={config.urls.links.thinkerview.twitter}
+          youtube_url={config.urls.links.thinkerview.youtube}
+          website_url={config.urls.links.thinkerview.website}
+          paypal_url={config.urls.links.thinkerview.tipeee}
+        />
+
+        <DisplayNetwork
+          mastodon_url={config.urls.links.thinkerview.mastodon}
+          peertube_url={config.urls.links.thinkerview.peertube}
+        />
 
         <View style={styles.subHeaderView}>
           <Text style={styles.subHeader}>
@@ -46,8 +53,9 @@ export default class AboutScreen extends React.Component {
           {config.strings.aboutScreen.licenceDescription}
         </Text>
 
-        <DisplayNetwork creative_commons_url={config.urls.links.licence.creative_commons}/>
-
+        <DisplayNetwork
+          creative_commons_url={config.urls.links.licence.creative_commons}
+        />
       </ScrollView>
     );
   }
@@ -57,7 +65,7 @@ const styles = StyleSheet.create({
   headerView: {
     paddingTop: 40,
     paddingBottom: 30,
-    alignItems: "center", 
+    alignItems: "center"
   },
   header: {
     fontSize: 30,
@@ -76,5 +84,5 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     fontSize: 14,
     fontFamily: config.fonts.bodyFont
-  },
+  }
 });
