@@ -16,7 +16,13 @@ class ShareSocial extends React.Component {
 
   render() {
     let { shareSocialOpen } = this.props.article;
-    let { title, url_video } = this.props.article.articleSelected;
+    let { title, id } = this.props.article.articleSelected;
+    const shareOptions = {
+      title: config.strings.share.title,
+      message: title,
+      url: config.strings.share.url_article + id,
+      subject: config.strings.share.subject
+    };
     return (
       <ShareSheet
         style={styles.container}
@@ -29,10 +35,7 @@ class ShareSocial extends React.Component {
             this.onCancel();
             setTimeout(() => {
               Share.shareSingle({
-                title: config.strings.share.title,
-                message: title,
-                url: url_video,
-                subject: config.strings.share.subject,
+                ...shareOptions,
                 social: "twitter"
               });
             }, 300);
@@ -46,10 +49,7 @@ class ShareSocial extends React.Component {
             this.onCancel();
             setTimeout(() => {
               Share.shareSingle({
-                title: config.strings.share.title,
-                message: title,
-                url: url_video,
-                subject: config.strings.share.subject,
+                ...shareOptions,
                 social: "facebook"
               });
             }, 300);
@@ -66,10 +66,7 @@ class ShareSocial extends React.Component {
                 .then(supported => {
                   if (!supported) {
                     Share.shareSingle({
-                      title: config.strings.share.title,
-                      message: title,
-                      url: url_video,
-                      subject: config.strings.share.subject,
+                      ...shareOptions,
                       social: "whatsapp"
                     });
                   } else {
@@ -77,7 +74,8 @@ class ShareSocial extends React.Component {
                       "whatsapp://send?text=" +
                         config.strings.share.message +
                         " " +
-                        url_video
+                        config.strings.share.url_article +
+                        id
                     );
                   }
                 })
@@ -93,10 +91,7 @@ class ShareSocial extends React.Component {
             this.onCancel();
             setTimeout(() => {
               Share.shareSingle({
-                title: config.strings.share.title,
-                message: title,
-                url: url_video,
-                subject: config.strings.share.subject,
+                ...shareOptions,
                 social: "email"
               });
             }, 300);
@@ -109,16 +104,16 @@ class ShareSocial extends React.Component {
           onPress={() => {
             this.onCancel();
             setTimeout(() => {
-              if (typeof url_video !== undefined) {
-                ReactNative.Clipboard.setString(url_video);
-                if (ReactNative.Platform.OS === "android") {
-                  ReactNative.ToastAndroid.show(
-                    config.strings.share.copyLink,
-                    ReactNative.ToastAndroid.SHORT
-                  );
-                } else if (ReactNative.Platform.OS === "ios") {
-                  ReactNative.AlertIOS.alert(config.strings.share.copyLink);
-                }
+              ReactNative.Clipboard.setString(
+                config.strings.share.url_article + id
+              );
+              if (ReactNative.Platform.OS === "android") {
+                ReactNative.ToastAndroid.show(
+                  config.strings.share.copyLink,
+                  ReactNative.ToastAndroid.SHORT
+                );
+              } else if (ReactNative.Platform.OS === "ios") {
+                ReactNative.AlertIOS.alert(config.strings.share.copyLink);
               }
             }, 300);
           }}
