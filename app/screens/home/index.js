@@ -15,10 +15,12 @@ import {
   selectArticle,
   categoriesFetcher,
   selectCategory,
-  categoryModalAction
+  categoryModalAction,
+  resetInterviewsFetcher
 } from "../../actions";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import VideoItem from "../../components/listItem/videoItem";
+import VideoItemFeatured from "../../components/listItem/videoItemFeatured";
 import CategoryModal from "../../components/categoryModal";
 import config from "../../config";
 
@@ -31,10 +33,7 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.interviewsFetcher(
-      this.state.page,
-      this.props.categories.categorySelected.id
-    );
+    this.props.interviewsFetcher(this.props.categories.categorySelected.id);
     this.props.categoriesFetcher();
   }
 
@@ -63,18 +62,28 @@ class HomeScreen extends React.Component {
   };
 
   renderActivityIndicator = () => {
-    if (!this.props.interviews.isFetchingInterviews) return <View />;
-    return (
-      <View>
-        <ActivityIndicator size="large" color="black" />
-      </View>
-    );
+    if (
+      this.props.interviews.isFetchingInterviews ||
+      this.props.categories.isFetchingCategories
+    )
+      return <ActivityIndicator size="large" color="black" />;
+    return null;
   };
 
   renderItem = (item, index) => {
+    if (!index)
+      return (
+        <VideoItemFeatured
+          item={item}
+          onPress={() => {
+            this.props.selectArticle(item);
+            this.props.navigation.navigate("Article");
+          }}
+        />
+      );
+
     return (
       <VideoItem
-        key={index}
         item={item}
         onPress={() => {
           this.props.selectArticle(item);
@@ -90,6 +99,11 @@ class HomeScreen extends React.Component {
       data,
       isFetchingInterviews
     } = this.props.interviews;
+    let {
+      categorySelected,
+      all_categories,
+      errorFetchingCategories
+    } = this.props.categories;
     let barStyle = "dark-content";
     if (Platform.OS === "android") barStyle = "light-content";
     return (
@@ -98,11 +112,15 @@ class HomeScreen extends React.Component {
         <CategoryModal />
         <SectionList
           refreshing={false}
+          onEndReachedThreshold={0.4}
+          onEndReached={() => {
+            if (!isFetchingInterviews)
+              this.props.interviewsFetcher(categorySelected.id);
+          }}
           onRefresh={() => {
-            this.props.interviewsFetcher(
-              this.state.page,
-              this.props.categories.categorySelected.id
-            );
+            this.props.resetInterviewsFetcher();
+            this.props.interviewsFetcher(categorySelected.id);
+            this.props.categoriesFetcher();
           }}
           sections={[
             {
@@ -122,7 +140,7 @@ class HomeScreen extends React.Component {
                 return (
                   <View style={styles.errorView}>
                     <Text style={styles.error}>
-                      {errorFetchingInterviews
+                      {errorFetchingInterviews || errorFetchingCategories
                         ? config.strings.errorLoading
                         : ""}
                     </Text>
@@ -131,14 +149,9 @@ class HomeScreen extends React.Component {
               }
             },
             {
-              data: data ? data : "",
+              data: all_categories ? (data ? data : "") : "",
               keyExtractor: (item, index) => item.id,
-              renderItem: (item, index) =>
-                isFetchingInterviews ? (
-                  <View />
-                ) : (
-                  this.renderItem(item.item, item.id)
-                )
+              renderItem: item => this.renderItem(item.item, item.index)
             }
           ]}
         />
@@ -179,8 +192,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     selectArticle: article => dispatch(selectArticle(article)),
-    interviewsFetcher: (page, category_id) =>
-      dispatch(interviewsFetcher(page, category_id)),
+    interviewsFetcher: category_id => dispatch(interviewsFetcher(category_id)),
+    resetInterviewsFetcher: () => dispatch(resetInterviewsFetcher()),
     categoriesFetcher: () => dispatch(categoriesFetcher()),
     selectCategory: category => dispatch(selectCategory(category)),
     categoryModalAction: () => dispatch(categoryModalAction())

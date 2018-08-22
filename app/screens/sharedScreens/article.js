@@ -29,8 +29,6 @@ class ArticleScreen extends React.Component {
   }
 
   componentWillMount() {
-    console.log(this.props.article);
-
     if (Platform.OS === "ios") {
       this.setState({
         youtubeNativePlayer: true
@@ -181,7 +179,7 @@ const styles = StyleSheet.create({
   header: {
     paddingTop: Platform.OS === "ios" ? 20 : 0,
     fontSize: 20,
-    fontFamily: config.fonts.titleFont
+    fontFamily: config.fonts.black
   },
   body: {
     fontSize: 16,

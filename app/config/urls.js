@@ -4,8 +4,8 @@ const urls = {
     base_url: "https://thinkerview.com/wp-json/wp/v2/",
     all_posts: "posts?per_page=100",
     all_categories: "categories",
-    category: "posts?categories=",
-    page: "&page="
+    category: "&categories=",
+    page: "posts?page="
   },
   links: {
     author: {
