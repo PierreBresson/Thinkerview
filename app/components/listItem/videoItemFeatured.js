@@ -1,47 +1,22 @@
 import React from "react";
 import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
-import { connect } from "react-redux";
-import LabelCategory from "../labelCategory";
 import config from "../../config";
 import _ from "lodash";
 
-class VideoItemFeatured extends React.Component {
+export default class VideoItemFeatured extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  renderCategories = categories => {
-    const { all_categories } = this.props.categories;
-    let categories_name = [];
-    if (all_categories && categories) {
-      if (all_categories.length && categories.length) {
-        categories.map(category => {
-          category_found = all_categories.filter(cat => category === cat.id);
-          if (category_found)
-            if (category_found[0].name != "Interviews")
-              categories_name.push(category_found[0].name);
-        });
-      }
-    }
-    if (categories_name)
-      if (categories_name.length)
-        return categories_name.map(category_name => (
-          <LabelCategory key={category_name} category={category_name} />
-        ));
-  };
-
   render() {
     let { item, onPress, style } = this.props;
-    let { title, img_url, video_id, categories } = item;
+    let { title, img_url, video_id } = item;
 
     if (!title || !video_id) return null;
 
     return (
       <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
         <View style={styles.imgView}>
-          <View style={styles.categoriesView}>
-            {this.renderCategories(categories)}
-          </View>
           <Image
             style={styles.img}
             resizeMode="cover"
@@ -87,25 +62,5 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     fontFamily: config.fonts.bold
-  },
-  categoriesView: {
-    flexDirection: "row",
-    // zIndex: 1,
-    position: "absolute",
-    bottom: 10,
-    left: 8
   }
 });
-
-const mapStateToProps = state => {
-  return { categories: state.categories };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {};
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(VideoItemFeatured);
