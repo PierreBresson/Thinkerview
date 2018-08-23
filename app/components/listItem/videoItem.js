@@ -41,14 +41,14 @@ class VideoItem extends React.Component {
     let { item, onPress, style } = this.props;
     let { title, img_url, video_id, categories } = item;
 
-    if (!title || !video_id) return null;
+    if (!title || !video_id || !img_url) return null;
 
     return (
       <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
         <Image
           style={styles.img}
           resizeMode="cover"
-          source={{ uri: img_url ? img_url : "" }}
+          source={{ uri: img_url }}
         />
         <View style={styles.textView}>
           <Text numberOfLines={2} style={styles.text}>

@@ -3,35 +3,28 @@ import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
 import config from "../../config";
 import _ from "lodash";
 
-export default class VideoItemFeatured extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+export default (VideoItemFeatured = ({ item, onPress, style }) => {
+  let { title, img_url, video_id } = item;
 
-  render() {
-    let { item, onPress, style } = this.props;
-    let { title, img_url, video_id } = item;
+  if (!title || !video_id || !img_url) return null;
 
-    if (!title || !video_id) return null;
-
-    return (
-      <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
-        <View style={styles.imgView}>
-          <Image
-            style={styles.img}
-            resizeMode="cover"
-            source={{ uri: img_url ? img_url : "" }}
-          />
-        </View>
-        <View style={styles.textView}>
-          <Text numberOfLines={2} style={styles.text}>
-            {_.capitalize(title)}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  }
-}
+  return (
+    <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
+      <View style={styles.imgView}>
+        <Image
+          style={styles.img}
+          resizeMode="cover"
+          source={{ uri: img_url }}
+        />
+      </View>
+      <View style={styles.textView}>
+        <Text numberOfLines={2} style={styles.text}>
+          {_.capitalize(title)}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+});
 
 const styles = StyleSheet.create({
   container: {
