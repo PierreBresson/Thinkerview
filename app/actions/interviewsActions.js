@@ -27,7 +27,7 @@ export const gettingInterviewsFailure = err => {
   };
 };
 
-export const interviewsFetcher = (category_id = 0, init = false) => {
+export const interviewsFetcher = (category_id = 0) => {
   return (dispatch, getState) => {
     if (!getState().interviews.lastPage) {
       dispatch(gettingInterviews());
@@ -36,11 +36,12 @@ export const interviewsFetcher = (category_id = 0, init = false) => {
           dispatch(gettingInterviewsSuccess(res));
         })
         .catch(error => {
+          console.log(error);
           if (error.response)
             if (error.response.status === 400) {
               dispatch(setLastPageInterviews());
             } else {
-              dispatch(gettingInterviewsFailure(err));
+              dispatch(gettingInterviewsFailure(error));
             }
         });
     }
