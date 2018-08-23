@@ -12,7 +12,7 @@ export default (getInterviews = (page, category_id) => {
     config.urls.api.category +
     category +
     config.urls.api.per_page +
-    "20";
+    config.articlesPerPage;
 
   let promiseGetInterviews = new Promise((resolve, reject) => {
     axios

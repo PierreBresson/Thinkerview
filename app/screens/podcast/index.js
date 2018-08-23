@@ -93,7 +93,8 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 30,
-    fontFamily: config.fonts.titleFont
+    fontFamily: config.fonts.titleFont,
+    color: config.colors.black
   },
   artwork: {
     flex: 1,
@@ -111,7 +112,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontFamily: config.fonts.titleFont,
-    textAlign: "center"
+    textAlign: "center",
+    color: config.colors.black
   },
   controlView: {
     flex: 1,

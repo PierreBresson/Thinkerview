@@ -1,5 +1,5 @@
 import icons from "./icons";
-import images from "./images"
+import images from "./images";
 import colors from "./colors";
 import strings from "./strings";
 import fonts from "./fonts";
@@ -8,6 +8,7 @@ import privateKeys from "./privateKeys";
 
 export default {
   interview_category_id: 9,
+  articlesPerPage: "25",
   icons: icons,
   images: images,
   colors: colors,
@@ -20,12 +21,12 @@ export default {
       flex: 1,
       paddingLeft: 20,
       paddingRight: 20,
-      backgroundColor: colors.backgroundColor,
+      backgroundColor: colors.backgroundColor
     },
     containerNoPadding: {
       flex: 1,
-      backgroundColor: colors.backgroundColor,      
-    },
+      backgroundColor: colors.backgroundColor
+    }
   }
 };
 

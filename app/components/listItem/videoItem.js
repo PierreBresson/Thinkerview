@@ -84,7 +84,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    fontFamily: config.fonts.bold
+    fontFamily: config.fonts.bold,
+    color: config.colors.black
   },
   categoriesView: {
     flexDirection: "row",

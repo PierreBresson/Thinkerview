@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    fontFamily: config.fonts.bold
+    fontFamily: config.fonts.bold,
+    color: config.colors.black
   }
 });
