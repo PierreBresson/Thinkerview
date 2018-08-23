@@ -1,5 +1,6 @@
 const strings = {
-  errorLoading: "Une erreur est survenue. Merci d'essayer à nouveau.",
+  errorLoading:
+    "Une erreur est survenue. Merci d'essayer à nouveau en tirer vers le bas.",
   share: {
     title: "Thinkerview",
     subject: "Thinkerview",

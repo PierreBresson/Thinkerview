@@ -27,9 +27,6 @@ import config from "../../config";
 class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      page: 1
-    };
   }
 
   componentDidMount() {
