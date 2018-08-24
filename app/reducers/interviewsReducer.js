@@ -3,7 +3,8 @@ import {
   FETCHING_INTERVIEWS_SUCCESS,
   FETCHING_INTERVIEWS_ERROR,
   FETCHING_INTERVIEWS_RESET,
-  FETCHING_INTERVIEWS_LAST_PAGE
+  FETCHING_INTERVIEWS_LAST_PAGE,
+  INTERVIEWS_SCROLL_TO_TOP
 } from "../actions/types";
 
 const initialState = {
@@ -11,7 +12,8 @@ const initialState = {
   errorFetchingInterviews: false,
   data: null,
   page: 1,
-  lastPage: false
+  lastPage: false,
+  shouldScrollToTop: false
 };
 
 export default (interviewsReducer = (state = initialState, action) => {
@@ -57,6 +59,11 @@ export default (interviewsReducer = (state = initialState, action) => {
         lastPage: true,
         isFetchingInterviews: false,
         errorFetchingInterviews: false
+      };
+    case INTERVIEWS_SCROLL_TO_TOP:
+      return {
+        ...state,
+        shouldScrollToTop: !state.shouldScrollToTop
       };
     default:
       return state;

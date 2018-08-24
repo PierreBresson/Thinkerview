@@ -3,7 +3,8 @@ import {
   FETCHING_INTERVIEWS_SUCCESS,
   FETCHING_INTERVIEWS_ERROR,
   FETCHING_INTERVIEWS_RESET,
-  FETCHING_INTERVIEWS_LAST_PAGE
+  FETCHING_INTERVIEWS_LAST_PAGE,
+  INTERVIEWS_SCROLL_TO_TOP
 } from "./types";
 import getInterviews from "../services/api/getInterviews";
 
@@ -57,5 +58,11 @@ export const resetInterviewsFetcher = () => {
 export const setLastPageInterviews = () => {
   return {
     type: FETCHING_INTERVIEWS_LAST_PAGE
+  };
+};
+
+export const interviewsScrollToTop = () => {
+  return {
+    type: INTERVIEWS_SCROLL_TO_TOP
   };
 };

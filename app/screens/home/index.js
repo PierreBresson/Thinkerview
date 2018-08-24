@@ -16,7 +16,8 @@ import {
   categoriesFetcher,
   selectCategory,
   categoryModalAction,
-  resetInterviewsFetcher
+  resetInterviewsFetcher,
+  interviewsScrollToTop
 } from "../../actions";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import VideoItem from "../../components/listItem/videoItem";
@@ -27,6 +28,17 @@ import config from "../../config";
 class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.interviews.shouldScrollToTop) {
+      this.props.interviewsScrollToTop();
+      this.sectionList.scrollToLocation({
+        sectionIndex: 0,
+        itemIndex: 0
+      });
+    }
+    return true;
   }
 
   componentDidMount() {
@@ -108,6 +120,10 @@ class HomeScreen extends React.Component {
         <StatusBar barStyle={barStyle} />
         <CategoryModal />
         <SectionList
+          ref={sectionList => {
+            this.sectionList = sectionList;
+          }}
+          bounces={false}
           refreshing={false}
           onEndReachedThreshold={0.4}
           onEndReached={() => {
@@ -193,7 +209,8 @@ const mapDispatchToProps = dispatch => {
     resetInterviewsFetcher: () => dispatch(resetInterviewsFetcher()),
     categoriesFetcher: () => dispatch(categoriesFetcher()),
     selectCategory: category => dispatch(selectCategory(category)),
-    categoryModalAction: () => dispatch(categoryModalAction())
+    categoryModalAction: () => dispatch(categoryModalAction()),
+    interviewsScrollToTop: () => dispatch(interviewsScrollToTop())
   };
 };
 
