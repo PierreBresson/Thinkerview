@@ -97,6 +97,8 @@ class ArticleScreen extends React.Component {
   };
 
   _playPodcast = async (audio_link, img_url, title) => {
+    console.log(audio_link);
+
     TrackPlayer.reset();
     await TrackPlayer.add({
       id: audio_link,
