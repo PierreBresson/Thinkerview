@@ -37,7 +37,6 @@ export const interviewsFetcher = (category_id = 0) => {
           dispatch(gettingInterviewsSuccess(res));
         })
         .catch(error => {
-          console.log(error);
           if (error.response)
             if (error.response.status === 400) {
               dispatch(setLastPageInterviews());

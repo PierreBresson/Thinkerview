@@ -106,7 +106,8 @@ class HomeScreen extends React.Component {
     let {
       errorFetchingInterviews,
       data,
-      isFetchingInterviews
+      isFetchingInterviews,
+      lastPage
     } = this.props.interviews;
     let {
       categorySelected,
@@ -134,6 +135,30 @@ class HomeScreen extends React.Component {
             this.props.resetInterviewsFetcher();
             this.props.interviewsFetcher(categorySelected.id);
             this.props.categoriesFetcher();
+          }}
+          renderSectionFooter={({ section }) => {
+            if (section.data)
+              if (section.data.length > 1)
+                if (isFetchingInterviews) {
+                  return (
+                    <ActivityIndicator
+                      style={styles.loader}
+                      size="small"
+                      color="black"
+                    />
+                  );
+                } else {
+                  if (lastPage)
+                    return (
+                      <View style={styles.endOfListView}>
+                        <Text style={styles.endOfListText}>
+                          {config.strings.homeScreen.endOfList}
+                        </Text>
+                      </View>
+                    );
+                  return null;
+                }
+            return null;
           }}
           sections={[
             {
@@ -195,6 +220,22 @@ const styles = StyleSheet.create({
   error: {
     fontSize: 14,
     fontFamily: config.fonts.bodyFont
+  },
+  loader: {
+    marginTop: 10,
+    marginBottom: 10
+  },
+  endOfListView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  endOfListText: {
+    marginTop: 10,
+    marginBottom: 10,
+    fontSize: 18,
+    fontFamily: config.fonts.bodyFont,
+    color: config.colors.blackTorn
   }
 });
 

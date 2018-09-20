@@ -9,7 +9,9 @@ const strings = {
     message: "Thinkerview",
     copyLink: "Copier le lien"
   },
-  homeScreen: {},
+  homeScreen: {
+    endOfList: "The end!"
+  },
   aboutScreen: {
     about: "A propos",
     aboutAuthor: "Cette application a été conçu par Pierre Bresson.",
