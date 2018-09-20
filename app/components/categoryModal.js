@@ -13,7 +13,8 @@ import {
   categoryModalAction,
   categoriesFetcher,
   interviewsFetcher,
-  selectCategory
+  selectCategory,
+  resetInterviewsFetcher
 } from "../actions";
 import CategoryItem from "./listItem/categoryItem";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -32,7 +33,8 @@ class CategoryModal extends React.Component {
         onPress={() => {
           this.props.selectCategory(item);
           this.props.categoryModalAction();
-          this.props.interviewsFetcher(1, item.id);
+          this.props.resetInterviewsFetcher();
+          this.props.interviewsFetcher(item.id);
         }}
       />
     );
@@ -160,8 +162,8 @@ const mapDispatchToProps = dispatch => {
     selectCategory: category => dispatch(selectCategory(category)),
     categoryModalAction: () => dispatch(categoryModalAction()),
     categoriesFetcher: () => dispatch(categoriesFetcher()),
-    interviewsFetcher: (page, category_id) =>
-      dispatch(interviewsFetcher(page, category_id))
+    interviewsFetcher: category_id => dispatch(interviewsFetcher(category_id)),
+    resetInterviewsFetcher: () => dispatch(resetInterviewsFetcher())
   };
 };
 

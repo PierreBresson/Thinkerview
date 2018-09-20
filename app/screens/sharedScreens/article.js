@@ -29,8 +29,6 @@ class ArticleScreen extends React.Component {
   }
 
   componentWillMount() {
-    console.log(this.props.article);
-
     if (Platform.OS === "ios") {
       this.setState({
         youtubeNativePlayer: true
@@ -99,6 +97,8 @@ class ArticleScreen extends React.Component {
   };
 
   _playPodcast = async (audio_link, img_url, title) => {
+    console.log(audio_link);
+
     TrackPlayer.reset();
     await TrackPlayer.add({
       id: audio_link,
@@ -181,7 +181,8 @@ const styles = StyleSheet.create({
   header: {
     paddingTop: Platform.OS === "ios" ? 20 : 0,
     fontSize: 20,
-    fontFamily: config.fonts.titleFont
+    color: config.colors.black,
+    fontFamily: config.fonts.black
   },
   body: {
     fontSize: 16,

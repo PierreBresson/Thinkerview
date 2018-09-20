@@ -1,5 +1,6 @@
 const strings = {
-  errorLoading: "Une erreur est survenue. Merci d'essayer à nouveau.",
+  errorLoading:
+    "Une erreur est survenue. Merci d'essayer à nouveau en tirant vers le bas.",
   share: {
     title: "Thinkerview",
     subject: "Thinkerview",
@@ -8,7 +9,9 @@ const strings = {
     message: "Thinkerview",
     copyLink: "Copier le lien"
   },
-  homeScreen: {},
+  homeScreen: {
+    endOfList: "The end!"
+  },
   aboutScreen: {
     about: "A propos",
     aboutAuthor: "Cette application a été conçu par Pierre Bresson.",

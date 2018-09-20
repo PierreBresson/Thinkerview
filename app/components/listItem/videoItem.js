@@ -1,34 +1,62 @@
 import React from "react";
-import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
+import {
+  TouchableOpacity,
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ScrollView
+} from "react-native";
+import { connect } from "react-redux";
+import LabelCategory from "../labelCategory";
 import config from "../../config";
 import _ from "lodash";
 
-export default class VideoItem extends React.Component {
+class VideoItem extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  renderCategories = categories => {
+    const { all_categories } = this.props.categories;
+    let categories_name = [];
+    if (all_categories && categories) {
+      if (all_categories.length && categories.length) {
+        categories.map(category => {
+          category_found = all_categories.filter(cat => category === cat.id);
+          if (category_found)
+            if (category_found[0].name != "Interviews")
+              categories_name.push(category_found[0].name);
+        });
+      }
+    }
+    if (categories_name)
+      if (categories_name.length)
+        return categories_name.map(category_name => (
+          <LabelCategory key={category_name} category={category_name} />
+        ));
+  };
+
   render() {
     let { item, onPress, style } = this.props;
-    let { title, img_url, video_id } = item;
+    let { title, img_url, video_id, categories } = item;
 
-    if(!title || !video_id)
-      return null;
+    if (!title || !video_id || !img_url) return null;
 
     return (
-      <TouchableOpacity
-        style={[styles.container, style]}
-        onPress={onPress}
-      >
+      <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
         <Image
           style={styles.img}
           resizeMode="cover"
-          source={{ uri: img_url ? img_url : '' }}
+          source={{ uri: img_url }}
         />
         <View style={styles.textView}>
-          <Text numberOfLines={3} style={styles.text}>
+          <Text numberOfLines={2} style={styles.text}>
             {_.capitalize(title)}
           </Text>
+          <View style={styles.categoriesView}>
+            {this.renderCategories(categories)}
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -45,16 +73,35 @@ const styles = StyleSheet.create({
     borderBottomColor: config.colors.silverTwo
   },
   img: {
-    height: 63,
-    width: 112
+    height: 76,
+    width: 134
   },
   textView: {
+    flexDirection: "column",
     flex: 1,
     marginLeft: 10,
-    marginRight: 10,
+    marginRight: 10
   },
   text: {
     fontSize: 16,
-    fontFamily: config.fonts.bodyFont
+    fontFamily: config.fonts.bold,
+    color: config.colors.black
+  },
+  categoriesView: {
+    flexDirection: "row",
+    marginTop: 14
   }
 });
+
+const mapStateToProps = state => {
+  return { categories: state.categories };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {};
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(VideoItem);

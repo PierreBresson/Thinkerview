@@ -1,47 +1,71 @@
 import {
-    FETCHING_INTERVIEWS,
-    FETCHING_INTERVIEWS_SUCCESS,
-    FETCHING_INTERVIEWS_ERROR,
-  } from "../actions/types";
-  
-  const initialState = {
-    isFetchingInterviews: false,
-    errorFetchingInterviews: false,
-    data: null,
-  };
-  
-  export default (interviewsReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case FETCHING_INTERVIEWS:
+  FETCHING_INTERVIEWS,
+  FETCHING_INTERVIEWS_SUCCESS,
+  FETCHING_INTERVIEWS_ERROR,
+  FETCHING_INTERVIEWS_RESET,
+  FETCHING_INTERVIEWS_LAST_PAGE,
+  INTERVIEWS_SCROLL_TO_TOP
+} from "../actions/types";
+
+const initialState = {
+  isFetchingInterviews: false,
+  errorFetchingInterviews: false,
+  data: null,
+  page: 1,
+  lastPage: false,
+  shouldScrollToTop: false
+};
+
+export default (interviewsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case FETCHING_INTERVIEWS:
+      return {
+        ...state,
+        isFetchingInterviews: true,
+        errorFetchingInterviews: false
+      };
+    case FETCHING_INTERVIEWS_SUCCESS:
+      if (state.page === 1) {
         return {
           ...state,
-          isFetchingInterviews: true,
+          page: state.page + 1,
+          data: action.interviews,
+          isFetchingInterviews: false,
           errorFetchingInterviews: false
         };
-      case FETCHING_INTERVIEWS_SUCCESS:
-        if(action.init) {
-            return {
-                ...state,
-                data: action.interviews,
-                isFetchingInterviews: false,
-                errorFetchingInterviews: false
-              };
-        } else {
-            return {
-                ...state,
-                data: [...state.data, action.interviews],
-                isFetchingInterviews: false,
-                errorFetchingInterviews: false
-            };
-        }
-      case FETCHING_INTERVIEWS_ERROR:
+      } else {
         return {
           ...state,
+          page: state.page + 1,
+          data: [...state.data, ...action.interviews],
           isFetchingInterviews: false,
-          errorFetchingInterviews: true
+          errorFetchingInterviews: false
         };
-      default:
-        return state;
-    }
-  });
-  
+      }
+    case FETCHING_INTERVIEWS_ERROR:
+      return {
+        ...state,
+        isFetchingInterviews: false,
+        errorFetchingInterviews: true
+      };
+    case FETCHING_INTERVIEWS_RESET:
+      return {
+        ...state,
+        ...initialState
+      };
+    case FETCHING_INTERVIEWS_LAST_PAGE:
+      return {
+        ...state,
+        lastPage: true,
+        isFetchingInterviews: false,
+        errorFetchingInterviews: false
+      };
+    case INTERVIEWS_SCROLL_TO_TOP:
+      return {
+        ...state,
+        shouldScrollToTop: !state.shouldScrollToTop
+      };
+    default:
+      return state;
+  }
+});

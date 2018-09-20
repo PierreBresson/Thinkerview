@@ -2,10 +2,10 @@ const urls = {
   api: {
     podcast_download: "https://thinkerview.com/podcast-download/",
     base_url: "https://thinkerview.com/wp-json/wp/v2/",
-    all_posts: "posts?per_page=100",
     all_categories: "categories",
-    category: "posts?categories=",
-    page: "&page="
+    category: "&categories=",
+    per_page: "&per_page=",
+    page: "posts?page="
   },
   links: {
     author: {

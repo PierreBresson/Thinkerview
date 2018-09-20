@@ -12,12 +12,16 @@ export default class CategoryItem extends React.Component {
     let { item, onPress, style } = this.props;
     let { name, id } = item;
 
-    if(!name || id ==1 )
-      return null;
-      
+    if (!name || id == 1) return null;
+
     return (
-      <ReactNative.TouchableOpacity style={[styles.container, style]} onPress={onPress}>
-        <ReactNative.Text numberOfLines={1} style={styles.text}>{_.capitalize(name)}</ReactNative.Text>
+      <ReactNative.TouchableOpacity
+        style={[styles.container, style]}
+        onPress={onPress}
+      >
+        <ReactNative.Text numberOfLines={1} style={styles.text}>
+          {_.capitalize(name)}
+        </ReactNative.Text>
       </ReactNative.TouchableOpacity>
     );
   }
@@ -33,7 +37,8 @@ const styles = StyleSheet.create({
     borderBottomColor: config.colors.silverTwo
   },
   text: {
-    fontSize: 16,
-    fontFamily: config.fonts.bodyFont,   
-  },
+    fontSize: 20,
+    fontFamily: config.fonts.bodyFont,
+    color: config.colors.black
+  }
 });

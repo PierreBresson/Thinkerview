@@ -1,6 +1,9 @@
 export const FETCHING_INTERVIEWS = "fetching_interviews";
 export const FETCHING_INTERVIEWS_SUCCESS = "fetching_interviews_success";
 export const FETCHING_INTERVIEWS_ERROR = "fetching_interviews_error";
+export const FETCHING_INTERVIEWS_RESET = "fetching_interviews_reset";
+export const FETCHING_INTERVIEWS_LAST_PAGE = "fetching_interviews_last_page";
+export const INTERVIEWS_SCROLL_TO_TOP = "interviews_scroll_to_top";
 
 export const SELECT_CATEGORY = "select_category";
 export const CATEGORY_MODAL_ACTION = "category_modal_action";

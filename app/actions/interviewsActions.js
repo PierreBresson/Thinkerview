@@ -1,7 +1,10 @@
 import {
   FETCHING_INTERVIEWS,
   FETCHING_INTERVIEWS_SUCCESS,
-  FETCHING_INTERVIEWS_ERROR
+  FETCHING_INTERVIEWS_ERROR,
+  FETCHING_INTERVIEWS_RESET,
+  FETCHING_INTERVIEWS_LAST_PAGE,
+  INTERVIEWS_SCROLL_TO_TOP
 } from "./types";
 import getInterviews from "../services/api/getInterviews";
 
@@ -11,11 +14,10 @@ export const gettingInterviews = () => {
   };
 };
 
-export const gettingInterviewsSuccess = (interviews, init) => {
+export const gettingInterviewsSuccess = interviews => {
   return {
     type: FETCHING_INTERVIEWS_SUCCESS,
-    interviews,
-    init
+    interviews
   };
 };
 
@@ -26,15 +28,40 @@ export const gettingInterviewsFailure = err => {
   };
 };
 
-export const interviewsFetcher = (page = 1, category_id = 0) => {
+export const interviewsFetcher = (category_id = 0) => {
   return (dispatch, getState) => {
-    dispatch(gettingInterviews());
-    getInterviews(page, category_id)
-      .then(res => {
-        dispatch(gettingInterviewsSuccess(res, page == 1 ? true : false));
-      })
-      .catch(err => {
-        dispatch(gettingInterviewsFailure(err));
-      });
+    if (!getState().interviews.lastPage) {
+      dispatch(gettingInterviews());
+      getInterviews(getState().interviews.page, category_id)
+        .then(res => {
+          dispatch(gettingInterviewsSuccess(res));
+        })
+        .catch(error => {
+          if (error.response)
+            if (error.response.status === 400) {
+              dispatch(setLastPageInterviews());
+            } else {
+              dispatch(gettingInterviewsFailure(error));
+            }
+        });
+    }
+  };
+};
+
+export const resetInterviewsFetcher = () => {
+  return {
+    type: FETCHING_INTERVIEWS_RESET
+  };
+};
+
+export const setLastPageInterviews = () => {
+  return {
+    type: FETCHING_INTERVIEWS_LAST_PAGE
+  };
+};
+
+export const interviewsScrollToTop = () => {
+  return {
+    type: INTERVIEWS_SCROLL_TO_TOP
   };
 };

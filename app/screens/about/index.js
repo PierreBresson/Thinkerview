@@ -69,7 +69,8 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 30,
-    fontFamily: config.fonts.titleFont
+    fontFamily: config.fonts.titleFont,
+    color: config.colors.black
   },
   subHeaderView: {
     paddingTop: 30,
@@ -77,7 +78,8 @@ const styles = StyleSheet.create({
   },
   subHeader: {
     fontSize: 20,
-    fontFamily: config.fonts.titleFont
+    fontFamily: config.fonts.titleFont,
+    color: config.colors.black
   },
   body: {
     paddingTop: 10,

@@ -11,6 +11,7 @@ import {
   createStackNavigator
 } from "react-navigation";
 import { updatePlayback } from "./actions/playerActions";
+import { interviewsScrollToTop } from "./actions/interviewsActions";
 import config from "./config";
 
 import HomeScreen from "./screens/home";
@@ -34,7 +35,8 @@ const TabScreens = createBottomTabNavigator(
       screen: createStackNavigator(
         {
           Home: {
-            screen: HomeScreen
+            screen: HomeScreen,
+            path: "home"
           },
           Article: {
             screen: ArticleScreen
@@ -51,7 +53,7 @@ const TabScreens = createBottomTabNavigator(
           }
         }
       ),
-      navigationOptions: {
+      navigationOptions: ({ navigation }) => ({
         tabBarIcon: ({ tintColor, focused }) =>
           focused ? (
             <IconEntypo
@@ -67,8 +69,15 @@ const TabScreens = createBottomTabNavigator(
               color={config.colors.blackTorn}
               style={styles.icon}
             />
-          )
-      }
+          ),
+        tabBarOnPress: ({ navigation }) => {
+          if (navigation.isFocused()) {
+            App.store.dispatch(interviewsScrollToTop());
+          } else {
+            navigation.navigate("Home");
+          }
+        }
+      })
     },
     Podcast: {
       screen: PodcastScreen,

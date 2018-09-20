@@ -26,6 +26,8 @@ Thanks to wordpress WP JSON : [here](http://thinkerview.com/wp-json/wp/v2/)
 
 `react-native link` to link libs.
 
+Create `privateKeys.js` inside `app/config` and place your youtube api token inside a `youtube_api_token` const;
+
 And then :
 
 `react-native run-ios`

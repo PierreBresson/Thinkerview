@@ -15,26 +15,34 @@ import {
   selectArticle,
   categoriesFetcher,
   selectCategory,
-  categoryModalAction
+  categoryModalAction,
+  resetInterviewsFetcher,
+  interviewsScrollToTop
 } from "../../actions";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import VideoItem from "../../components/listItem/videoItem";
+import VideoItemFeatured from "../../components/listItem/videoItemFeatured";
 import CategoryModal from "../../components/categoryModal";
 import config from "../../config";
 
 class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      page: 1
-    };
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.interviews.shouldScrollToTop) {
+      this.props.interviewsScrollToTop();
+      this.sectionList.scrollToLocation({
+        sectionIndex: 0,
+        itemIndex: 0
+      });
+    }
+    return true;
   }
 
   componentDidMount() {
-    this.props.interviewsFetcher(
-      this.state.page,
-      this.props.categories.categorySelected.id
-    );
+    this.props.interviewsFetcher(this.props.categories.categorySelected.id);
     this.props.categoriesFetcher();
   }
 
@@ -63,18 +71,28 @@ class HomeScreen extends React.Component {
   };
 
   renderActivityIndicator = () => {
-    if (!this.props.interviews.isFetchingInterviews) return <View />;
-    return (
-      <View>
-        <ActivityIndicator size="large" color="black" />
-      </View>
-    );
+    if (
+      this.props.interviews.isFetchingInterviews ||
+      this.props.categories.isFetchingCategories
+    )
+      return <ActivityIndicator size="large" color="black" />;
+    return null;
   };
 
   renderItem = (item, index) => {
+    if (!index)
+      return (
+        <VideoItemFeatured
+          item={item}
+          onPress={() => {
+            this.props.selectArticle(item);
+            this.props.navigation.navigate("Article");
+          }}
+        />
+      );
+
     return (
       <VideoItem
-        key={index}
         item={item}
         onPress={() => {
           this.props.selectArticle(item);
@@ -88,8 +106,14 @@ class HomeScreen extends React.Component {
     let {
       errorFetchingInterviews,
       data,
-      isFetchingInterviews
+      isFetchingInterviews,
+      lastPage
     } = this.props.interviews;
+    let {
+      categorySelected,
+      all_categories,
+      errorFetchingCategories
+    } = this.props.categories;
     let barStyle = "dark-content";
     if (Platform.OS === "android") barStyle = "light-content";
     return (
@@ -97,12 +121,44 @@ class HomeScreen extends React.Component {
         <StatusBar barStyle={barStyle} />
         <CategoryModal />
         <SectionList
+          ref={sectionList => {
+            this.sectionList = sectionList;
+          }}
+          bounces={false}
           refreshing={false}
+          onEndReachedThreshold={0.4}
+          onEndReached={() => {
+            if (!isFetchingInterviews)
+              this.props.interviewsFetcher(categorySelected.id);
+          }}
           onRefresh={() => {
-            this.props.interviewsFetcher(
-              this.state.page,
-              this.props.categories.categorySelected.id
-            );
+            this.props.resetInterviewsFetcher();
+            this.props.interviewsFetcher(categorySelected.id);
+            this.props.categoriesFetcher();
+          }}
+          renderSectionFooter={({ section }) => {
+            if (section.data)
+              if (section.data.length > 1)
+                if (isFetchingInterviews) {
+                  return (
+                    <ActivityIndicator
+                      style={styles.loader}
+                      size="small"
+                      color="black"
+                    />
+                  );
+                } else {
+                  if (lastPage)
+                    return (
+                      <View style={styles.endOfListView}>
+                        <Text style={styles.endOfListText}>
+                          {config.strings.homeScreen.endOfList}
+                        </Text>
+                      </View>
+                    );
+                  return null;
+                }
+            return null;
           }}
           sections={[
             {
@@ -122,7 +178,7 @@ class HomeScreen extends React.Component {
                 return (
                   <View style={styles.errorView}>
                     <Text style={styles.error}>
-                      {errorFetchingInterviews
+                      {errorFetchingInterviews || errorFetchingCategories
                         ? config.strings.errorLoading
                         : ""}
                     </Text>
@@ -131,14 +187,9 @@ class HomeScreen extends React.Component {
               }
             },
             {
-              data: data ? data : "",
+              data: all_categories ? (data ? data : "") : "",
               keyExtractor: (item, index) => item.id,
-              renderItem: (item, index) =>
-                isFetchingInterviews ? (
-                  <View />
-                ) : (
-                  this.renderItem(item.item, item.id)
-                )
+              renderItem: item => this.renderItem(item.item, item.index)
             }
           ]}
         />
@@ -169,6 +220,22 @@ const styles = StyleSheet.create({
   error: {
     fontSize: 14,
     fontFamily: config.fonts.bodyFont
+  },
+  loader: {
+    marginTop: 10,
+    marginBottom: 10
+  },
+  endOfListView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  endOfListText: {
+    marginTop: 10,
+    marginBottom: 10,
+    fontSize: 18,
+    fontFamily: config.fonts.bodyFont,
+    color: config.colors.blackTorn
   }
 });
 
@@ -179,11 +246,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     selectArticle: article => dispatch(selectArticle(article)),
-    interviewsFetcher: (page, category_id) =>
-      dispatch(interviewsFetcher(page, category_id)),
+    interviewsFetcher: category_id => dispatch(interviewsFetcher(category_id)),
+    resetInterviewsFetcher: () => dispatch(resetInterviewsFetcher()),
     categoriesFetcher: () => dispatch(categoriesFetcher()),
     selectCategory: category => dispatch(selectCategory(category)),
-    categoryModalAction: () => dispatch(categoryModalAction())
+    categoryModalAction: () => dispatch(categoryModalAction()),
+    interviewsScrollToTop: () => dispatch(interviewsScrollToTop())
   };
 };
 
