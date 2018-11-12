@@ -10,12 +10,12 @@
     "axios": "0.18.0",
     "he": "1.1.1",
     "lodash": "4.17.10",
-    "react": "16.4.1",
-    "react-native": "0.56.0",
+    "react": "16.3.1",
+    "react-native": "0.57.4",
     "react-native-check-app-install": "0.0.4",
     "react-native-share": "1.0.23",
     "react-native-slider": "0.11.0",
-    "react-native-track-player": "github:react-native-kit/react-native-track-player#dev",
+    "react-native-track-player": "1.0.0",
     "react-native-vector-icons": "5.0.0",
     "react-native-youtube": "1.1.0",
     "react-navigation": "2.5.5",
@@ -27,7 +27,8 @@
     "babel-jest": "23.4.2",
     "babel-preset-react-native": "^5",
     "jest": "23.4.2",
-    "react-test-renderer": "16.4.1"
+    "react-test-renderer": "16.6.0-alpha.8af6728",
+    "schedule": "0.5.0"
   },
   "jest": {
     "preset": "react-native"
