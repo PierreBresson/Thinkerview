@@ -12,9 +12,14 @@ const strings = {
   homeScreen: {
     endOfList: "The end!"
   },
+  offlineScreen: {
+    title: "Podcasts hors-ligne",
+    nothingToShow: "Télécharger un podcast pour qu'il s'affiche ici."
+  },
   aboutScreen: {
-    about: "A propos",
-    aboutAuthor: "Cette application a été conçu par Pierre Bresson.",
+    about: "À propos",
+    aboutAuthor:
+      "Cette application a été conçu par Pierre Bresson, bénévolement. N'hésitez pas à me faire parvenir vos bugs et la procédure pour les reproduire, de façon civilisée. Si l'application n'arrive pas à charger les interviews, c'est peut-être que le site de Thinkerview ne marche et dans ce cas je ne peux malheureusement rien faire",
     thinkerview: "Thinkerview",
     thinkerviewDescription:
       "ThinkerView est un groupe indépendant issu d'internet, très diffèrent de la plup" +

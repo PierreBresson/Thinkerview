@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { AppState, View, Platform, StyleSheet } from "react-native";
+import { AppState, Platform, StyleSheet } from "react-native";
 import { Provider } from "react-redux";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -16,6 +16,7 @@ import config from "./config";
 
 import HomeScreen from "./screens/home";
 import PodcastScreen from "./screens/podcast";
+import OfflineScreen from "./screens/offline";
 import AboutScreen from "./screens/about";
 
 import ArticleScreen from "./screens/sharedScreens/article";
@@ -93,6 +94,27 @@ const TabScreens = createBottomTabNavigator(
           ) : (
             <FontAwesome
               name={"podcast"}
+              size={28}
+              color={config.colors.blackTorn}
+              style={styles.icon}
+            />
+          )
+      }
+    },
+    Offline: {
+      screen: OfflineScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor, focused }) =>
+          focused ? (
+            <IconEntypo
+              name={"download"}
+              size={28}
+              color={config.colors.thinkerGreen}
+              style={styles.icon}
+            />
+          ) : (
+            <IconEntypo
+              name={"download"}
               size={28}
               color={config.colors.blackTorn}
               style={styles.icon}
