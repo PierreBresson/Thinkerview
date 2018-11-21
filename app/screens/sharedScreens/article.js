@@ -11,7 +11,11 @@ import {
 import Header from "../../components/header";
 import ShareSocial from "../../components/shareSocial";
 import { connect } from "react-redux";
-import { updateTrackInfo, shareSocialAction } from "../../actions";
+import {
+  updateTrackInfo,
+  shareSocialAction,
+  savePodcastOffline
+} from "../../actions";
 import YouTube, { YouTubeStandaloneAndroid } from "react-native-youtube";
 import TrackPlayer from "react-native-track-player";
 import IconEntypo from "react-native-vector-icons/Entypo";
@@ -132,8 +136,32 @@ class ArticleScreen extends React.Component {
               color={config.colors.thinkerGreen}
               style={styles.iconShare}
             />
-            <Text style={styles.btnText}>
+            <Text style={[styles.btnText, { marginLeft: 17 }]}>
               {config.strings.articleScreen.playPodcast}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      );
+  };
+
+  renderOffLine = () => {
+    if (this.props.article.articleSelected)
+      return (
+        <View style={{ flex: 1 }}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() =>
+              this.props.savePodcastOffline(this.props.article.articleSelected)
+            }
+          >
+            <IconEntypo
+              name={"download"}
+              size={40}
+              color={config.colors.thinkerGreen}
+              style={styles.iconShare}
+            />
+            <Text style={[styles.btnText, { marginTop: 0 }]}>
+              {config.strings.articleScreen.savePodcast}
             </Text>
           </TouchableOpacity>
         </View>
@@ -161,9 +189,9 @@ class ArticleScreen extends React.Component {
             {this.renderVideoIOS(video_id)}
 
             {this.renderAudio(audio_link, img_url, title)}
+            {this.renderOffLine()}
 
             <Text style={styles.header}>{_.capitalize(title)}</Text>
-
             <Text style={styles.body}>{_.capitalize(body)}</Text>
           </View>
         </ScrollView>
@@ -217,6 +245,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => {
   return {
+    savePodcastOffline: podcast => dispatch(savePodcastOffline(podcast)),
     shareSocialAction: () => dispatch(shareSocialAction()),
     updateTrackInfo: info => dispatch(updateTrackInfo(info))
   };

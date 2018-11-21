@@ -18,3 +18,6 @@ export const PLAYBACK_STATE = "playback_state";
 export const PLAYBACK_TRACK = "playback_track";
 
 export const UPDATE_TRACK_INFO = "update_track_info";
+
+export const SAVE_PODCAST_OFFLINE = "save_podcast_offline";
+export const DELETE_PODCAST_OFFLINE = "delete_podcast_offline";

@@ -37,6 +37,7 @@ const strings = {
   articleScreen: {
     playVideo: "Lire la vidéo",
     playPodcast: "Écouter le podcast",
+    savePodcast: "Enregistrer podcast pour une utilisation hors-ligne",
     noYoutube: "Merci d'installer Youtube pour pouvoir lire la vidéo."
   },
   podcastScreen: {
