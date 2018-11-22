@@ -5,6 +5,7 @@ import IconEntypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { createStore, applyMiddleware } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
 import storage from "redux-persist/lib/storage";
 import thunkMiddleware from "redux-thunk";
 import getRootReducer from "./reducers";
@@ -165,8 +166,10 @@ const TabScreens = createBottomTabNavigator(
 
 const persistConfig = {
   key: "root",
-  storage
+  storage,
+  blacklist: ["navigation", "player", "interviews", "article", "categories"]
 };
+
 const persistedReducer = persistReducer(persistConfig, getRootReducer());
 
 class App extends PureComponent {
@@ -174,6 +177,7 @@ class App extends PureComponent {
     persistedReducer,
     applyMiddleware(thunkMiddleware)
   );
+  static persistor = persistStore(App.store);
 
   async componentDidMount() {
     AppState.addEventListener("change", this._handleStateChange);
@@ -206,7 +210,9 @@ class App extends PureComponent {
   render() {
     return (
       <Provider store={App.store}>
-        <TabScreens />
+        <PersistGate loading={null} persistor={App.persistor}>
+          <TabScreens />
+        </PersistGate>
       </Provider>
     );
   }
