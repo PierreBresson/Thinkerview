@@ -6,7 +6,7 @@ import com.facebook.react.ReactApplication;
 import com.guichaguri.trackplayer.TrackPlayer;
 import com.rpt.reactnativecheckpackageinstallation.CheckPackageInstallationPackage;
 import cl.json.RNSharePackage;
-import com.rnfs.RNFSPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.rpt.reactnativecheckpackageinstallation.CheckPackageInstallationPackage;
 import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
@@ -28,7 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(new MainReactPackage(), new TrackPlayer(), new RNFSPackage(), new RNSharePackage(),
+      return Arrays.<ReactPackage>asList(new MainReactPackage(), new TrackPlayer(), new RNFetchBlobPackage(), new RNSharePackage(),
           new VectorIconsPackage(), new CheckPackageInstallationPackage(), new ReactNativeYouTube());
     }
 
