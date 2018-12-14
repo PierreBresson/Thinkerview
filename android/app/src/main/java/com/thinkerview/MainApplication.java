@@ -6,7 +6,6 @@ import com.facebook.react.ReactApplication;
 import com.guichaguri.trackplayer.TrackPlayer;
 import com.rpt.reactnativecheckpackageinstallation.CheckPackageInstallationPackage;
 import cl.json.RNSharePackage;
-import com.rnfs.RNFSPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.rpt.reactnativecheckpackageinstallation.CheckPackageInstallationPackage;
 import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
@@ -28,7 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(new MainReactPackage(), new TrackPlayer(), new RNFSPackage(), new RNSharePackage(),
+      return Arrays.<ReactPackage>asList(new MainReactPackage(), new TrackPlayer(), new RNSharePackage(),
           new VectorIconsPackage(), new CheckPackageInstallationPackage(), new ReactNativeYouTube());
     }
 
@@ -46,6 +45,6 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
+    SoLoader.init(this, /* native exopackage */ false); 
   }
 }

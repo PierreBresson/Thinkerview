@@ -7,7 +7,8 @@ import {
   SectionList,
   StyleSheet,
   StatusBar,
-  TouchableOpacity
+  TouchableOpacity,
+  SafeAreaView
 } from "react-native";
 import { connect } from "react-redux";
 import {
@@ -70,15 +71,6 @@ class HomeScreen extends React.Component {
     );
   };
 
-  renderActivityIndicator = () => {
-    if (
-      this.props.interviews.isFetchingInterviews ||
-      this.props.categories.isFetchingCategories
-    )
-      return <ActivityIndicator size="large" color="black" />;
-    return null;
-  };
-
   renderItem = (item, index) => {
     if (!index)
       return (
@@ -112,20 +104,20 @@ class HomeScreen extends React.Component {
     let {
       categorySelected,
       all_categories,
-      errorFetchingCategories
+      errorFetchingCategories,
+      isFetchingCategories
     } = this.props.categories;
     let barStyle = "dark-content";
     if (Platform.OS === "android") barStyle = "light-content";
     return (
-      <View style={config.styles.containerNoPadding}>
+      <SafeAreaView style={config.styles.containerNoPadding}>
         <StatusBar barStyle={barStyle} />
         <CategoryModal />
         <SectionList
           ref={sectionList => {
             this.sectionList = sectionList;
           }}
-          bounces={false}
-          refreshing={false}
+          refreshing={isFetchingInterviews || isFetchingCategories}
           onEndReachedThreshold={0.4}
           onEndReached={() => {
             if (!isFetchingInterviews)
@@ -169,11 +161,6 @@ class HomeScreen extends React.Component {
             {
               data: [1],
               keyExtractor: (item, index) => index,
-              renderItem: (item, index) => this.renderActivityIndicator()
-            },
-            {
-              data: [1],
-              keyExtractor: (item, index) => index,
               renderItem: (item, index) => {
                 return (
                   <View style={styles.errorView}>
@@ -193,7 +180,7 @@ class HomeScreen extends React.Component {
             }
           ]}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -203,8 +190,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 40,
-    paddingBottom: 20
+    marginTop: 20
   },
   header: {
     fontSize: 24,
@@ -215,11 +201,13 @@ const styles = StyleSheet.create({
   },
   errorView: {
     flex: 1,
-    alignItems: "center"
+    paddingTop: 10,
+    marginHorizontal: 10
   },
   error: {
     fontSize: 14,
-    fontFamily: config.fonts.bodyFont
+    fontFamily: config.fonts.bodyFont,
+    textAlign: "center"
   },
   loader: {
     marginTop: 10,

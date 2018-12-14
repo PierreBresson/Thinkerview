@@ -13,7 +13,6 @@
     "react": "16.3.1",
     "react-native": "0.57.5",
     "react-native-check-app-install": "0.0.4",
-    "react-native-fs": "2.12.1",
     "react-native-share": "1.0.23",
     "react-native-slider": "0.11.0",
     "react-native-track-player": "1.0.0",

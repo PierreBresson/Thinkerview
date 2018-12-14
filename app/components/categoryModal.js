@@ -6,7 +6,8 @@ import {
   Text,
   SectionList,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  SafeAreaView
 } from "react-native";
 import { connect } from "react-redux";
 import {
@@ -57,15 +58,6 @@ class CategoryModal extends React.Component {
     );
   };
 
-  renderActivityIndicator = isFetchingCategories => {
-    if (!isFetchingCategories) return <View />;
-    return (
-      <View>
-        <ActivityIndicator size="large" color="black" />
-      </View>
-    );
-  };
-
   render() {
     let {
       errorFetchingCategories,
@@ -80,21 +72,18 @@ class CategoryModal extends React.Component {
         visible={categoryModalOpen}
         onRequestClose={() => {}}
       >
+        <SafeAreaView
+          style={{ backgroundColor: config.colors.backgroundColor }}
+        />
         <SectionList
           style={config.styles.containerNoPadding}
-          refreshing={false}
+          refreshing={isFetchingCategories}
           onRefresh={() => this.props.categoriesFetcher()}
           sections={[
             {
               data: [1],
               keyExtractor: (item, index) => index,
               renderItem: (item, index) => this.renderIntro()
-            },
-            {
-              data: [1],
-              keyExtractor: (item, index) => index,
-              renderItem: (item, index) =>
-                this.renderActivityIndicator(isFetchingCategories)
             },
             {
               data: [1],
@@ -133,8 +122,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 40,
-    paddingBottom: 20
+    paddingTop: 20
   },
   header: {
     fontSize: 28,
@@ -145,11 +133,13 @@ const styles = StyleSheet.create({
   },
   errorView: {
     flex: 1,
-    alignItems: "center"
+    paddingTop: 10,
+    marginHorizontal: 10
   },
   error: {
     fontSize: 14,
-    fontFamily: config.fonts.bodyFont
+    fontFamily: config.fonts.bodyFont,
+    textAlign: "center"
   }
 });
 
