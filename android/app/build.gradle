@@ -161,10 +161,7 @@ dependencies {
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-check-app-install')
     implementation project(':react-native-youtube')
-<<<<<<< HEAD
-=======
     implementation project(':rn-fetch-blob') 
->>>>>>> ac39fb70068ccdb8b8026517f948307064cf54cb
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.targetSdkVersion}+"
     implementation "com.facebook.react:react-native:+"  // From node_modules
