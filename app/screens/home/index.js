@@ -117,7 +117,7 @@ class HomeScreen extends React.Component {
           ref={sectionList => {
             this.sectionList = sectionList;
           }}
-          refreshing={isFetchingInterviews || isFetchingCategories}
+          refreshing={isFetchingInterviews}
           onEndReachedThreshold={0.4}
           onEndReached={() => {
             if (!isFetchingInterviews)
