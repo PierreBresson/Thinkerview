@@ -1,6 +1,14 @@
 import React from "react";
-import { FlatList, Text, View, ScrollView, StyleSheet } from "react-native";
+import {
+  FlatList,
+  Text,
+  View,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet
+} from "react-native";
 import { connect } from "react-redux";
+import { selectArticle } from "../../actions";
 import VideoItem from "../../components/listItem/videoItem";
 import config from "../../config";
 
@@ -39,24 +47,25 @@ class OfflineScreen extends React.Component {
 
   render() {
     return (
-      <ScrollView style={config.styles.containerNoPadding}>
-        <View style={styles.headerView}>
-          <Text style={styles.header}>
-            {config.strings.offlineScreen.title}
-          </Text>
-        </View>
-        {this.props.offline.data
-          ? this.renderPodcast()
-          : this.renderNoPodcast()}
-      </ScrollView>
+      <SafeAreaView style={config.styles.containerNoPadding}>
+        <ScrollView style={config.styles.containerNoPadding}>
+          <View style={styles.headerView}>
+            <Text style={styles.header}>
+              {config.strings.offlineScreen.title}
+            </Text>
+          </View>
+          {this.props.offline.data
+            ? this.renderPodcast()
+            : this.renderNoPodcast()}
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   headerView: {
-    paddingTop: 40,
-    paddingBottom: 30,
+    paddingBottom: 20,
     alignItems: "center"
   },
   header: {
@@ -78,7 +87,13 @@ function mapStateToProps(state) {
   return { offline: state.offline };
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    selectArticle: article => dispatch(selectArticle(article))
+  };
+};
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(OfflineScreen);

@@ -1,70 +1,73 @@
 import React from "react";
-import { Text, View, ScrollView, StyleSheet } from "react-native";
+import { Text, View, SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import DisplayNetwork from "../../components/displayNetwork";
 import config from "../../config";
 
 export default class AboutScreen extends React.Component {
   render() {
     return (
-      <ScrollView style={config.styles.container}>
-        <View style={styles.headerView}>
-          <Text style={styles.header}>{config.strings.aboutScreen.about}</Text>
-        </View>
+      <SafeAreaView style={config.styles.containerNoPadding}>
+        <ScrollView style={config.styles.container}>
+          <View style={styles.headerView}>
+            <Text style={styles.header}>
+              {config.strings.aboutScreen.about}
+            </Text>
+          </View>
 
-        <Text style={styles.body}>
-          {config.strings.aboutScreen.aboutAuthor}
-        </Text>
-        <DisplayNetwork
-          twitter_url={config.urls.links.author.twitter}
-          website_url={config.urls.links.author.website}
-          github_url={config.urls.links.author.github}
-        />
-
-        <View style={styles.subHeaderView}>
-          <Text style={styles.subHeader}>
-            {config.strings.aboutScreen.thinkerview}
+          <Text style={styles.body}>
+            {config.strings.aboutScreen.aboutAuthor}
           </Text>
-        </View>
+          <DisplayNetwork
+            twitter_url={config.urls.links.author.twitter}
+            website_url={config.urls.links.author.website}
+            github_url={config.urls.links.author.github}
+          />
 
-        <Text style={styles.body}>
-          {config.strings.aboutScreen.thinkerviewDescription}
-        </Text>
+          <View style={styles.subHeaderView}>
+            <Text style={styles.subHeader}>
+              {config.strings.aboutScreen.thinkerview}
+            </Text>
+          </View>
 
-        <DisplayNetwork
-          facebook_url={config.urls.links.thinkerview.facebook}
-          twitter_url={config.urls.links.thinkerview.twitter}
-          youtube_url={config.urls.links.thinkerview.youtube}
-          website_url={config.urls.links.thinkerview.website}
-          paypal_url={config.urls.links.thinkerview.tipeee}
-        />
-
-        <DisplayNetwork
-          mastodon_url={config.urls.links.thinkerview.mastodon}
-          peertube_url={config.urls.links.thinkerview.peertube}
-        />
-
-        <View style={styles.subHeaderView}>
-          <Text style={styles.subHeader}>
-            {config.strings.aboutScreen.licence}
+          <Text style={styles.body}>
+            {config.strings.aboutScreen.thinkerviewDescription}
           </Text>
-        </View>
 
-        <Text style={styles.body}>
-          {config.strings.aboutScreen.licenceDescription}
-        </Text>
+          <DisplayNetwork
+            facebook_url={config.urls.links.thinkerview.facebook}
+            twitter_url={config.urls.links.thinkerview.twitter}
+            youtube_url={config.urls.links.thinkerview.youtube}
+            website_url={config.urls.links.thinkerview.website}
+            paypal_url={config.urls.links.thinkerview.tipeee}
+          />
 
-        <DisplayNetwork
-          creative_commons_url={config.urls.links.licence.creative_commons}
-        />
-      </ScrollView>
+          <DisplayNetwork
+            mastodon_url={config.urls.links.thinkerview.mastodon}
+            peertube_url={config.urls.links.thinkerview.peertube}
+          />
+
+          <View style={styles.subHeaderView}>
+            <Text style={styles.subHeader}>
+              {config.strings.aboutScreen.licence}
+            </Text>
+          </View>
+
+          <Text style={styles.body}>
+            {config.strings.aboutScreen.licenceDescription}
+          </Text>
+
+          <DisplayNetwork
+            creative_commons_url={config.urls.links.licence.creative_commons}
+          />
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   headerView: {
-    paddingTop: 40,
-    paddingBottom: 30,
+    paddingBottom: 20,
     alignItems: "center"
   },
   header: {

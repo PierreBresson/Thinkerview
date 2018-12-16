@@ -1,4 +1,11 @@
-import { SAVE_PODCAST_OFFLINE, DELETE_PODCAST_OFFLINE } from "../actions/types";
+import {
+  SAVE_PODCAST_OFFLINE,
+  SAVE_PODCAST_OFFLINE_DONE,
+  SAVE_PODCAST_OFFLINE_UPDATE_PROGRESS,
+  SAVE_PODCAST_OFFLINE_ERROR,
+  DELETE_PODCAST_OFFLINE,
+  DELETE_PODCAST_OFFLINE_ERROR
+} from "../actions/types";
 
 const initialState = {
   data: null
@@ -31,6 +38,10 @@ export default (offlineReducer = (state = initialState, action) => {
         ...state,
         data: remove(state.data, action.podcast)
       };
+    // case SAVE_PODCAST_OFFLINE_UPDATE_PROGRESS:
+    // case SAVE_PODCAST_OFFLINE_DONE:
+    // case SAVE_PODCAST_OFFLINE_ERROR:
+    // case DELETE_PODCAST_OFFLINE_ERROR:
     default:
       return state;
   }

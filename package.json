@@ -9,7 +9,8 @@
   "dependencies": {
     "axios": "0.18.0",
     "he": "1.1.1",
-    "lodash": "4.17.10",
+    "lodash": "^4.17.10",
+    "ramda": "^0.26.1",
     "react": "16.6.3",
     "react-native": "0.57.8",
     "react-native-check-app-install": "0.0.4",

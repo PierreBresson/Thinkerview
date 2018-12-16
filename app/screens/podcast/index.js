@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, Text, View, StyleSheet } from "react-native";
+import { Image, Text, View, SafeAreaView, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import TrackPlayer from "react-native-track-player";
 import PlayerButton from "../../components/playerButton";
@@ -66,9 +66,9 @@ class PodcastScreen extends Component {
   render() {
     let { artwork } = this.props.track;
     return (
-      <View style={config.styles.container}>
+      <SafeAreaView style={config.styles.containerNoPadding}>
         {this.renderIntro()}
-        <View style={{ flex: 1 }}>
+        <View style={config.styles.container}>
           <Image
             style={styles.artwork}
             resizeMode={"contain"}
@@ -80,15 +80,14 @@ class PodcastScreen extends Component {
             {this.renderControls()}
           </View>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   headerView: {
-    paddingTop: 40,
-    paddingBottom: 30,
+    paddingBottom: 20,
     alignItems: "center"
   },
   header: {

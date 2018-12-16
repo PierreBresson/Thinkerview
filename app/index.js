@@ -105,7 +105,26 @@ const TabScreens = createBottomTabNavigator(
       }
     },
     Offline: {
-      screen: OfflineScreen,
+      screen: createStackNavigator(
+        {
+          Offline: {
+            screen: OfflineScreen
+          },
+          Article: {
+            screen: ArticleScreen
+          },
+          AboutScreen: {
+            screen: AboutScreen
+          }
+        },
+        {
+          headerMode: "none",
+          header: null,
+          navigationOptions: {
+            header: null
+          }
+        }
+      ),
       navigationOptions: {
         tabBarIcon: ({ tintColor, focused }) =>
           focused ? (
