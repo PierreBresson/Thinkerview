@@ -35,12 +35,11 @@ export const savePodcastOfflineStart = podcast => {
         type: SAVE_PODCAST_OFFLINE_UPDATE_PROGRESS,
         podcast: {
           ...podcast,
-          progress: Maths.round((received / total) * 100)
+          progress: String(Math.round((received / total) * 100))
         }
       };
     })
     .then(res => {
-      SAVE_PODCAST_OFFLINE_DONE;
       console.log(res);
       console.log("The file saved to ", res.path());
       return {

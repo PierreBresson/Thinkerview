@@ -8,17 +8,23 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  data: null
+  data: []
 };
 
 remove = (array, element) => {
   return array.filter(e => e !== element);
 };
 
+findPodcast = (data, id) => {
+  return data.find(item => {
+    return item.id == id;
+  });
+};
+
 export default (offlineReducer = (state = initialState, action) => {
   switch (action.type) {
     case SAVE_PODCAST_OFFLINE:
-      if (state.data) {
+      if (state.data.length) {
         if (!state.data.includes(action.podcast)) {
           return {
             ...state,
@@ -38,8 +44,32 @@ export default (offlineReducer = (state = initialState, action) => {
         ...state,
         data: remove(state.data, action.podcast)
       };
-    // case SAVE_PODCAST_OFFLINE_UPDATE_PROGRESS:
-    // case SAVE_PODCAST_OFFLINE_DONE:
+    case SAVE_PODCAST_OFFLINE_UPDATE_PROGRESS:
+      if (findPodcast(state.data, action.podcast.id)) {
+        return {
+          ...state,
+          data: [
+            ...state.data,
+            {
+              ...podcast,
+              progress: action.podcast.progress
+            }
+          ]
+        };
+      }
+    case SAVE_PODCAST_OFFLINE_DONE:
+      if (findPodcast(state.data, action.podcast.id)) {
+        return {
+          ...state,
+          data: [
+            ...state.data,
+            {
+              ...podcast,
+              path: action.podcast.path
+            }
+          ]
+        };
+      }
     // case SAVE_PODCAST_OFFLINE_ERROR:
     // case DELETE_PODCAST_OFFLINE_ERROR:
     default:
