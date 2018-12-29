@@ -22,7 +22,8 @@ import PodcastScreen from "./screens/podcast";
 import OfflineScreen from "./screens/offline";
 import AboutScreen from "./screens/about";
 
-import ArticleScreen from "./screens/sharedScreens/article";
+import ArticleScreen from "./screens/home/article";
+import OfflinePodcastScreen from "./screens/offline/podcast";
 
 // Temporary fix for not show a warning due to react navigation
 import { YellowBox } from "react-native";
@@ -44,9 +45,6 @@ const TabScreens = createBottomTabNavigator(
           },
           Article: {
             screen: ArticleScreen
-          },
-          AboutScreen: {
-            screen: AboutScreen
           }
         },
         {
@@ -110,11 +108,8 @@ const TabScreens = createBottomTabNavigator(
           Offline: {
             screen: OfflineScreen
           },
-          Article: {
-            screen: ArticleScreen
-          },
-          AboutScreen: {
-            screen: AboutScreen
+          OfflinePodcast: {
+            screen: OfflinePodcastScreen
           }
         },
         {

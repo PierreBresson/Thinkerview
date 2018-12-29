@@ -19,6 +19,7 @@ export const PLAYBACK_TRACK = "playback_track";
 
 export const UPDATE_TRACK_INFO = "update_track_info";
 
+export const SELECT_OFFLINE_PODCAST = "select_offline_podcast";
 export const SAVE_PODCAST_OFFLINE = "save_podcast_offline";
 export const SAVE_PODCAST_OFFLINE_DONE = "save_podcast_offline_done";
 export const SAVE_PODCAST_OFFLINE_UPDATE_PROGRESS =

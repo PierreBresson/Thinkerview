@@ -8,14 +8,13 @@ import {
   StyleSheet
 } from "react-native";
 import { connect } from "react-redux";
-import { selectArticle } from "../../actions";
+import { selectOfflinePodcast } from "../../actions";
 import VideoItem from "../../components/listItem/videoItem";
 import config from "../../config";
 
 class OfflineScreen extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props.offline);
   }
 
   renderNoPodcast = () => {
@@ -37,8 +36,8 @@ class OfflineScreen extends React.Component {
           key={item.id}
           item={item}
           onPress={() => {
-            this.props.selectArticle(item);
-            this.props.navigation.navigate("Article");
+            this.props.selectOfflinePodcast(item);
+            this.props.navigation.navigate("OfflinePodcast");
           }}
         />
       )}
@@ -89,7 +88,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => {
   return {
-    selectArticle: article => dispatch(selectArticle(article))
+    selectOfflinePodcast: podcast => dispatch(selectOfflinePodcast(podcast))
   };
 };
 

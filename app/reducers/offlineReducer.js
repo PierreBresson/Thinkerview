@@ -1,4 +1,5 @@
 import {
+  SELECT_OFFLINE_PODCAST,
   SAVE_PODCAST_OFFLINE,
   SAVE_PODCAST_OFFLINE_DONE,
   SAVE_PODCAST_OFFLINE_UPDATE_PROGRESS,
@@ -6,12 +7,19 @@ import {
   DELETE_PODCAST_OFFLINE,
   DELETE_PODCAST_OFFLINE_ERROR
 } from "../actions/types";
+import { includes } from "ramda";
 
 const initialState = {
+  offlinePodcastSelected: null,
   data: []
 };
 
 remove = (array, element) => {
+  console.log("toto");
+
+  console.log(array);
+  console.log(element);
+
   return array.filter(e => e !== element);
 };
 
@@ -23,9 +31,14 @@ findPodcast = (data, id) => {
 
 export default (offlineReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SELECT_OFFLINE_PODCAST:
+      return {
+        ...state,
+        offlinePodcastSelected: action.podcast
+      };
     case SAVE_PODCAST_OFFLINE:
       if (state.data.length) {
-        if (!state.data.includes(action.podcast)) {
+        if (!includes(action.podcast, state.data)) {
           return {
             ...state,
             data: [...state.data, action.podcast]
@@ -51,23 +64,19 @@ export default (offlineReducer = (state = initialState, action) => {
           data: [
             ...state.data,
             {
-              ...podcast,
+              ...action.podcast,
               progress: action.podcast.progress
             }
           ]
         };
       }
     case SAVE_PODCAST_OFFLINE_DONE:
+      console.log(findPodcast(state.data, action.podcast));
+
       if (findPodcast(state.data, action.podcast.id)) {
         return {
           ...state,
-          data: [
-            ...state.data,
-            {
-              ...podcast,
-              path: action.podcast.path
-            }
-          ]
+          data: [...state.data, action.podcast]
         };
       }
     // case SAVE_PODCAST_OFFLINE_ERROR:
