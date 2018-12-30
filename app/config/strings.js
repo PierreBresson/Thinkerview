@@ -19,7 +19,7 @@ const strings = {
   aboutScreen: {
     about: "À propos",
     aboutAuthor:
-      "Cette application a été conçu par Pierre Bresson, bénévolement. N'hésitez pas à me faire parvenir vos bugs et la procédure pour les reproduire, de façon civilisée. Si l'application n'arrive pas à charger les interviews, c'est peut-être que le site de Thinkerview ne marche et dans ce cas je ne peux malheureusement rien faire",
+      "Cette application a été conçu par Pierre Bresson, bénévolement. N'hésitez pas à me faire parvenir vos bugs et la procédure pour les reproduire, de façon civilisée. Si l'application n'arrive pas à charger les interviews, c'est peut-être que le site de Thinkerview ne marche et dans ce cas je ne peux malheureusement rien faire.",
     thinkerview: "Thinkerview",
     thinkerviewDescription:
       "ThinkerView est un groupe indépendant issu d'internet, très diffèrent de la plup" +

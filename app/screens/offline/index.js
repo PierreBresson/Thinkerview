@@ -45,6 +45,8 @@ class OfflineScreen extends React.Component {
   );
 
   render() {
+    console.log(this.props.offline.data);
+
     return (
       <SafeAreaView style={config.styles.containerNoPadding}>
         <ScrollView style={config.styles.containerNoPadding}>

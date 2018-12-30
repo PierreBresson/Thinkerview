@@ -104,7 +104,6 @@ class OfflinePodcastScreen extends React.PureComponent {
   render() {
     const { offlinePodcastSelected } = this.props.offline;
     const { title, body, img_url } = offlinePodcastSelected;
-    console.log(offlinePodcastSelected);
 
     return (
       <View style={{ flex: 1 }}>

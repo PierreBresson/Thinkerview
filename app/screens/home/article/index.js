@@ -14,8 +14,7 @@ import { connect } from "react-redux";
 import {
   updateTrackInfo,
   shareSocialAction,
-  savePodcastOffline,
-  savePodcastOfflineStart
+  savePodcastOffline
 } from "../../../actions";
 import YouTube, { YouTubeStandaloneAndroid } from "react-native-youtube";
 import TrackPlayer from "react-native-track-player";
@@ -148,17 +147,12 @@ class ArticleScreen extends React.Component {
   renderOffLine = () => {
     const { articleSelected } = this.props.article;
 
-    if (articleSelected)
+    if (articleSelected) {
       return (
         <View style={{ flex: 1 }}>
           <TouchableOpacity
             style={styles.btn}
-            onPress={() => {
-              this.props.savePodcastOffline(this.props.article.articleSelected);
-              this.props.savePodcastOfflineStart(
-                this.props.article.articleSelected
-              );
-            }}
+            onPress={() => this.props.savePodcastOffline(articleSelected)}
           >
             <IconEntypo
               name={"download"}
@@ -172,6 +166,7 @@ class ArticleScreen extends React.Component {
           </TouchableOpacity>
         </View>
       );
+    }
   };
 
   render() {
@@ -182,7 +177,6 @@ class ArticleScreen extends React.Component {
       img_url,
       audio_link
     } = this.props.article.articleSelected;
-    console.log(this.props.article.articleSelected);
 
     return (
       <View style={{ flex: 1 }}>
@@ -255,9 +249,7 @@ const mapDispatchToProps = dispatch => {
   return {
     savePodcastOffline: podcast => dispatch(savePodcastOffline(podcast)),
     shareSocialAction: () => dispatch(shareSocialAction()),
-    updateTrackInfo: info => dispatch(updateTrackInfo(info)),
-    savePodcastOfflineStart: podcast =>
-      dispatch(savePodcastOfflineStart(podcast))
+    updateTrackInfo: info => dispatch(updateTrackInfo(info))
   };
 };
 
