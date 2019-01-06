@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import {
   SELECT_OFFLINE_PODCAST,
   SAVE_PODCAST_OFFLINE,
@@ -53,25 +54,25 @@ export const savePodcastOfflineStart = podcast => {
       RNFetchBlob.config({
         IOSBackgroundTask: true,
         fileCache: true,
-        path: dirs.DocumentDir + podcast.id
+        appendExt: "mp3",
+        path: dirs.DocumentDir + "/" + podcast.id + ".mp3"
       })
         .fetch("GET", "http://www.hubharp.com/web_sound/BachGavotteShort.mp3")
         .progress({ count: 5 }, (received, total) => {
           dispatch({
             type: SAVE_PODCAST_OFFLINE_UPDATE,
-            podcast: {
-              ...podcast,
-              progress: String(Math.round((received / total) * 100))
-            }
+            podcast: podcast,
+            key: "progress",
+            value: String(Math.round((received / total) * 100))
           });
         })
         .then(res => {
           dispatch({
             type: SAVE_PODCAST_OFFLINE_UPDATE,
-            podcast: {
-              ...podcast,
-              path: res.path()
-            }
+            podcast: podcast,
+            key: "path",
+            value: "file://" + res.path()
+            // +podcast.audio_link.replace(/^.*[\\\/]/, "").slice(0, -11)
           });
         })
         .catch(err => {
