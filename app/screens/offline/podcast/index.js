@@ -108,11 +108,7 @@ class OfflinePodcastScreen extends React.PureComponent {
     return (
       <View style={{ flex: 1 }}>
         <ScrollView style={config.styles.containerNoPadding}>
-          <Header
-            share
-            onPressLeft={() => this.props.navigation.goBack()}
-            onPressRight={() => this.props.shareSocialAction()}
-          />
+          <Header onPressLeft={() => this.props.navigation.goBack()} />
           <View style={[config.styles.container, { height: "100%" }]}>
             <Image source={{ uri: img_url }} style={styles.img} />
 

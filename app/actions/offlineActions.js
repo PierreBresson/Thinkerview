@@ -25,36 +25,42 @@ export const selectOfflinePodcast = podcast => {
 
 export const savePodcastOffline = podcast => {
   return (dispatch, getState) => {
+    if (!hasPath(["id"], podcast)) {
+      return dispatch({
+        type: ""
+      });
+    }
     dispatch({
       type: SAVE_PODCAST_OFFLINE,
       podcast
     });
-    dispatch(savePodcastOfflineStart(podcast));
+    return dispatch(savePodcastOfflineStart(podcast));
   };
 };
 
 export const savePodcastOfflineStart = podcast => {
   let dirs = RNFetchBlob.fs.dirs;
   return (dispatch, getState) => {
-    //if podcast has id we can start download
-    let shouldNotStartDownload = hasPath(["id"], podcast);
-    //if podcast can be find in the saved list
+    let shouldStartDownload = false;
+
     const podcastInTheList = findPodcast(getState().offline.data, podcast.id);
+
     if (podcastInTheList) {
-      shouldNotStartDownload = hasPath(["progress"], podcastInTheList);
-    } else {
-      shouldNotStartDownload = false;
+      if (podcastInTheList.progress === "0") {
+        dispatch({
+          type: SAVE_PODCAST_OFFLINE_UPDATE,
+          podcast: podcast,
+          key: "progress",
+          value: "1"
+        });
+        shouldStartDownload = true;
+      }
     }
 
-    if (shouldNotStartDownload) {
-      dispatch({
-        type: ""
-      });
-    } else {
+    if (shouldStartDownload) {
       RNFetchBlob.config({
         IOSBackgroundTask: true,
         fileCache: true,
-        appendExt: "mp3",
         path: dirs.DocumentDir + "/" + podcast.id + ".mp3"
       })
         .fetch("GET", "http://www.hubharp.com/web_sound/BachGavotteShort.mp3")
@@ -71,7 +77,10 @@ export const savePodcastOfflineStart = podcast => {
             type: SAVE_PODCAST_OFFLINE_UPDATE,
             podcast: podcast,
             key: "path",
-            value: "file://" + res.path()
+            value:
+              Platform.OS === "ios"
+                ? "file://" + res.path()
+                : "file://" + res.path()
             // +podcast.audio_link.replace(/^.*[\\\/]/, "").slice(0, -11)
           });
         })

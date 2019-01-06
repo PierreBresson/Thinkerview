@@ -5,6 +5,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  PermissionsAndroid,
   Platform,
   StyleSheet
 } from "react-native";
@@ -144,27 +145,47 @@ class ArticleScreen extends React.Component {
     return null;
   };
 
+  askAndroidPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+      ]);
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (err) {
+      console.warn(err);
+      return false;
+    }
+  };
+
   renderOffLine = () => {
     const { articleSelected } = this.props.article;
 
     if (articleSelected) {
       return (
-        <View style={{ flex: 1 }}>
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => this.props.savePodcastOffline(articleSelected)}
-          >
-            <IconEntypo
-              name={"download"}
-              size={40}
-              color={config.colors.thinkerGreen}
-              style={styles.iconShare}
-            />
-            <Text style={[styles.btnText, { marginTop: 0 }]}>
-              {config.strings.articleScreen.savePodcast}
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => {
+            this.askAndroidPermission().then(() => {
+              this.props.savePodcastOffline(articleSelected);
+              this.props.navigation.navigate("Offline");
+            });
+          }}
+        >
+          <IconEntypo
+            name={"download"}
+            size={40}
+            color={config.colors.thinkerGreen}
+            style={styles.iconShare}
+          />
+          <Text style={[styles.btnText, styles.btnTextLast]}>
+            {config.strings.articleScreen.savePodcast}
+          </Text>
+        </TouchableOpacity>
       );
     }
   };
@@ -235,7 +256,12 @@ const styles = StyleSheet.create({
     fontFamily: config.fonts.bodyFont,
     fontSize: 20,
     marginLeft: 12,
+    marginRight: 12,
     marginTop: 10
+  },
+  btnTextLast: {
+    marginTop: 0,
+    marginBottom: 10
   }
 });
 
