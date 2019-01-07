@@ -39,7 +39,6 @@ export const savePodcastOffline = podcast => {
 };
 
 export const savePodcastOfflineStart = podcast => {
-  let dirs = RNFetchBlob.fs.dirs;
   return (dispatch, getState) => {
     let shouldStartDownload = false;
 
@@ -61,7 +60,7 @@ export const savePodcastOfflineStart = podcast => {
       RNFetchBlob.config({
         IOSBackgroundTask: true,
         fileCache: true,
-        path: dirs.DocumentDir + "/" + podcast.id + ".mp3"
+        path: RNFetchBlob.fs.dirs.DocumentDir + "/" + podcast.id + ".mp3"
       })
         .fetch("GET", "http://www.hubharp.com/web_sound/BachGavotteShort.mp3")
         .progress({ count: 5 }, (received, total) => {
@@ -77,11 +76,7 @@ export const savePodcastOfflineStart = podcast => {
             type: SAVE_PODCAST_OFFLINE_UPDATE,
             podcast: podcast,
             key: "path",
-            value:
-              Platform.OS === "ios"
-                ? "file://" + res.path()
-                : "file://" + res.path()
-            // +podcast.audio_link.replace(/^.*[\\\/]/, "").slice(0, -11)
+            value: Platform.OS === "ios" ? "file://" + res.path() : res.path()
           });
         })
         .catch(err => {
@@ -90,6 +85,23 @@ export const savePodcastOfflineStart = podcast => {
             type: SAVE_PODCAST_OFFLINE_ERROR,
             podcast
           });
+        });
+      RNFetchBlob.config({
+        IOSBackgroundTask: true,
+        fileCache: true,
+        path: RNFetchBlob.fs.dirs.DocumentDir + "/" + podcast.id + ".jpg"
+      })
+        .fetch("GET", podcast.img_url)
+        .then(res => {
+          dispatch({
+            type: SAVE_PODCAST_OFFLINE_UPDATE,
+            podcast: podcast,
+            key: "image_offline",
+            value: Platform.OS === "ios" ? "file://" + res.path() : res.path()
+          });
+        })
+        .catch(err => {
+          console.log(err);
         });
     }
   };

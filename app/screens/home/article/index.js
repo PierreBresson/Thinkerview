@@ -5,7 +5,6 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  PermissionsAndroid,
   Platform,
   StyleSheet
 } from "react-native";
@@ -145,23 +144,6 @@ class ArticleScreen extends React.Component {
     return null;
   };
 
-  askAndroidPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-      ]);
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (err) {
-      console.warn(err);
-      return false;
-    }
-  };
-
   renderOffLine = () => {
     const { articleSelected } = this.props.article;
 
@@ -170,10 +152,8 @@ class ArticleScreen extends React.Component {
         <TouchableOpacity
           style={styles.btn}
           onPress={() => {
-            this.askAndroidPermission().then(() => {
-              this.props.savePodcastOffline(articleSelected);
-              this.props.navigation.navigate("Offline");
-            });
+            this.props.savePodcastOffline(articleSelected);
+            this.props.navigation.navigate("Offline");
           }}
         >
           <IconEntypo

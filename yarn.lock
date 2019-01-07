@@ -5276,10 +5276,10 @@ react-native-tab-view@^1.0.0:
   dependencies:
     prop-types "^15.6.1"
 
-react-native-track-player@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-track-player/-/react-native-track-player-1.0.0.tgz#b5efb39591838f2412b4e8ee967bf64de3184010"
-  integrity sha512-38ueRXIxlbdF2uQ+qoEC91VuWWIvYi8WDZqOF3X7eMApK3nFl+a18SRV5d4Rcc66rKGpudL2AJo4dsJPjZu7QQ==
+react-native-track-player@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-track-player/-/react-native-track-player-1.0.2.tgz#b82cad971fc01e2f60b8fed9ad64574d082fe670"
+  integrity sha512-sXnVxekSNwOPGYtbu7GxJfkTkLwa7il+b9K2dkV9mbKZnuul99bTZu8AZ4pVqP/3q9utlUq1QiO/D8/6uuLdQQ==
 
 react-native-vector-icons@5.0.0:
   version "5.0.0"

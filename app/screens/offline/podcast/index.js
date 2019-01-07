@@ -50,14 +50,18 @@ class OfflinePodcastScreen extends React.PureComponent {
 
   renderAudio = () => {
     const { offlinePodcastSelected } = this.props.offline;
-    const { title, img_url, path } = offlinePodcastSelected;
+    const { title, img_url, image_offline, path } = offlinePodcastSelected;
+    let source = { uri: img_url };
+    if (image_offline) {
+      source = require(`${image_offline}`);
+    }
 
     if (path && img_url && title) {
       return (
         <View style={{ flex: 1 }}>
           <TouchableOpacity
             style={styles.btn}
-            onPress={() => this._playPodcast(path, img_url, title)}
+            onPress={() => this._playPodcast(path, source, title)}
           >
             <FontAwesome
               name={"podcast"}
@@ -104,13 +108,17 @@ class OfflinePodcastScreen extends React.PureComponent {
   render() {
     const { offlinePodcastSelected } = this.props.offline;
     const { title, body, img_url } = offlinePodcastSelected;
+    let source = img_url;
+    if (image_offline) {
+      source = require(`${image_offline}`);
+    }
 
     return (
       <View style={{ flex: 1 }}>
         <ScrollView style={config.styles.containerNoPadding}>
           <Header onPressLeft={() => this.props.navigation.goBack()} />
           <View style={[config.styles.container, { height: "100%" }]}>
-            <Image source={{ uri: img_url }} style={styles.img} />
+            <Image source={source} style={styles.img} />
 
             {this.renderDownloadProgress()}
             {this.renderAudio()}

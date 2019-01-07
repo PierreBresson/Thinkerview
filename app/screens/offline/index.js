@@ -66,7 +66,7 @@ class OfflineScreen extends React.Component {
 
 const styles = StyleSheet.create({
   headerView: {
-    paddingBottom: 20,
+    paddingVertical: 20,
     alignItems: "center"
   },
   header: {
