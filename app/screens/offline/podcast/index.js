@@ -17,6 +17,7 @@ import {
 } from "../../../actions";
 import TrackPlayer from "react-native-track-player";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import config from "../../../config";
 import _ from "lodash";
 
@@ -49,11 +50,16 @@ class OfflinePodcastScreen extends React.PureComponent {
   };
 
   renderAudio = () => {
-    const { offlinePodcastSelected } = this.props.offline;
-    const { title, img_url, image_offline, path } = offlinePodcastSelected;
+    const {
+      title,
+      img_url,
+      image_offline,
+      path
+    } = this.props.offline.offlinePodcastSelected;
     let source = { uri: img_url };
     if (image_offline) {
-      source = require(`${image_offline}`);
+      // console.log(image_offline);
+      // source = require(`${image_offline}`);
     }
 
     if (path && img_url && title) {
@@ -61,7 +67,7 @@ class OfflinePodcastScreen extends React.PureComponent {
         <View style={{ flex: 1 }}>
           <TouchableOpacity
             style={styles.btn}
-            onPress={() => this._playPodcast(path, source, title)}
+            onPress={() => this._playPodcast(path, img_url, title)}
           >
             <FontAwesome
               name={"podcast"}
@@ -80,50 +86,94 @@ class OfflinePodcastScreen extends React.PureComponent {
   };
 
   renderDeletePodcast = podcast => {
-    return (
-      <View style={{ flex: 1 }}>
-        <TouchableOpacity
-          style={styles.btn}
-          onPress={() => this._removePodcast(podcast)}
-        >
-          <FontAwesome
-            name={"trash"}
+    const { path } = this.props.offline.offlinePodcastSelected;
+    if (path) {
+      return (
+        <View style={{ flex: 1 }}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => this._removePodcast(podcast)}
+          >
+            <FontAwesome
+              name={"trash"}
+              size={40}
+              color={config.colors.thinkerGreen}
+              style={styles.iconShare}
+            />
+            <Text style={[styles.btnText, { marginLeft: 17 }]}>
+              {config.strings.articleScreen.removePodcast}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      );
+    } else {
+      return null;
+    }
+  };
+
+  renderDownloadProgress = () => {
+    const { progress, path } = this.getOfflinePodcastSelected();
+    if (path) {
+      return null;
+    } else {
+      return (
+        <View style={[{ flex: 1 }, styles.btn]}>
+          <MaterialCommunityIcons
+            name={"progress-download"}
             size={40}
             color={config.colors.thinkerGreen}
             style={styles.iconShare}
           />
-          <Text style={[styles.btnText, { marginLeft: 17 }]}>
-            {config.strings.articleScreen.removePodcast}
+          <Text style={[styles.btnText, { marginLeft: 10 }]}>
+            {config.strings.articleScreen.curentProgress + progress + "%"}
           </Text>
-        </TouchableOpacity>
-      </View>
-    );
+        </View>
+      );
+    }
   };
 
-  renderDownloadProgress = () => {
-    const { offlinePodcastSelected } = this.props.offline;
-    return null;
+  renderImage = () => {
+    let { img_url, image_offline } = this.getOfflinePodcastSelected();
+    // console.log(this.props.offline.offlinePodcastSelected);
+
+    if (false) {
+      return (
+        <Image
+          style={styles.img}
+          resizeMode="cover"
+          // source={require(image_offline)}
+        />
+      );
+    } else {
+      return (
+        <Image
+          style={styles.img}
+          resizeMode="cover"
+          source={{ uri: img_url }}
+        />
+      );
+    }
+  };
+
+  getOfflinePodcastSelected = () => {
+    return this.props.offline.data.find(
+      podcast => podcast.id === this.props.offline.offlinePodcastSelected.id
+    );
   };
 
   render() {
     const { offlinePodcastSelected } = this.props.offline;
-    const { title, body, img_url } = offlinePodcastSelected;
-    let source = img_url;
-    if (image_offline) {
-      source = require(`${image_offline}`);
-    }
+    const { title, body } = offlinePodcastSelected;
 
     return (
       <View style={{ flex: 1 }}>
         <ScrollView style={config.styles.containerNoPadding}>
           <Header onPressLeft={() => this.props.navigation.goBack()} />
           <View style={[config.styles.container, { height: "100%" }]}>
-            <Image source={source} style={styles.img} />
-
+            {this.renderImage()}
             {this.renderDownloadProgress()}
             {this.renderAudio()}
             {this.renderDeletePodcast()}
-
             <Text style={styles.header}>{_.capitalize(title)}</Text>
             <Text style={styles.body}>{_.capitalize(body)}</Text>
           </View>

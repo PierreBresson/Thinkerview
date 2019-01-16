@@ -36,6 +36,7 @@ const strings = {
   },
   articleScreen: {
     playVideo: "Lire la vidéo",
+    curentProgress: "Téléchargement en cours : ",
     playPodcast: "Écouter le podcast",
     removePodcast: "Supprimer podcast",
     savePodcast: "Enregistrer podcast pour une utilisation hors-ligne",

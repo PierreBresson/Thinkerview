@@ -59,16 +59,17 @@ export const savePodcastOfflineStart = podcast => {
     if (shouldStartDownload) {
       RNFetchBlob.config({
         IOSBackgroundTask: true,
+        IOSDownloadTask: true,
         fileCache: true,
         path: RNFetchBlob.fs.dirs.DocumentDir + "/" + podcast.id + ".mp3"
       })
-        .fetch("GET", "http://www.hubharp.com/web_sound/BachGavotteShort.mp3")
-        .progress({ count: 5 }, (received, total) => {
+        .fetch("GET", podcast.audio_link)
+        .progress({ interval: 4000 }, (received, total) => {
           dispatch({
             type: SAVE_PODCAST_OFFLINE_UPDATE,
             podcast: podcast,
             key: "progress",
-            value: String(Math.round((received / total) * 100))
+            value: String(Math.floor((received / total) * 100))
           });
         })
         .then(res => {
@@ -86,23 +87,23 @@ export const savePodcastOfflineStart = podcast => {
             podcast
           });
         });
-      RNFetchBlob.config({
-        IOSBackgroundTask: true,
-        fileCache: true,
-        path: RNFetchBlob.fs.dirs.DocumentDir + "/" + podcast.id + ".jpg"
-      })
-        .fetch("GET", podcast.img_url)
-        .then(res => {
-          dispatch({
-            type: SAVE_PODCAST_OFFLINE_UPDATE,
-            podcast: podcast,
-            key: "image_offline",
-            value: Platform.OS === "ios" ? "file://" + res.path() : res.path()
-          });
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      // RNFetchBlob.config({
+      //   IOSBackgroundTask: true,
+      //   fileCache: true,
+      //   path: RNFetchBlob.fs.dirs.DocumentDir + "/" + podcast.id + ".jpg"
+      // })
+      //   .fetch("GET", podcast.img_url)
+      //   .then(res => {
+      //     dispatch({
+      //       type: SAVE_PODCAST_OFFLINE_UPDATE,
+      //       podcast: podcast,
+      //       key: "image_offline",
+      //       value: res.path()
+      //     });
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
     }
   };
 };

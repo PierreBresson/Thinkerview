@@ -37,18 +37,40 @@ class VideoItem extends React.Component {
         ));
   };
 
+  // renderImage = () => {
+  //   let { img_url, image_offline } = this.props.item;
+
+  //   if (image_offline) {
+  //     return (
+  //       <Image
+  //         style={styles.img}
+  //         resizeMode="cover"
+  //         source={require(`${image_offline}`)}
+  //       />
+  //     );
+  //   } else {
+  //     return (
+  //       <Image
+  //         style={styles.img}
+  //         resizeMode="cover"
+  //         source={{ uri: img_url }}
+  //       />
+  //     );
+  //   }
+  // };
+
   render() {
     let { item, onPress, style } = this.props;
-    let { title, img_url, video_id, categories, image_offline } = item;
-    let source = { uri: img_url };
-    if (image_offline) {
-      source = require(`${image_offline}`);
-    }
+    let { title, video_id, categories, img_url } = item;
     if (!title || !video_id || !img_url) return null;
 
     return (
       <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
-        <Image style={styles.img} resizeMode="cover" source={source} />
+        <Image
+          style={styles.img}
+          resizeMode="cover"
+          source={{ uri: img_url }}
+        />
         <View style={styles.textView}>
           <Text numberOfLines={2} style={styles.text}>
             {_.capitalize(title)}

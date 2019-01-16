@@ -20,7 +20,7 @@ export default (cleanWPjson = json => {
         json_item.id +
         "/" +
         json_item.slug +
-        ".mp3?ref=appthk"
+        ".mp3"
     };
     cleanJSON.push(item);
   });

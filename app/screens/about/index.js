@@ -6,68 +6,65 @@ import config from "../../config";
 export default class AboutScreen extends React.Component {
   render() {
     return (
-      <SafeAreaView style={config.styles.containerNoPadding}>
-        <ScrollView style={config.styles.container}>
-          <View style={styles.headerView}>
-            <Text style={styles.header}>
-              {config.strings.aboutScreen.about}
-            </Text>
-          </View>
+      <ScrollView style={config.styles.container}>
+        <View style={styles.headerView}>
+          <Text style={styles.header}>{config.strings.aboutScreen.about}</Text>
+        </View>
 
-          <Text style={styles.body}>
-            {config.strings.aboutScreen.aboutAuthor}
+        <Text style={styles.body}>
+          {config.strings.aboutScreen.aboutAuthor}
+        </Text>
+        <DisplayNetwork
+          twitter_url={config.urls.links.author.twitter}
+          website_url={config.urls.links.author.website}
+          github_url={config.urls.links.author.github}
+        />
+
+        <View style={styles.subHeaderView}>
+          <Text style={styles.subHeader}>
+            {config.strings.aboutScreen.thinkerview}
           </Text>
-          <DisplayNetwork
-            twitter_url={config.urls.links.author.twitter}
-            website_url={config.urls.links.author.website}
-            github_url={config.urls.links.author.github}
-          />
+        </View>
 
-          <View style={styles.subHeaderView}>
-            <Text style={styles.subHeader}>
-              {config.strings.aboutScreen.thinkerview}
-            </Text>
-          </View>
+        <Text style={styles.body}>
+          {config.strings.aboutScreen.thinkerviewDescription}
+        </Text>
 
-          <Text style={styles.body}>
-            {config.strings.aboutScreen.thinkerviewDescription}
+        <DisplayNetwork
+          facebook_url={config.urls.links.thinkerview.facebook}
+          twitter_url={config.urls.links.thinkerview.twitter}
+          youtube_url={config.urls.links.thinkerview.youtube}
+          website_url={config.urls.links.thinkerview.website}
+          paypal_url={config.urls.links.thinkerview.tipeee}
+        />
+
+        <DisplayNetwork
+          mastodon_url={config.urls.links.thinkerview.mastodon}
+          peertube_url={config.urls.links.thinkerview.peertube}
+        />
+
+        <View style={styles.subHeaderView}>
+          <Text style={styles.subHeader}>
+            {config.strings.aboutScreen.licence}
           </Text>
+        </View>
 
-          <DisplayNetwork
-            facebook_url={config.urls.links.thinkerview.facebook}
-            twitter_url={config.urls.links.thinkerview.twitter}
-            youtube_url={config.urls.links.thinkerview.youtube}
-            website_url={config.urls.links.thinkerview.website}
-            paypal_url={config.urls.links.thinkerview.tipeee}
-          />
+        <Text style={styles.body}>
+          {config.strings.aboutScreen.licenceDescription}
+        </Text>
 
-          <DisplayNetwork
-            mastodon_url={config.urls.links.thinkerview.mastodon}
-            peertube_url={config.urls.links.thinkerview.peertube}
-          />
-
-          <View style={styles.subHeaderView}>
-            <Text style={styles.subHeader}>
-              {config.strings.aboutScreen.licence}
-            </Text>
-          </View>
-
-          <Text style={styles.body}>
-            {config.strings.aboutScreen.licenceDescription}
-          </Text>
-
-          <DisplayNetwork
-            creative_commons_url={config.urls.links.licence.creative_commons}
-          />
-        </ScrollView>
-      </SafeAreaView>
+        <DisplayNetwork
+          creative_commons_url={config.urls.links.licence.creative_commons}
+        />
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   headerView: {
-    paddingVertical: 20,
+    paddingTop: 40,
+    paddingBottom: 20,
     alignItems: "center"
   },
   header: {

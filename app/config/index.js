@@ -19,8 +19,7 @@ export default {
   styles: {
     container: {
       flex: 1,
-      paddingLeft: 20,
-      paddingRight: 20,
+      paddingHorizontal: 20,
       backgroundColor: colors.backgroundColor
     },
     containerNoPadding: {
