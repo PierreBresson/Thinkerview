@@ -55,7 +55,8 @@ class OfflinePodcastScreen extends React.PureComponent {
       img_url,
       image_offline,
       path
-    } = this.props.offline.offlinePodcastSelected;
+    } = this.getOfflinePodcastSelected();
+
     let source = { uri: img_url };
     if (image_offline) {
       // console.log(image_offline);
@@ -86,7 +87,8 @@ class OfflinePodcastScreen extends React.PureComponent {
   };
 
   renderDeletePodcast = podcast => {
-    const { path } = this.props.offline.offlinePodcastSelected;
+    const { path } = this.getOfflinePodcastSelected();
+
     if (path) {
       return (
         <View style={{ flex: 1 }}>
@@ -134,7 +136,6 @@ class OfflinePodcastScreen extends React.PureComponent {
 
   renderImage = () => {
     let { img_url, image_offline } = this.getOfflinePodcastSelected();
-    // console.log(this.props.offline.offlinePodcastSelected);
 
     if (false) {
       return (

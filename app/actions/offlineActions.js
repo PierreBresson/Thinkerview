@@ -8,7 +8,78 @@ import {
   DELETE_PODCAST_OFFLINE_ERROR
 } from "./types";
 import RNFetchBlob from "rn-fetch-blob";
-import { hasPath } from "ramda";
+import { hasPath, pathOr } from "ramda";
+
+const downloadPodcast = (dispatch, podcast) =>
+  new Promise((resolve, reject) => {
+    let audio_link = pathOr(false, ["audio_link"], podcast);
+
+    if (!audio_link) {
+      reject();
+    } else {
+      if (typeof audio_link === "string") {
+        audio_link.slice(0, audio_link.length - 11);
+      } else {
+        reject();
+      }
+    }
+
+    RNFetchBlob.config({
+      IOSBackgroundTask: true,
+      IOSDownloadTask: true,
+      fileCache: true,
+      path: RNFetchBlob.fs.dirs.DocumentDir + "/" + podcast.id + ".mp3"
+    })
+      .fetch("GET", audio_link)
+      .progress({ interval: 4000 }, (received, total) => {
+        dispatch({
+          type: SAVE_PODCAST_OFFLINE_UPDATE,
+          podcast: podcast,
+          key: "progress",
+          value: String(Math.floor((received / total) * 100))
+        });
+      })
+      .then(res => {
+        dispatch({
+          type: SAVE_PODCAST_OFFLINE_UPDATE,
+          podcast: podcast,
+          key: "path",
+          value: Platform.OS === "ios" ? "file://" + res.path() : res.path()
+        });
+        resolve();
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch({
+          type: SAVE_PODCAST_OFFLINE_ERROR,
+          podcast
+        });
+        reject();
+      });
+  });
+
+const downloadImage = (dispatch, podcast) =>
+  new Promise((resolve, reject) => {
+    RNFetchBlob.config({
+      IOSBackgroundTask: true,
+      fileCache: true,
+      path: RNFetchBlob.fs.dirs.DocumentDir + "/" + podcast.id + ".jpg"
+    })
+      .fetch("GET", podcast.img_url)
+      .then(res => {
+        dispatch({
+          type: SAVE_PODCAST_OFFLINE_UPDATE,
+          podcast: podcast,
+          key: "image_offline",
+          value: res.path()
+        });
+        resolve();
+      })
+      .catch(err => {
+        console.log(err);
+        reject();
+      });
+  });
 
 findPodcast = (data, id) => {
   return data.find(item => {
@@ -39,7 +110,7 @@ export const savePodcastOffline = podcast => {
 };
 
 export const savePodcastOfflineStart = podcast => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     let shouldStartDownload = false;
 
     const podcastInTheList = findPodcast(getState().offline.data, podcast.id);
@@ -57,53 +128,8 @@ export const savePodcastOfflineStart = podcast => {
     }
 
     if (shouldStartDownload) {
-      RNFetchBlob.config({
-        IOSBackgroundTask: true,
-        IOSDownloadTask: true,
-        fileCache: true,
-        path: RNFetchBlob.fs.dirs.DocumentDir + "/" + podcast.id + ".mp3"
-      })
-        .fetch("GET", podcast.audio_link)
-        .progress({ interval: 4000 }, (received, total) => {
-          dispatch({
-            type: SAVE_PODCAST_OFFLINE_UPDATE,
-            podcast: podcast,
-            key: "progress",
-            value: String(Math.floor((received / total) * 100))
-          });
-        })
-        .then(res => {
-          dispatch({
-            type: SAVE_PODCAST_OFFLINE_UPDATE,
-            podcast: podcast,
-            key: "path",
-            value: Platform.OS === "ios" ? "file://" + res.path() : res.path()
-          });
-        })
-        .catch(err => {
-          console.log(err);
-          dispatch({
-            type: SAVE_PODCAST_OFFLINE_ERROR,
-            podcast
-          });
-        });
-      // RNFetchBlob.config({
-      //   IOSBackgroundTask: true,
-      //   fileCache: true,
-      //   path: RNFetchBlob.fs.dirs.DocumentDir + "/" + podcast.id + ".jpg"
-      // })
-      //   .fetch("GET", podcast.img_url)
-      //   .then(res => {
-      //     dispatch({
-      //       type: SAVE_PODCAST_OFFLINE_UPDATE,
-      //       podcast: podcast,
-      //       key: "image_offline",
-      //       value: res.path()
-      //     });
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
+      await downloadImage(dispatch, podcast);
+      await downloadPodcast(dispatch, podcast);
     }
   };
 };
