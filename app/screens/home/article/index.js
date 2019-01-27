@@ -162,7 +162,9 @@ class ArticleScreen extends React.Component {
             color={config.colors.thinkerGreen}
             style={styles.iconShare}
           />
-          <Text style={[styles.btnText, styles.btnTextLast]}>
+          <Text
+            style={[styles.btnText, styles.btnTextLast, { marginRight: 20 }]}
+          >
             {config.strings.articleScreen.savePodcast}
           </Text>
         </TouchableOpacity>

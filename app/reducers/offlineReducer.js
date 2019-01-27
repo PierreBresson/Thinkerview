@@ -6,7 +6,7 @@ import {
   DELETE_PODCAST_OFFLINE,
   DELETE_PODCAST_OFFLINE_ERROR
 } from "../actions/types";
-import { assoc, curry, includes, map, propEq, when } from "ramda";
+import { assoc, curry, map, propEq, when } from "ramda";
 
 const initialState = {
   offlinePodcastSelected: null,

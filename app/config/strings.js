@@ -1,6 +1,6 @@
 const strings = {
-  errorLoading:
-    "Une erreur est survenue. Merci d'essayer à nouveau en tirant vers le bas.",
+  tryAgain: "Essayer à nouveau",
+  errorLoading: "Une erreur est survenue.",
   share: {
     title: "Thinkerview",
     subject: "Thinkerview",
@@ -39,6 +39,7 @@ const strings = {
     curentProgress: "Téléchargement en cours : ",
     playPodcast: "Écouter le podcast",
     removePodcast: "Supprimer podcast",
+    removePodcastDuringDownload: "Téléchargement bloqué? Supprimer le podcast",
     savePodcast: "Enregistrer podcast pour une utilisation hors-ligne",
     noYoutube: "Merci d'installer Youtube pour pouvoir lire la vidéo."
   },

@@ -30,19 +30,22 @@ export const gettingInterviewsFailure = err => {
 
 export const interviewsFetcher = (category_id = 0) => {
   return (dispatch, getState) => {
-    if (!getState().interviews.lastPage) {
+    let shouldFetch = !getState().interviews.lastPage;
+
+    if (shouldFetch) {
       dispatch(gettingInterviews());
       getInterviews(getState().interviews.page, category_id)
         .then(res => {
           dispatch(gettingInterviewsSuccess(res));
         })
         .catch(error => {
-          if (error.response)
+          if (error.response) {
             if (error.response.status === 400) {
               dispatch(setLastPageInterviews());
             } else {
               dispatch(gettingInterviewsFailure(error));
             }
+          }
         });
     }
   };

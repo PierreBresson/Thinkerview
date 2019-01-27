@@ -26,8 +26,8 @@ const downloadPodcast = (dispatch, podcast) =>
 
     RNFetchBlob.config({
       IOSBackgroundTask: true,
-      IOSDownloadTask: true,
       fileCache: true,
+      overwrite: true,
       path: RNFetchBlob.fs.dirs.DocumentDir + "/" + podcast.id + ".mp3"
     })
       .fetch("GET", audio_link)
@@ -128,7 +128,8 @@ export const savePodcastOfflineStart = podcast => {
     }
 
     if (shouldStartDownload) {
-      await downloadImage(dispatch, podcast);
+      // no image download for the moment because 2 RNFetchBlob result in nothing is done
+      // await downloadImage(dispatch, podcast);
       await downloadPodcast(dispatch, podcast);
     }
   };

@@ -15,8 +15,11 @@ export default (getInterviews = (page, category_id) => {
     config.articlesPerPage;
 
   let promiseGetInterviews = new Promise((resolve, reject) => {
-    axios
-      .get(url)
+    axios({
+      method: "get",
+      url,
+      timeout: 3000
+    })
       .then(res => {
         resolve(cleanWPjson(res.data));
       })

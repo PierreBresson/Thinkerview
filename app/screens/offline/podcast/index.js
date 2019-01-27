@@ -21,7 +21,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import config from "../../../config";
 import _ from "lodash";
 
-class OfflinePodcastScreen extends React.PureComponent {
+class OfflinePodcastScreen extends React.Component {
   _playPodcast = async (audio_link, img_url, title) => {
     TrackPlayer.reset();
     await TrackPlayer.add({
@@ -41,6 +41,7 @@ class OfflinePodcastScreen extends React.PureComponent {
     this.props.updateTrackInfo(info);
     this.props.navigation.navigate("Podcast");
   };
+
   _removePodcast = () => {
     const { offlinePodcastSelected } = this.props.offline;
     if (offlinePodcastSelected) {
@@ -57,11 +58,11 @@ class OfflinePodcastScreen extends React.PureComponent {
       path
     } = this.getOfflinePodcastSelected();
 
-    let source = { uri: img_url };
-    if (image_offline) {
-      // console.log(image_offline);
-      // source = require(`${image_offline}`);
-    }
+    // let source = { uri: img_url };
+    // if (image_offline) {
+    //   console.log(image_offline);
+    //   source = require(`${image_offline}`);
+    // }
 
     if (path && img_url && title) {
       return (
@@ -87,30 +88,36 @@ class OfflinePodcastScreen extends React.PureComponent {
   };
 
   renderDeletePodcast = podcast => {
-    const { path } = this.getOfflinePodcastSelected();
-
-    if (path) {
-      return (
-        <View style={{ flex: 1 }}>
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => this._removePodcast(podcast)}
-          >
-            <FontAwesome
-              name={"trash"}
-              size={40}
-              color={config.colors.thinkerGreen}
-              style={styles.iconShare}
-            />
-            <Text style={[styles.btnText, { marginLeft: 17 }]}>
-              {config.strings.articleScreen.removePodcast}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      );
-    } else {
-      return null;
+    const { progress } = this.getOfflinePodcastSelected();
+    let deletePodcastText = config.strings.articleScreen.removePodcast;
+    if (parseFloat(progress) < 100) {
+      deletePodcastText =
+        config.strings.articleScreen.removePodcastDuringDownload;
     }
+
+    return (
+      <View style={{ flex: 1 }}>
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => this._removePodcast(podcast)}
+        >
+          <FontAwesome
+            name={"trash"}
+            size={40}
+            color={config.colors.thinkerGreen}
+            style={styles.iconShare}
+          />
+          <Text
+            style={[
+              styles.btnText,
+              { marginLeft: 10, marginRight: 10, marginTop: 2 }
+            ]}
+          >
+            {deletePodcastText}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
   };
 
   renderDownloadProgress = () => {
@@ -137,7 +144,7 @@ class OfflinePodcastScreen extends React.PureComponent {
   renderImage = () => {
     let { img_url, image_offline } = this.getOfflinePodcastSelected();
 
-    if (false) {
+    if (image_offline) {
       return (
         <Image
           style={styles.img}
@@ -145,7 +152,7 @@ class OfflinePodcastScreen extends React.PureComponent {
           // source={require(image_offline)}
         />
       );
-    } else {
+    } else if (img_url) {
       return (
         <Image
           style={styles.img}
@@ -157,8 +164,18 @@ class OfflinePodcastScreen extends React.PureComponent {
   };
 
   getOfflinePodcastSelected = () => {
-    return this.props.offline.data.find(
-      podcast => podcast.id === this.props.offline.offlinePodcastSelected.id
+    return (
+      this.props.offline.data.find(
+        podcast => podcast.id === this.props.offline.offlinePodcastSelected.id
+      ) || {
+        id: "",
+        img_url: "",
+        path: "",
+        title: "",
+        body: "",
+        image_offline: "",
+        progress: ""
+      }
     );
   };
 
