@@ -33,10 +33,9 @@ export const getCategoriesSuccess = categories => {
   };
 };
 
-export const getCategoriesFailure = err => {
+export const getCategoriesFailure = () => {
   return {
-    type: FETCHING_CATEGORIES_ERROR,
-    err
+    type: FETCHING_CATEGORIES_ERROR
   };
 };
 
@@ -48,7 +47,7 @@ export const categoriesFetcher = () => {
         dispatch(getCategoriesSuccess(res));
       })
       .catch(err => {
-        dispatch(getCategoriesFailure(err));
+        dispatch(getCategoriesFailure());
       });
   };
 };

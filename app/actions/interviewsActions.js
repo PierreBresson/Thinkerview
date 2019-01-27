@@ -6,6 +6,7 @@ import {
   FETCHING_INTERVIEWS_LAST_PAGE,
   INTERVIEWS_SCROLL_TO_TOP
 } from "./types";
+import { hasPath } from "ramda";
 import getInterviews from "../services/api/getInterviews";
 
 export const gettingInterviews = () => {
@@ -21,28 +22,32 @@ export const gettingInterviewsSuccess = interviews => {
   };
 };
 
-export const gettingInterviewsFailure = err => {
+export const gettingInterviewsFailure = () => {
   return {
-    type: FETCHING_INTERVIEWS_ERROR,
-    err
+    type: FETCHING_INTERVIEWS_ERROR
   };
 };
 
 export const interviewsFetcher = (category_id = 0) => {
   return (dispatch, getState) => {
-    if (!getState().interviews.lastPage) {
+    let shouldFetch = !getState().interviews.lastPage;
+
+    if (shouldFetch) {
       dispatch(gettingInterviews());
       getInterviews(getState().interviews.page, category_id)
         .then(res => {
           dispatch(gettingInterviewsSuccess(res));
         })
-        .catch(error => {
-          if (error.response)
+        .catch((error = {}) => {
+          if (hasPath(["response", "status"], error)) {
             if (error.response.status === 400) {
               dispatch(setLastPageInterviews());
             } else {
-              dispatch(gettingInterviewsFailure(error));
+              dispatch(gettingInterviewsFailure());
             }
+          } else {
+            dispatch(gettingInterviewsFailure());
+          }
         });
     }
   };

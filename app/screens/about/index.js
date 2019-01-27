@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, ScrollView, StyleSheet } from "react-native";
+import { Text, View, SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import DisplayNetwork from "../../components/displayNetwork";
 import config from "../../config";
 
@@ -64,7 +64,7 @@ export default class AboutScreen extends React.Component {
 const styles = StyleSheet.create({
   headerView: {
     paddingTop: 40,
-    paddingBottom: 30,
+    paddingBottom: 20,
     alignItems: "center"
   },
   header: {

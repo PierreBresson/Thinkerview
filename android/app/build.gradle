@@ -97,12 +97,17 @@ def enableProguardInReleaseBuilds = false
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     defaultConfig {
         applicationId "com.thinkerview"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6
-        versionName "1.3.1"
+        versionCode 8
+        versionName "2.0.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -156,6 +161,7 @@ dependencies {
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-check-app-install')
     implementation project(':react-native-youtube')
+    implementation project(':rn-fetch-blob') 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.targetSdkVersion}+"
     implementation "com.facebook.react:react-native:+"  // From node_modules

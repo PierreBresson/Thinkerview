@@ -45,6 +45,7 @@ export default (interviewsReducer = (state = initialState, action) => {
     case FETCHING_INTERVIEWS_ERROR:
       return {
         ...state,
+        ...initialState,
         isFetchingInterviews: false,
         errorFetchingInterviews: true
       };

@@ -88,7 +88,7 @@ class PodcastScreen extends Component {
 const styles = StyleSheet.create({
   headerView: {
     paddingTop: 40,
-    paddingBottom: 30,
+    paddingBottom: 20,
     alignItems: "center"
   },
   header: {

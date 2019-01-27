@@ -37,10 +37,31 @@ class VideoItem extends React.Component {
         ));
   };
 
+  // renderImage = () => {
+  //   let { img_url, image_offline } = this.props.item;
+
+  //   if (image_offline) {
+  //     return (
+  //       <Image
+  //         style={styles.img}
+  //         resizeMode="cover"
+  //         source={require(`${image_offline}`)}
+  //       />
+  //     );
+  //   } else {
+  //     return (
+  //       <Image
+  //         style={styles.img}
+  //         resizeMode="cover"
+  //         source={{ uri: img_url }}
+  //       />
+  //     );
+  //   }
+  // };
+
   render() {
     let { item, onPress, style } = this.props;
-    let { title, img_url, video_id, categories } = item;
-
+    let { title, video_id, categories, img_url } = item;
     if (!title || !video_id || !img_url) return null;
 
     return (

@@ -1,6 +1,6 @@
 const strings = {
-  errorLoading:
-    "Une erreur est survenue. Merci d'essayer à nouveau en tirant vers le bas.",
+  tryAgain: "Essayer à nouveau",
+  errorLoading: "Une erreur est survenue.",
   share: {
     title: "Thinkerview",
     subject: "Thinkerview",
@@ -12,9 +12,14 @@ const strings = {
   homeScreen: {
     endOfList: "The end!"
   },
+  offlineScreen: {
+    title: "Podcasts hors-ligne",
+    nothingToShow: "Télécharger un podcast pour qu'il s'affiche ici."
+  },
   aboutScreen: {
-    about: "A propos",
-    aboutAuthor: "Cette application a été conçu par Pierre Bresson.",
+    about: "À propos",
+    aboutAuthor:
+      "Cette application a été conçu par Pierre Bresson, bénévolement. N'hésitez pas à me faire parvenir vos bugs et la procédure pour les reproduire, de façon civilisée. Si l'application n'arrive pas à charger les interviews, c'est peut-être que le site de Thinkerview ne marche et dans ce cas je ne peux malheureusement rien faire.",
     thinkerview: "Thinkerview",
     thinkerviewDescription:
       "ThinkerView est un groupe indépendant issu d'internet, très diffèrent de la plup" +
@@ -31,7 +36,11 @@ const strings = {
   },
   articleScreen: {
     playVideo: "Lire la vidéo",
+    curentProgress: "Téléchargement en cours : ",
     playPodcast: "Écouter le podcast",
+    removePodcast: "Supprimer podcast",
+    removePodcastDuringDownload: "Téléchargement bloqué? Supprimer le podcast",
+    savePodcast: "Enregistrer podcast pour une utilisation hors-ligne",
     noYoutube: "Merci d'installer Youtube pour pouvoir lire la vidéo."
   },
   podcastScreen: {

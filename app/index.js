@@ -1,10 +1,14 @@
 import React, { PureComponent } from "react";
-import { AppState, View, Platform, StyleSheet } from "react-native";
+import { AppState, Platform, StyleSheet } from "react-native";
 import { Provider } from "react-redux";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { createStore, applyMiddleware } from "redux";
+import { persistStore, persistReducer } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+import storage from "redux-persist/lib/storage";
 import thunkMiddleware from "redux-thunk";
+import logger from "redux-logger";
 import getRootReducer from "./reducers";
 import {
   createBottomTabNavigator,
@@ -16,14 +20,15 @@ import config from "./config";
 
 import HomeScreen from "./screens/home";
 import PodcastScreen from "./screens/podcast";
+import OfflineScreen from "./screens/offline";
 import AboutScreen from "./screens/about";
 
-import ArticleScreen from "./screens/sharedScreens/article";
+import ArticleScreen from "./screens/home/article";
+import OfflinePodcastScreen from "./screens/offline/podcast";
 
 // Temporary fix for not show a warning due to react navigation
 import { YellowBox } from "react-native";
 YellowBox.ignoreWarnings([
-  "Warning: isMounted(...) is deprecated",
   "Module RCTImageLoader",
   "Remote debugger is in a background tab which may cause apps to perform slowly"
 ]);
@@ -40,9 +45,6 @@ const TabScreens = createBottomTabNavigator(
           },
           Article: {
             screen: ArticleScreen
-          },
-          AboutScreen: {
-            screen: AboutScreen
           }
         },
         {
@@ -100,6 +102,43 @@ const TabScreens = createBottomTabNavigator(
           )
       }
     },
+    Offline: {
+      screen: createStackNavigator(
+        {
+          Offline: {
+            screen: OfflineScreen
+          },
+          OfflinePodcast: {
+            screen: OfflinePodcastScreen
+          }
+        },
+        {
+          headerMode: "none",
+          header: null,
+          navigationOptions: {
+            header: null
+          }
+        }
+      ),
+      navigationOptions: {
+        tabBarIcon: ({ tintColor, focused }) =>
+          focused ? (
+            <IconEntypo
+              name={"download"}
+              size={28}
+              color={config.colors.thinkerGreen}
+              style={styles.icon}
+            />
+          ) : (
+            <IconEntypo
+              name={"download"}
+              size={28}
+              color={config.colors.blackTorn}
+              style={styles.icon}
+            />
+          )
+      }
+    },
     About: {
       screen: AboutScreen,
       navigationOptions: {
@@ -139,11 +178,20 @@ const TabScreens = createBottomTabNavigator(
   }
 );
 
+const persistConfig = {
+  key: "root",
+  storage,
+  blacklist: ["navigation", "player", "interviews", "article", "categories"]
+};
+
+const persistedReducer = persistReducer(persistConfig, getRootReducer());
+
 class App extends PureComponent {
   static store = createStore(
-    getRootReducer(),
-    applyMiddleware(thunkMiddleware)
+    persistedReducer,
+    applyMiddleware(logger, thunkMiddleware)
   );
+  static persistor = persistStore(App.store);
 
   async componentDidMount() {
     AppState.addEventListener("change", this._handleStateChange);
@@ -151,19 +199,23 @@ class App extends PureComponent {
     // TODO remove temp code
     await TrackPlayer.setupPlayer({});
     TrackPlayer.updateOptions({
+      jumpInterval: 15,
+      stopWithApp: false,
       capabilities: [
         TrackPlayer.CAPABILITY_PLAY,
-        TrackPlayer.CAPABILITY_PAUSE
-        // Not ready yet bollow
-        // TrackPlayer.CAPABILITY_SEEK_TO,
-        // TrackPlayer.CAPABILITY_JUMP_BACKWARD,
-        // TrackPlayer.CAPABILITY_JUMP_FORWARD
+        TrackPlayer.CAPABILITY_PAUSE,
+        TrackPlayer.CAPABILITY_SEEK_TO,
+        TrackPlayer.CAPABILITY_JUMP_BACKWARD,
+        TrackPlayer.CAPABILITY_JUMP_FORWARD
       ]
     });
   }
 
-  componentWillUnmount() {
+  async componentWillUnmount() {
     AppState.removeEventListener("change", this._handleStateChange);
+    try {
+      await TrackPlayer.destroy();
+    } catch (e) {}
   }
 
   _handleStateChange(appState) {
@@ -176,7 +228,9 @@ class App extends PureComponent {
   render() {
     return (
       <Provider store={App.store}>
-        <TabScreens />
+        <PersistGate loading={null} persistor={App.persistor}>
+          <TabScreens />
+        </PersistGate>
       </Provider>
     );
   }
