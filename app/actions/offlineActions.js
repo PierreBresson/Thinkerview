@@ -10,6 +10,8 @@ import {
 import RNFetchBlob from "rn-fetch-blob";
 import { hasPath, pathOr } from "ramda";
 
+const testMP3 = "http://www.hubharp.com/web_sound/BachGavotteShort.mp3";
+
 const downloadPodcast = (dispatch, podcast) =>
   new Promise((resolve, reject) => {
     let audio_link = pathOr(false, ["audio_link"], podcast);
@@ -58,6 +60,7 @@ const downloadPodcast = (dispatch, podcast) =>
       });
   });
 
+// RNFetchBlob has issue with parrallel download atm
 const downloadImage = (dispatch, podcast) =>
   new Promise((resolve, reject) => {
     RNFetchBlob.config({
@@ -136,6 +139,7 @@ export const savePodcastOfflineStart = podcast => {
 };
 
 export const deletePodcastOffline = podcast => {
+  console.log(podcast);
   if (hasPath(["path"], podcast)) {
     return (dispatch, getState) => {
       RNFetchBlob.fs

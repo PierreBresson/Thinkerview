@@ -43,7 +43,7 @@ class OfflinePodcastScreen extends React.Component {
   };
 
   _removePodcast = () => {
-    const { offlinePodcastSelected } = this.props.offline;
+    const offlinePodcastSelected = this.getOfflinePodcastSelected();
     if (offlinePodcastSelected) {
       this.props.deletePodcastOffline(offlinePodcastSelected);
       this.props.navigation.goBack();
@@ -88,36 +88,30 @@ class OfflinePodcastScreen extends React.Component {
   };
 
   renderDeletePodcast = podcast => {
-    const { progress } = this.getOfflinePodcastSelected();
-    let deletePodcastText = config.strings.articleScreen.removePodcast;
-    if (parseFloat(progress) < 100) {
-      deletePodcastText =
-        config.strings.articleScreen.removePodcastDuringDownload;
-    }
+    const { path } = this.getOfflinePodcastSelected();
 
-    return (
-      <View style={{ flex: 1 }}>
-        <TouchableOpacity
-          style={styles.btn}
-          onPress={() => this._removePodcast(podcast)}
-        >
-          <FontAwesome
-            name={"trash"}
-            size={40}
-            color={config.colors.thinkerGreen}
-            style={styles.iconShare}
-          />
-          <Text
-            style={[
-              styles.btnText,
-              { marginLeft: 10, marginRight: 10, marginTop: 2 }
-            ]}
+    if (path) {
+      return (
+        <View style={{ flex: 1 }}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => this._removePodcast(podcast)}
           >
-            {deletePodcastText}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
+            <FontAwesome
+              name={"trash"}
+              size={40}
+              color={config.colors.thinkerGreen}
+              style={styles.iconShare}
+            />
+            <Text style={[styles.btnText, { marginLeft: 17 }]}>
+              {config.strings.articleScreen.removePodcast}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      );
+    } else {
+      return null;
+    }
   };
 
   renderDownloadProgress = () => {
@@ -164,18 +158,19 @@ class OfflinePodcastScreen extends React.Component {
   };
 
   getOfflinePodcastSelected = () => {
+    const emptyPodcast = {
+      id: "",
+      img_url: "",
+      title: "",
+      body: "",
+      image_offline: "",
+      progress: ""
+    };
+
     return (
       this.props.offline.data.find(
         podcast => podcast.id === this.props.offline.offlinePodcastSelected.id
-      ) || {
-        id: "",
-        img_url: "",
-        path: "",
-        title: "",
-        body: "",
-        image_offline: "",
-        progress: ""
-      }
+      ) || emptyPodcast
     );
   };
 

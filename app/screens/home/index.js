@@ -29,6 +29,7 @@ import config from "../../config";
 class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.startAppFromZero();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -42,24 +43,46 @@ class HomeScreen extends React.Component {
     return true;
   }
 
-  componentDidMount() {
-    this.startAppFromZero();
-  }
-
   startAppFromZero = () => {
-    this.props.interviewsFetcher(this.props.categories.categorySelected.id);
-    this.props.categoriesFetcher();
+    const { isFetchingInterviews } = this.props.interviews;
+    const { isFetchingCategories } = this.props.categories;
+
+    if (!isFetchingCategories && !isFetchingInterviews) {
+      this.props.interviewsFetcher(this.props.categories.categorySelected.id);
+      this.props.categoriesFetcher();
+    }
+  };
+
+  _onEnReached = () => {
+    const {
+      isFetchingInterviews,
+      errorFetchingInterviews
+    } = this.props.interviews;
+    const { errorFetchingCategories } = this.props.categories;
+
+    const shouldFetchData =
+      !isFetchingInterviews &&
+      !errorFetchingInterviews &&
+      !errorFetchingCategories;
+
+    if (shouldFetchData) {
+      this.props.interviewsFetcher(this.props.categories.categorySelected.id);
+    }
   };
 
   renderIntro = () => {
-    const { categoryModalOpen, categorySelected } = this.props.categories;
+    const {
+      all_categories,
+      categoryModalOpen,
+      categorySelected
+    } = this.props.categories;
     const chevronUp = "chevron-with-circle-up";
     const chevronDown = "chevron-with-circle-down";
 
     return (
       <TouchableOpacity
         style={styles.headerView}
-        onPress={this.props.categoryModalAction}
+        onPress={all_categories ? this.props.categoryModalAction : null}
       >
         <Text style={styles.header}>{categorySelected.name}</Text>
         <IconEntypo
@@ -127,26 +150,30 @@ class HomeScreen extends React.Component {
   renderError = () => {
     const { errorFetchingInterviews } = this.props.interviews;
     const { errorFetchingCategories } = this.props.categories;
+    const { isFetchingInterviews } = this.props.interviews;
+    const { isFetchingCategories } = this.props.categories;
 
-    if (errorFetchingInterviews || errorFetchingCategories) {
-      return (
-        <View style={styles.errorView}>
-          <Text style={styles.error}>{config.strings.errorLoading}</Text>
-          <Button
-            message={config.strings.tryAgain}
-            iconName={"refresh"}
-            onPress={this.startAppFromZero()}
-          />
-        </View>
-      );
+    if (!isFetchingInterviews && !isFetchingCategories) {
+      if (errorFetchingInterviews || errorFetchingCategories) {
+        return (
+          <View style={styles.errorView}>
+            <Text style={styles.error}>{config.strings.errorLoading}</Text>
+            <Button
+              message={config.strings.tryAgain}
+              iconName={"refresh"}
+              onPress={this.startAppFromZero}
+            />
+          </View>
+        );
+      }
     }
 
     return null;
   };
 
   render() {
-    let { data, isFetchingInterviews } = this.props.interviews;
-    let { categorySelected, all_categories } = this.props.categories;
+    let { data } = this.props.interviews;
+    let { all_categories } = this.props.categories;
 
     return (
       <View style={config.styles.containerNoPadding}>
@@ -161,15 +188,8 @@ class HomeScreen extends React.Component {
           bounces={false}
           refreshing={false}
           onEndReachedThreshold={0.4}
-          onEndReached={() => {
-            if (!isFetchingInterviews)
-              this.props.interviewsFetcher(categorySelected.id);
-          }}
-          onRefresh={() => {
-            this.props.resetInterviewsFetcher();
-            this.props.interviewsFetcher(categorySelected.id);
-            this.props.categoriesFetcher();
-          }}
+          onEndReached={this._onEnReached}
+          onRefresh={this.startAppFromZero}
           renderSectionFooter={this.renderFooter}
           sections={[
             {

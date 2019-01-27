@@ -5,8 +5,7 @@ import {
   Text,
   SectionList,
   TouchableOpacity,
-  StyleSheet,
-  SafeAreaView
+  StyleSheet
 } from "react-native";
 import { connect } from "react-redux";
 import {
@@ -17,6 +16,7 @@ import {
   resetInterviewsFetcher
 } from "../actions";
 import CategoryItem from "./listItem/categoryItem";
+import Button from "./button";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import config from "../config";
 
@@ -57,9 +57,27 @@ class CategoryModal extends React.Component {
     );
   };
 
+  renderError = () => {
+    const { errorFetchingCategories } = this.props.categories;
+
+    if (errorFetchingCategories) {
+      return (
+        <View style={styles.errorView}>
+          <Text style={styles.error}>{config.strings.errorLoading}</Text>
+          <Button
+            message={config.strings.tryAgain}
+            iconName={"refresh"}
+            onPress={this.props.categoriesFetcher()}
+          />
+        </View>
+      );
+    }
+
+    return null;
+  };
+
   render() {
     let {
-      errorFetchingCategories,
       categoryModalOpen,
       isFetchingCategories,
       all_categories
@@ -71,13 +89,9 @@ class CategoryModal extends React.Component {
         visible={categoryModalOpen}
         onRequestClose={() => {}}
       >
-        <SafeAreaView
-          style={{ backgroundColor: config.colors.backgroundColor }}
-        />
         <SectionList
           style={config.styles.containerNoPadding}
           refreshing={isFetchingCategories}
-          onRefresh={() => this.props.categoriesFetcher()}
           sections={[
             {
               data: [1],
@@ -87,17 +101,7 @@ class CategoryModal extends React.Component {
             {
               data: [1],
               keyExtractor: (item, index) => index,
-              renderItem: (item, index) => {
-                return (
-                  <View style={styles.errorView}>
-                    <Text style={styles.error}>
-                      {errorFetchingCategories
-                        ? config.strings.errorLoading
-                        : ""}
-                    </Text>
-                  </View>
-                );
-              }
+              renderItem: (item, index) => this.renderError()
             },
             {
               data: all_categories ? all_categories : "",
@@ -121,7 +125,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 20
+    paddingTop: 40,
+    paddingBottom: 20
   },
   header: {
     fontSize: 28,

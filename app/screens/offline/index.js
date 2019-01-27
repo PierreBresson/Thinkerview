@@ -44,10 +44,10 @@ class OfflineScreen extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.offline.data && nextState.data) {
       if (nextProps.offline.data.length != nextState.data.length) {
-        return true;
         this.setState({
           data: nextProps.offline.data
         });
+        return true;
       }
     }
     return false;

@@ -8,6 +8,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import storage from "redux-persist/lib/storage";
 import thunkMiddleware from "redux-thunk";
+import logger from "redux-logger";
 import getRootReducer from "./reducers";
 import {
   createBottomTabNavigator,
@@ -188,7 +189,7 @@ const persistedReducer = persistReducer(persistConfig, getRootReducer());
 class App extends PureComponent {
   static store = createStore(
     persistedReducer,
-    applyMiddleware(thunkMiddleware)
+    applyMiddleware(logger, thunkMiddleware)
   );
   static persistor = persistStore(App.store);
 
