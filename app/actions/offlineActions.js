@@ -7,7 +7,7 @@ import {
   DELETE_PODCAST_OFFLINE,
   DELETE_PODCAST_OFFLINE_ERROR
 } from "./types";
-import RNFetchBlob from "rn-fetch-blob";
+import RNBackgroundDownloader from "react-native-background-downloader";
 import { hasPath, pathOr } from "ramda";
 
 const testMP3 = "http://www.hubharp.com/web_sound/BachGavotteShort.mp3";
@@ -26,32 +26,38 @@ const downloadPodcast = (dispatch, podcast) =>
       }
     }
 
-    RNFetchBlob.config({
-      IOSBackgroundTask: true,
-      fileCache: true,
-      overwrite: true,
-      path: RNFetchBlob.fs.dirs.DocumentDir + "/" + podcast.id + ".mp3"
+    let task = RNBackgroundDownloader.download({
+      id: podcast.id,
+      url: audio_link,
+      destination:
+        `${RNBackgroundDownloader.directories.documents}/` + podcast.id + ".mp3"
     })
-      .fetch("GET", audio_link)
-      .progress({ interval: 4000 }, (received, total) => {
+      .begin(expectedBytes => {
+        console.log(`Going to download ${expectedBytes} bytes!`);
+      })
+      .progress(percent => {
+        console.log("TCL: percent", percent);
         dispatch({
           type: SAVE_PODCAST_OFFLINE_UPDATE,
           podcast: podcast,
           key: "progress",
-          value: String(Math.floor((received / total) * 100))
+          value: String(Math.floor(percent * 100))
         });
       })
-      .then(res => {
+      .done(() => {
         dispatch({
           type: SAVE_PODCAST_OFFLINE_UPDATE,
           podcast: podcast,
           key: "path",
-          value: Platform.OS === "ios" ? "file://" + res.path() : res.path()
+          value:
+            `${RNBackgroundDownloader.directories.documents}/` +
+            podcast.id +
+            ".mp3"
         });
         resolve();
       })
-      .catch(err => {
-        console.log(err);
+      .error(error => {
+        console.log(error);
         dispatch({
           type: SAVE_PODCAST_OFFLINE_ERROR,
           podcast
@@ -60,29 +66,28 @@ const downloadPodcast = (dispatch, podcast) =>
       });
   });
 
-// RNFetchBlob has issue with parrallel download atm
-const downloadImage = (dispatch, podcast) =>
-  new Promise((resolve, reject) => {
-    RNFetchBlob.config({
-      IOSBackgroundTask: true,
-      fileCache: true,
-      path: RNFetchBlob.fs.dirs.DocumentDir + "/" + podcast.id + ".jpg"
-    })
-      .fetch("GET", podcast.img_url)
-      .then(res => {
-        dispatch({
-          type: SAVE_PODCAST_OFFLINE_UPDATE,
-          podcast: podcast,
-          key: "image_offline",
-          value: res.path()
-        });
-        resolve();
-      })
-      .catch(err => {
-        console.log(err);
-        reject();
-      });
-  });
+// const downloadImage = (dispatch, podcast) =>
+//   new Promise((resolve, reject) => {
+//     RNFetchBlob.config({
+//       IOSBackgroundTask: true,
+//       fileCache: true,
+//       path: RNFetchBlob.fs.dirs.DocumentDir + "/" + podcast.id + ".jpg"
+//     })
+//       .fetch("GET", podcast.img_url)
+//       .then(res => {
+//         dispatch({
+//           type: SAVE_PODCAST_OFFLINE_UPDATE,
+//           podcast: podcast,
+//           key: "image_offline",
+//           value: res.path()
+//         });
+//         resolve();
+//       })
+//       .catch(err => {
+//         console.log(err);
+//         reject();
+//       });
+//   });
 
 findPodcast = (data, id) => {
   return data.find(item => {
