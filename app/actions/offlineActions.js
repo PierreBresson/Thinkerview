@@ -9,6 +9,7 @@ import {
 } from "./types";
 import RNBackgroundDownloader from "react-native-background-downloader";
 import { hasPath, pathOr } from "ramda";
+var RNFS = require("react-native-fs");
 
 const testMP3 = "http://www.hubharp.com/web_sound/BachGavotteShort.mp3";
 
@@ -28,7 +29,7 @@ const downloadPodcast = (dispatch, podcast) =>
 
     let task = RNBackgroundDownloader.download({
       id: podcast.id,
-      url: audio_link,
+      url: testMP3,
       destination:
         `${RNBackgroundDownloader.directories.documents}/` + podcast.id + ".mp3"
     })
@@ -45,14 +46,15 @@ const downloadPodcast = (dispatch, podcast) =>
         });
       })
       .done(() => {
+        const path =
+          `${RNBackgroundDownloader.directories.documents}/` +
+          podcast.id +
+          ".mp3";
         dispatch({
           type: SAVE_PODCAST_OFFLINE_UPDATE,
           podcast: podcast,
           key: "path",
-          value:
-            `${RNBackgroundDownloader.directories.documents}/` +
-            podcast.id +
-            ".mp3"
+          value: Platform.OS === "ios" ? "file://" + path : path
         });
         resolve();
       })
@@ -144,11 +146,9 @@ export const savePodcastOfflineStart = podcast => {
 };
 
 export const deletePodcastOffline = podcast => {
-  console.log(podcast);
   if (hasPath(["path"], podcast)) {
     return (dispatch, getState) => {
-      RNFetchBlob.fs
-        .unlink(podcast.path)
+      RNFS.unlink(podcast.path)
         .then(() => {
           dispatch({
             type: DELETE_PODCAST_OFFLINE,

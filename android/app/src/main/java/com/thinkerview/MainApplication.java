@@ -3,6 +3,7 @@ package com.thinkerview;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rnfs.RNFSPackage;
 import com.guichaguri.trackplayer.TrackPlayer;
 import com.rpt.reactnativecheckpackageinstallation.CheckPackageInstallationPackage;
 import cl.json.RNSharePackage;
@@ -29,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(new MainReactPackage(),
+            new RNFSPackage(),
             new RNBackgroundDownloaderPackage(), new TrackPlayer(), new RNBackgroundDownloaderPackage(), new RNSharePackage(),
           new VectorIconsPackage(), new CheckPackageInstallationPackage(), new ReactNativeYouTube());
     }
