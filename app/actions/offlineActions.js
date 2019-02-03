@@ -29,7 +29,7 @@ const downloadPodcast = (dispatch, podcast) =>
 
     let task = RNBackgroundDownloader.download({
       id: podcast.id,
-      url: testMP3,
+      url: audio_link,
       destination:
         `${RNBackgroundDownloader.directories.documents}/` + podcast.id + ".mp3"
     })
