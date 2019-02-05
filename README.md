@@ -4,6 +4,8 @@ Watch Thinkerview videos and listen to podcast.
 
 ## Screenshots
 
+![screenshots](https://github.com/PierreBresson/Thinkerview/blob/master/preview.png)
+
 Some screenshots are available [here](https://github.com/PierreBresson/thinkerview/tree/master/screenshots)
 
 ## Download
