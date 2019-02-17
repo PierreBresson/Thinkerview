@@ -51,18 +51,7 @@ class OfflinePodcastScreen extends React.Component {
   };
 
   renderAudio = () => {
-    const {
-      title,
-      img_url,
-      image_offline,
-      path
-    } = this.getOfflinePodcastSelected();
-
-    // let source = { uri: img_url };
-    // if (image_offline) {
-    //   console.log(image_offline);
-    //   source = require(`${image_offline}`);
-    // }
+    const { title, img_url, path } = this.getOfflinePodcastSelected();
 
     if (path && img_url && title) {
       return (
@@ -137,24 +126,27 @@ class OfflinePodcastScreen extends React.Component {
 
   renderImage = () => {
     let { img_url, image_offline } = this.getOfflinePodcastSelected();
+    console.log(
+      "TCL: OfflinePodcastScreen -> renderImage -> image_offline",
+      image_offline
+    );
 
-    if (image_offline) {
+    if (Platform.OS === "ios") {
       return (
         <Image
           style={styles.img}
           resizeMode="cover"
-          // source={require(image_offline)}
-        />
-      );
-    } else if (img_url) {
-      return (
-        <Image
-          style={styles.img}
-          resizeMode="cover"
-          source={{ uri: img_url }}
+          source={{ uri: image_offline ? image_offline : img_url }}
         />
       );
     }
+    return (
+      <Image
+        style={styles.img}
+        resizeMode="cover"
+        source={{ uri: image_offline ? image_offline : img_url }}
+      />
+    );
   };
 
   getOfflinePodcastSelected = () => {
