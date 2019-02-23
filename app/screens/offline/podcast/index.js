@@ -51,18 +51,7 @@ class OfflinePodcastScreen extends React.Component {
   };
 
   renderAudio = () => {
-    const {
-      title,
-      img_url,
-      image_offline,
-      path
-    } = this.getOfflinePodcastSelected();
-
-    // let source = { uri: img_url };
-    // if (image_offline) {
-    //   console.log(image_offline);
-    //   source = require(`${image_offline}`);
-    // }
+    const { title, img_url, path } = this.getOfflinePodcastSelected();
 
     if (path && img_url && title) {
       return (

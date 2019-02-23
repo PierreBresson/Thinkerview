@@ -34,7 +34,9 @@ const downloadPodcast = (dispatch, podcast) =>
       url: audio_link,
       // url: testMP3,
       destination:
-        `${RNBackgroundDownloader.directories.documents}/` + podcast.id + ".mp3"
+        `${RNBackgroundDownloader.directories.documents}/` +
+        String(podcast.id) +
+        ".mp3"
     })
       .begin(expectedBytes => {
         console.log(`TCL Going to download ${expectedBytes} bytes!`);
@@ -52,7 +54,7 @@ const downloadPodcast = (dispatch, podcast) =>
         // console.log("TCL: done");
         const path =
           `${RNBackgroundDownloader.directories.documents}/` +
-          podcast.id +
+          String(podcast.id) +
           ".mp3";
         dispatch({
           type: SAVE_PODCAST_OFFLINE_UPDATE,

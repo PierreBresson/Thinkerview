@@ -30,9 +30,13 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(new MainReactPackage(),
-            new RNFSPackage(),
-            new RNBackgroundDownloaderPackage(), new TrackPlayer(), new RNBackgroundDownloaderPackage(), new RNSharePackage(),
-          new VectorIconsPackage(), new CheckPackageInstallationPackage(), new ReactNativeYouTube());
+          new RNFSPackage(),
+          new TrackPlayer(), 
+          new RNBackgroundDownloaderPackage(), 
+          new RNSharePackage(),
+          new VectorIconsPackage(), 
+          new CheckPackageInstallationPackage(), 
+          new ReactNativeYouTube());
     }
 
     @Override
