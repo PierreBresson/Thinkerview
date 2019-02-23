@@ -192,3 +192,37 @@ export const updatePodcast = (id, key, value) => {
       value
     });
 };
+
+export const resumeDownload = () => {
+  return async (dispatch, getState) => {
+    let lostTasks = await RNBackgroundDownloader.checkForExistingDownloads();
+    console.log(
+      "TCL: OfflineScreen -> resumeDownloads -> lostTasks",
+      lostTasks
+    );
+    for (let task of lostTasks) {
+      console.log(`TCL: Task ${task.id} was found!`);
+      console.log(`TCL: Task ` + JSON.stringify(task));
+
+      task
+        .progress(percent => {
+          console.log(
+            "TCL: OfflineScreen -> resumeDownloads -> percent",
+            percent
+          );
+          updatePodcast(task.id, "progress", String(Math.floor(percent * 100)));
+        })
+        .done(() => {
+          const path =
+            `${RNBackgroundDownloader.directories.documents}/` +
+            task.id +
+            ".mp3";
+          console.log("TCL: OfflineScreen -> resumeDownloads -> path", path);
+          updatePodcast(task.id, "path", path);
+        })
+        .error(error => {
+          console.log("TCL: Download canceled due to error: ", error);
+        });
+    }
+  };
+};
