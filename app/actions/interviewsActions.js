@@ -36,17 +36,17 @@ export const interviewsFetcher = (category_id = 0) => {
       dispatch(gettingInterviews());
       getInterviews(getState().interviews.page, category_id)
         .then(res => {
-          dispatch(gettingInterviewsSuccess(res));
+          return dispatch(gettingInterviewsSuccess(res));
         })
         .catch((error = {}) => {
           if (hasPath(["response", "status"], error)) {
             if (error.response.status === 400) {
-              dispatch(setLastPageInterviews());
+              return dispatch(setLastPageInterviews());
             } else {
-              dispatch(gettingInterviewsFailure());
+              return dispatch(gettingInterviewsFailure());
             }
           } else {
-            dispatch(gettingInterviewsFailure());
+            return dispatch(gettingInterviewsFailure());
           }
         });
     }

@@ -21,23 +21,26 @@ const downloadPodcast = (dispatch, podcast) =>
       reject();
     } else {
       if (typeof audio_link === "string") {
-        audio_link.slice(0, audio_link.length - 11);
+        audio_link = audio_link.slice(0, audio_link.length - 11);
       } else {
         reject();
       }
     }
 
-    let task = RNBackgroundDownloader.download({
-      id: podcast.id,
+    console.log("TCL: podcast downloadPodcast", podcast);
+
+    let taskMp3 = RNBackgroundDownloader.download({
+      id: String(podcast.id),
       url: audio_link,
+      // url: testMP3,
       destination:
         `${RNBackgroundDownloader.directories.documents}/` + podcast.id + ".mp3"
     })
       .begin(expectedBytes => {
-        console.log(`Going to download ${expectedBytes} bytes!`);
+        console.log(`TCL Going to download ${expectedBytes} bytes!`);
       })
       .progress(percent => {
-        console.log("TCL: percent", percent);
+        // console.log("TCL: percent", percent);
         dispatch({
           type: SAVE_PODCAST_OFFLINE_UPDATE,
           podcast: podcast,
@@ -46,6 +49,7 @@ const downloadPodcast = (dispatch, podcast) =>
         });
       })
       .done(() => {
+        // console.log("TCL: done");
         const path =
           `${RNBackgroundDownloader.directories.documents}/` +
           podcast.id +
@@ -59,7 +63,7 @@ const downloadPodcast = (dispatch, podcast) =>
         resolve();
       })
       .error(error => {
-        console.log(error);
+        console.log("TCL :" + error);
         dispatch({
           type: SAVE_PODCAST_OFFLINE_ERROR,
           podcast
@@ -68,28 +72,58 @@ const downloadPodcast = (dispatch, podcast) =>
       });
   });
 
-// const downloadImage = (dispatch, podcast) =>
-//   new Promise((resolve, reject) => {
-//     RNFetchBlob.config({
-//       IOSBackgroundTask: true,
-//       fileCache: true,
-//       path: RNFetchBlob.fs.dirs.DocumentDir + "/" + podcast.id + ".jpg"
-//     })
-//       .fetch("GET", podcast.img_url)
-//       .then(res => {
-//         dispatch({
-//           type: SAVE_PODCAST_OFFLINE_UPDATE,
-//           podcast: podcast,
-//           key: "image_offline",
-//           value: res.path()
-//         });
-//         resolve();
-//       })
-//       .catch(err => {
-//         console.log(err);
-//         reject();
-//       });
-//   });
+const downloadImage = (dispatch, podcast) =>
+  new Promise((resolve, reject) => {
+    if (!podcast.img_url) {
+      reject();
+    }
+
+    console.log("TCL: podcast downloadImage", podcast);
+
+    let task = RNBackgroundDownloader.download({
+      id: String(podcast.id),
+      url: podcast.img_url,
+      destination:
+        `${RNBackgroundDownloader.directories.documents}/` +
+        String(podcast.id) +
+        ".jpg"
+    })
+      .begin(expectedBytes => {
+        console.log(`TCL Going to download ${expectedBytes} bytes!`);
+      })
+      .progress(percent => {
+        // console.log(`TCL Downloaded: ${percent * 100}%`);
+      })
+      .done(() => {
+        const path =
+          `${RNBackgroundDownloader.directories.documents}/` +
+          String(podcast.id) +
+          ".jpg";
+        console.log("TCL: downloadImage path", path);
+        dispatch({
+          type: SAVE_PODCAST_OFFLINE_UPDATE,
+          podcast: podcast,
+          key: "image_offline",
+          value: "file://" + path
+        });
+        resolve();
+      })
+      .error(error => {
+        console.log("TCL: " + error);
+        dispatch({
+          type: SAVE_PODCAST_OFFLINE_ERROR,
+          podcast
+        });
+        reject();
+      });
+  });
+
+const deleteFile = path =>
+  new Promise((resolve, reject) => {
+    RNFS.unlink(path)
+      .then(resolve)
+      .catch(reject);
+  });
 
 findPodcast = (data, id) => {
   return data.find(item => {
@@ -105,41 +139,18 @@ export const selectOfflinePodcast = podcast => {
 };
 
 export const savePodcastOffline = podcast => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     if (!hasPath(["id"], podcast)) {
       return dispatch({
-        type: ""
+        type: SAVE_PODCAST_OFFLINE_ERROR,
+        podcast
       });
-    }
-    dispatch({
-      type: SAVE_PODCAST_OFFLINE,
-      podcast
-    });
-    return dispatch(savePodcastOfflineStart(podcast));
-  };
-};
-
-export const savePodcastOfflineStart = podcast => {
-  return async (dispatch, getState) => {
-    let shouldStartDownload = false;
-
-    const podcastInTheList = findPodcast(getState().offline.data, podcast.id);
-
-    if (podcastInTheList) {
-      if (podcastInTheList.progress === "0") {
-        dispatch({
-          type: SAVE_PODCAST_OFFLINE_UPDATE,
-          podcast: podcast,
-          key: "progress",
-          value: "1"
-        });
-        shouldStartDownload = true;
-      }
-    }
-
-    if (shouldStartDownload) {
-      // no image download for the moment because 2 RNFetchBlob result in nothing is done
-      // await downloadImage(dispatch, podcast);
+    } else {
+      dispatch({
+        type: SAVE_PODCAST_OFFLINE,
+        podcast
+      });
+      await downloadImage(dispatch, podcast);
       await downloadPodcast(dispatch, podcast);
     }
   };
@@ -147,20 +158,20 @@ export const savePodcastOfflineStart = podcast => {
 
 export const deletePodcastOffline = podcast => {
   if (hasPath(["path"], podcast)) {
-    return (dispatch, getState) => {
-      RNFS.unlink(podcast.path)
-        .then(() => {
-          dispatch({
-            type: DELETE_PODCAST_OFFLINE,
-            podcast
-          });
-        })
-        .catch(err => {
-          console.log(err);
-          dispatch({
-            type: DELETE_PODCAST_OFFLINE_ERROR
-          });
+    return async (dispatch, getState) => {
+      try {
+        await deleteFile(podcast.path);
+        await deleteFile(podcast.image_offline);
+        return dispatch({
+          type: DELETE_PODCAST_OFFLINE,
+          podcast
         });
+      } catch (error) {
+        console.log(error);
+        return dispatch({
+          type: DELETE_PODCAST_OFFLINE_ERROR
+        });
+      }
     };
   } else {
     return {
@@ -168,4 +179,14 @@ export const deletePodcastOffline = podcast => {
       podcast
     };
   }
+};
+
+export const updatePodcast = (id, key, value) => {
+  return (dispatch, getState) =>
+    dispatch({
+      type: SAVE_PODCAST_OFFLINE_UPDATE,
+      podcast: { id: Number(id) },
+      key,
+      value
+    });
 };

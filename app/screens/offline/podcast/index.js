@@ -138,23 +138,13 @@ class OfflinePodcastScreen extends React.Component {
   renderImage = () => {
     let { img_url, image_offline } = this.getOfflinePodcastSelected();
 
-    if (image_offline) {
-      return (
-        <Image
-          style={styles.img}
-          resizeMode="cover"
-          // source={require(image_offline)}
-        />
-      );
-    } else if (img_url) {
-      return (
-        <Image
-          style={styles.img}
-          resizeMode="cover"
-          source={{ uri: img_url }}
-        />
-      );
-    }
+    return (
+      <Image
+        style={styles.img}
+        resizeMode="cover"
+        source={{ uri: image_offline ? image_offline : img_url }}
+      />
+    );
   };
 
   getOfflinePodcastSelected = () => {

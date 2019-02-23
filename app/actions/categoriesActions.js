@@ -44,10 +44,10 @@ export const categoriesFetcher = () => {
     dispatch(getCategories());
     getAllCategories()
       .then(res => {
-        dispatch(getCategoriesSuccess(res));
+        return dispatch(getCategoriesSuccess(res));
       })
       .catch(err => {
-        dispatch(getCategoriesFailure());
+        return dispatch(getCategoriesFailure());
       });
   };
 };
