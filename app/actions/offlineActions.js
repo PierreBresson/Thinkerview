@@ -27,7 +27,7 @@ const downloadPodcast = (dispatch, podcast) =>
       }
     }
 
-    console.log("TCL: podcast downloadPodcast", podcast);
+    // console.log("TCL: podcast downloadPodcast", podcast);
 
     let taskMp3 = RNBackgroundDownloader.download({
       id: String(podcast.id),
@@ -39,7 +39,7 @@ const downloadPodcast = (dispatch, podcast) =>
         ".mp3"
     })
       .begin(expectedBytes => {
-        console.log(`TCL Going to download ${expectedBytes} bytes!`);
+        // console.log(`TCL Going to download ${expectedBytes} bytes!`);
       })
       .progress(percent => {
         // console.log("TCL: percent", percent);
@@ -65,7 +65,7 @@ const downloadPodcast = (dispatch, podcast) =>
         resolve();
       })
       .error(error => {
-        console.log("TCL :" + error);
+        // console.log("TCL :" + error);
         dispatch({
           type: SAVE_PODCAST_OFFLINE_ERROR,
           podcast
@@ -141,17 +141,39 @@ export const selectOfflinePodcast = podcast => {
 };
 
 export const savePodcastOffline = podcast => {
-  return async (dispatch, getState) => {
+  return (dispatch, getState) => {
     if (!hasPath(["id"], podcast)) {
       return dispatch({
-        type: SAVE_PODCAST_OFFLINE_ERROR,
-        podcast
+        type: ""
       });
-    } else {
-      dispatch({
-        type: SAVE_PODCAST_OFFLINE,
-        podcast
-      });
+    }
+    dispatch({
+      type: SAVE_PODCAST_OFFLINE,
+      podcast
+    });
+    return dispatch(savePodcastOfflineStart(podcast));
+  };
+};
+
+export const savePodcastOfflineStart = podcast => {
+  return async (dispatch, getState) => {
+    let shouldStartDownload = false;
+
+    const podcastInTheList = findPodcast(getState().offline.data, podcast.id);
+
+    if (podcastInTheList) {
+      if (podcastInTheList.progress === "0") {
+        dispatch({
+          type: SAVE_PODCAST_OFFLINE_UPDATE,
+          podcast: podcast,
+          key: "progress",
+          value: "1"
+        });
+        shouldStartDownload = true;
+      }
+    }
+
+    if (shouldStartDownload) {
       await downloadImage(dispatch, podcast);
       await downloadPodcast(dispatch, podcast);
     }
@@ -184,45 +206,12 @@ export const deletePodcastOffline = podcast => {
 };
 
 export const updatePodcast = (id, key, value) => {
-  return (dispatch, getState) =>
+  return async (dispatch, getState) => {
     dispatch({
       type: SAVE_PODCAST_OFFLINE_UPDATE,
       podcast: { id: Number(id) },
       key,
       value
     });
-};
-
-export const resumeDownload = () => {
-  return async (dispatch, getState) => {
-    let lostTasks = await RNBackgroundDownloader.checkForExistingDownloads();
-    console.log(
-      "TCL: OfflineScreen -> resumeDownloads -> lostTasks",
-      lostTasks
-    );
-    for (let task of lostTasks) {
-      console.log(`TCL: Task ${task.id} was found!`);
-      console.log(`TCL: Task ` + JSON.stringify(task));
-
-      task
-        .progress(percent => {
-          console.log(
-            "TCL: OfflineScreen -> resumeDownloads -> percent",
-            percent
-          );
-          updatePodcast(task.id, "progress", String(Math.floor(percent * 100)));
-        })
-        .done(() => {
-          const path =
-            `${RNBackgroundDownloader.directories.documents}/` +
-            task.id +
-            ".mp3";
-          console.log("TCL: OfflineScreen -> resumeDownloads -> path", path);
-          updatePodcast(task.id, "path", path);
-        })
-        .error(error => {
-          console.log("TCL: Download canceled due to error: ", error);
-        });
-    }
   };
 };

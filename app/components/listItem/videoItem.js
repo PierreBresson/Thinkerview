@@ -23,9 +23,7 @@ class VideoItem extends React.Component {
     if (all_categories && categories) {
       if (all_categories.length && categories.length) {
         categories.map(category => {
-          console.log("TCL: VideoItem -> category", category);
           category_found = all_categories.filter(cat => category === cat.id);
-          console.log("TCL: VideoItem -> category_found", category_found);
           if (category_found)
             if (category_found[0])
               if (category_found[0].name != "Interviews")

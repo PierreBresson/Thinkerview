@@ -1,7 +1,8 @@
 import React from "react";
 import { FlatList, Text, View, ScrollView, StyleSheet } from "react-native";
 import { connect } from "react-redux";
-import { selectOfflinePodcast, resumeDownload } from "../../actions";
+import RNBackgroundDownloader from "react-native-background-downloader";
+import { selectOfflinePodcast, updatePodcast } from "../../actions";
 import VideoItem from "../../components/listItem/videoItem";
 import config from "../../config";
 
@@ -15,8 +16,29 @@ class OfflineScreen extends React.Component {
   }
 
   componentDidMount() {
-    // this.props.resumeDownload();
+    this.resumeDownloads();
   }
+
+  resumeDownloads = async () => {
+    let lostTasks = await RNBackgroundDownloader.checkForExistingDownloads();
+    for (let task of lostTasks) {
+      task
+        .progress(percent => {
+          this.props.updatePodcast(task.id, "progress", percent * 100);
+        })
+        .done(() => {
+          const path =
+            `${RNBackgroundDownloader.directories.documents}/` +
+            task.id +
+            ".mp3";
+          // console.log("TCL: OfflineScreen -> resumeDownloads -> path", path);
+          this.props.updatePodcast(task.id, "path", path);
+        })
+        .error(error => {
+          // console.log("Download canceled due to error: ", error);
+        });
+    }
+  };
 
   renderNoPodcast = () => {
     return (
@@ -100,7 +122,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => {
   return {
-    resumeDownload: () => dispatch(resumeDownload()),
+    updatePodcast: (id, key, value) => dispatch(updatePodcast(id, key, value)),
     selectOfflinePodcast: podcast => dispatch(selectOfflinePodcast(podcast))
   };
 };
