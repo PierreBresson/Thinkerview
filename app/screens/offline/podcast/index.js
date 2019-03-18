@@ -77,9 +77,9 @@ class OfflinePodcastScreen extends React.Component {
   };
 
   renderDeletePodcast = podcast => {
-    const { path } = this.getOfflinePodcastSelected();
+    const { path, hasError } = this.getOfflinePodcastSelected();
 
-    if (path) {
+    if (path || hasError) {
       return (
         <View style={{ flex: 1 }}>
           <TouchableOpacity
@@ -143,7 +143,8 @@ class OfflinePodcastScreen extends React.Component {
       title: "",
       body: "",
       image_offline: "",
-      progress: ""
+      progress: "",
+      hasError: null
     };
 
     return (
@@ -156,6 +157,7 @@ class OfflinePodcastScreen extends React.Component {
   render() {
     const { offlinePodcastSelected } = this.props.offline;
     const { title, body } = offlinePodcastSelected;
+    console.log("TCL offlinePodcastSelected", offlinePodcastSelected);
 
     return (
       <View style={{ flex: 1 }}>

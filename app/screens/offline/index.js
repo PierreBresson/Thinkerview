@@ -35,6 +35,7 @@ class OfflineScreen extends React.Component {
           this.props.updatePodcast(task.id, "path", path);
         })
         .error(error => {
+          this.props.updatePodcast(task.id, "hasError", "music_download_error");
           // console.log("Download canceled due to error: ", error);
         });
     }
