@@ -45,8 +45,8 @@ class OfflinePodcastScreen extends React.Component {
   _removePodcast = () => {
     const offlinePodcastSelected = this.getOfflinePodcastSelected();
     if (offlinePodcastSelected) {
-      this.props.deletePodcastOffline(offlinePodcastSelected);
       this.props.navigation.goBack();
+      this.props.deletePodcastOffline(offlinePodcastSelected);
     }
   };
 
@@ -78,6 +78,7 @@ class OfflinePodcastScreen extends React.Component {
 
   renderDeletePodcast = podcast => {
     const { path, hasError } = this.getOfflinePodcastSelected();
+    console.log("TCL: OfflinePodcastScreen -> hasError", hasError);
 
     if (path || hasError) {
       return (

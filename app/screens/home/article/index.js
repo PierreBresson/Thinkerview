@@ -145,7 +145,11 @@ class ArticleScreen extends React.Component {
   };
 
   renderOffLine = () => {
-    const { articleSelected } = this.props.article;
+    let { articleSelected } = this.props.article;
+    articleSelected = {
+      ...articleSelected,
+      hasError: null
+    };
 
     if (articleSelected) {
       return (
