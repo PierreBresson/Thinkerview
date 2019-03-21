@@ -13,25 +13,24 @@ var RNFS = require("react-native-fs");
 
 const testMP3 = "http://www.hubharp.com/web_sound/BachGavotteShort.mp3";
 
-const downloadPodcast = (dispatch, podcast) =>
-  new Promise((resolve, reject) => {
+const downloadPodcast = (dispatch, podcast) => {
+  return new Promise((resolve, reject) => {
     let audio_link = pathOr(false, ["audio_link"], podcast);
     console.log("TCL: downloadPodcast podcast", podcast);
 
     if (!audio_link) {
-      reject();
+      reject("wrong audio link");
     } else {
       if (typeof audio_link === "string") {
         audio_link = audio_link.slice(0, audio_link.length - 11);
       } else {
-        reject();
+        reject("wrong audio link");
       }
     }
 
-    let taskMusic = RNBackgroundDownloader.download({
+    const taskMusic = RNBackgroundDownloader.download({
       id: String(podcast.id),
       url: audio_link,
-      // url: testMP3,
       destination:
         `${RNBackgroundDownloader.directories.documents}/` +
         String(podcast.id) +
@@ -55,25 +54,16 @@ const downloadPodcast = (dispatch, podcast) =>
           String(podcast.id) +
           ".mp3";
         console.log("TCL taskMusic done", path);
-        dispatch({
-          type: SAVE_PODCAST_OFFLINE_UPDATE,
-          podcast: podcast,
-          key: "path",
-          value: Platform.OS === "ios" ? "file://" + path : path
-        });
-        resolve();
+        resolve(Platform.OS === "ios" ? "file://" + path : path);
       })
       .error(error => {
         console.log("TCL: downloadPodcast error", error);
-        dispatch({
-          type: SAVE_PODCAST_OFFLINE_ERROR,
-          podcast
-        });
         reject(error);
       });
   });
+};
 
-const downloadImage = (dispatch, podcast) =>
+const downloadImage = podcast =>
   new Promise((resolve, reject) => {
     if (!podcast.img_url) {
       reject();
@@ -81,7 +71,7 @@ const downloadImage = (dispatch, podcast) =>
 
     console.log("TCL: podcast downloadImage", podcast);
 
-    let taskImage = RNBackgroundDownloader.download({
+    const taskImage = RNBackgroundDownloader.download({
       id: String(podcast.id),
       url: podcast.img_url,
       destination:
@@ -101,20 +91,9 @@ const downloadImage = (dispatch, podcast) =>
           String(podcast.id) +
           ".jpg";
         console.log("TCL: path", path);
-        dispatch({
-          type: SAVE_PODCAST_OFFLINE_UPDATE,
-          podcast: podcast,
-          key: "image_offline",
-          value: "file://" + path
-        });
-        resolve();
+        resolve(Platform.OS === "ios" ? "file://" + path : path);
       })
       .error(error => {
-        console.log("TCL: error", error);
-        dispatch({
-          type: SAVE_PODCAST_OFFLINE_ERROR,
-          podcast
-        });
         reject(error);
       });
   });
@@ -173,26 +152,37 @@ export const savePodcastOfflineStart = podcast => {
     }
 
     if (shouldStartDownload) {
-      downloadImage(dispatch, podcast)
-        .then(() => {
-          console.log("TCL: shouldStartDownload downloadImage");
-        })
-        .catch(error => {
-          console.log("TCL: shouldStartDownload downloadImage error", error);
+      try {
+        const pathImage = await downloadImage(podcast);
+        console.log("TCL: pathImage", pathImage);
+        dispatch({
+          type: SAVE_PODCAST_OFFLINE_UPDATE,
+          podcast: podcast,
+          key: "image_offline",
+          value: pathImage
         });
-      downloadPodcast(dispatch, podcast)
-        .then(() => {
-          console.log("TCL: downloadPodcast done");
-        })
-        .catch(error => {
-          console.log("TCL: shouldStartDownload Podcast error", error);
-          dispatch({
-            type: SAVE_PODCAST_OFFLINE_UPDATE,
-            podcast: podcast,
-            key: "hasError",
-            value: "music_download_error"
-          });
+      } catch (error) {
+        console.log("TCL: shouldStartDownload downloadImage error", error);
+      }
+
+      try {
+        const pathMusic = await downloadPodcast(dispatch, podcast);
+        console.log("TCL: pathMusic", pathMusic);
+        dispatch({
+          type: SAVE_PODCAST_OFFLINE_UPDATE,
+          podcast: podcast,
+          key: "path",
+          value: pathMusic
         });
+      } catch (error) {
+        console.log("TCL: shouldStartDownload Podcast error", error);
+        return dispatch({
+          type: SAVE_PODCAST_OFFLINE_UPDATE,
+          podcast: podcast,
+          key: "hasError",
+          value: "music_download_error"
+        });
+      }
     }
   };
 };
