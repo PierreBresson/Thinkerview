@@ -29,7 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(new MainReactPackage(),
+      return Arrays.<ReactPackage>asList(
+          new MainReactPackage(),
           new RNFSPackage(),
           new TrackPlayer(), 
           new RNBackgroundDownloaderPackage(), 
@@ -53,6 +54,6 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false); 
+    SoLoader.init(this, /* native exopackage */ false);
   }
 }
