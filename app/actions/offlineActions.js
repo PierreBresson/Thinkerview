@@ -152,18 +152,18 @@ export const savePodcastOfflineStart = podcast => {
     }
 
     if (shouldStartDownload) {
-      try {
-        const pathImage = await downloadImage(podcast);
-        console.log("TCL: pathImage", pathImage);
-        dispatch({
-          type: SAVE_PODCAST_OFFLINE_UPDATE,
-          podcast: podcast,
-          key: "image_offline",
-          value: pathImage
-        });
-      } catch (error) {
-        console.log("TCL: shouldStartDownload downloadImage error", error);
-      }
+      // try {
+      //   const pathImage = await downloadImage(podcast);
+      //   console.log("TCL: pathImage", pathImage);
+      //   dispatch({
+      //     type: SAVE_PODCAST_OFFLINE_UPDATE,
+      //     podcast: podcast,
+      //     key: "image_offline",
+      //     value: pathImage
+      //   });
+      // } catch (error) {
+      //   console.log("TCL: shouldStartDownload downloadImage error", error);
+      // }
 
       try {
         const pathMusic = await downloadPodcast(dispatch, podcast);

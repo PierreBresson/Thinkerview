@@ -79,29 +79,28 @@ class OfflinePodcastScreen extends React.Component {
   renderDeletePodcast = podcast => {
     const { path, hasError } = this.getOfflinePodcastSelected();
     console.log("TCL: OfflinePodcastScreen -> hasError", hasError);
+    const delete_message = path
+      ? config.strings.articleScreen.removePodcast
+      : config.strings.articleScreen.removePodcastDuringDownload;
 
-    if (path || hasError) {
-      return (
-        <View style={{ flex: 1 }}>
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => this._removePodcast(podcast)}
-          >
-            <FontAwesome
-              name={"trash"}
-              size={40}
-              color={config.colors.thinkerGreen}
-              style={styles.iconShare}
-            />
-            <Text style={[styles.btnText, { marginLeft: 17 }]}>
-              {config.strings.articleScreen.removePodcast}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      );
-    } else {
-      return null;
-    }
+    return (
+      <View style={{ flex: 1 }}>
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => this._removePodcast(podcast)}
+        >
+          <FontAwesome
+            name={"trash"}
+            size={40}
+            color={config.colors.thinkerGreen}
+            style={styles.iconShare}
+          />
+          <Text style={[styles.btnText, { marginLeft: 17 }]}>
+            {delete_message}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
   };
 
   renderDownloadProgress = () => {

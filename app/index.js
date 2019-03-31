@@ -213,9 +213,6 @@ class App extends PureComponent {
 
   async componentWillUnmount() {
     AppState.removeEventListener("change", this._handleStateChange);
-    try {
-      await TrackPlayer.destroy();
-    } catch (e) {}
   }
 
   _handleStateChange(appState) {
