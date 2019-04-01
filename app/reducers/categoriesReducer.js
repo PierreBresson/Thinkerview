@@ -47,7 +47,7 @@ export default (categoriesReducer = (state = initialState, action) => {
       return {
         ...state,
         ...initialState,
-        errorFetchingCategories: false,
+        isFetchingCategories: false,
         errorFetchingCategories: true
       };
     default:

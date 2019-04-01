@@ -6,7 +6,7 @@ import {
   FETCHING_INTERVIEWS_LAST_PAGE,
   INTERVIEWS_SCROLL_TO_TOP
 } from "./types";
-import { hasPath } from "ramda";
+import { pathOr } from "ramda";
 import getInterviews from "../services/api/getInterviews";
 
 export const gettingInterviews = () => {
@@ -39,12 +39,10 @@ export const interviewsFetcher = (category_id = 0) => {
           return dispatch(gettingInterviewsSuccess(res));
         })
         .catch((error = {}) => {
-          if (hasPath(["response", "status"], error)) {
-            if (error.response.status === 400) {
-              return dispatch(setLastPageInterviews());
-            } else {
-              return dispatch(gettingInterviewsFailure());
-            }
+          const status = pathOr(0, ["response", "status"], error);
+
+          if (status === 400) {
+            return dispatch(setLastPageInterviews());
           } else {
             return dispatch(gettingInterviewsFailure());
           }
