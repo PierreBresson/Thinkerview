@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   Text,
   View,
+  Linking,
   SectionList,
   StyleSheet,
   StatusBar,
@@ -163,6 +164,15 @@ class HomeScreen extends React.Component {
               iconName={"refresh"}
               onPress={this.startAppFromZero}
             />
+            <Text style={styles.error}>
+              {config.strings.homeScreen.check_website_message}
+            </Text>
+            <Button
+              message={config.strings.homeScreen.check_website_button}
+              onPress={() =>
+                Linking.openURL(config.urls.links.thinkerview.website)
+              }
+            />
           </View>
         );
       }
@@ -240,6 +250,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   error: {
+    marginTop: 20,
     fontSize: 14,
     fontFamily: config.fonts.bodyFont
   },

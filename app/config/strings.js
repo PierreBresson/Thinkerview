@@ -10,7 +10,9 @@ const strings = {
     copyLink: "Copier le lien"
   },
   homeScreen: {
-    endOfList: "The end!"
+    endOfList: "The end!",
+    check_website_message: "Peut être que le site Thinkerview ne répond plus.",
+    check_website_button: "Vérifier état du site"
   },
   offlineScreen: {
     title: "Podcasts hors-ligne",
