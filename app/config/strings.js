@@ -10,6 +10,10 @@ const strings = {
     copyLink: "Copier le lien"
   },
   homeScreen: {
+    explorer: "Explorer",
+    lastestInterviews: "Dernières interviews",
+    seeAll: "Tout voir",
+    categories: "Catégories",
     endOfList: "The end!",
     check_website_message: "Peut être que le site Thinkerview ne répond plus.",
     check_website_button: "Vérifier état du site"

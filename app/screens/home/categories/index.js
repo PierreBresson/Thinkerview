@@ -54,37 +54,47 @@ class HomeScreen extends React.Component {
     }
   };
 
-  renderHeader = () => (
-    <View style={styles.headerView}>
-      <Text style={styles.header}>{config.strings.homeScreen.explorer}</Text>
-    </View>
-  );
+  _onEnReached = () => {
+    const {
+      isFetchingInterviews,
+      errorFetchingInterviews
+    } = this.props.interviews;
+    const { errorFetchingCategories } = this.props.categories;
 
-  renderIntroInterviews = () => (
-    <View style={styles.introView}>
-      <View style={{ flex: 3 }}>
-        <Text style={styles.subHeader}>
-          {config.strings.homeScreen.lastestInterviews}
-        </Text>
-      </View>
-      <TouchableOpacity onPress={() => {}} style={styles.linkView}>
-        <Text style={styles.link}>{config.strings.homeScreen.seeAll}</Text>
-      </TouchableOpacity>
-    </View>
-  );
+    const shouldFetchData =
+      !isFetchingInterviews &&
+      !errorFetchingInterviews &&
+      !errorFetchingCategories;
 
-  renderIntroCategories = () => (
-    <View style={styles.introView}>
-      <View style={{ flex: 3 }}>
-        <Text style={styles.subHeader}>
-          {config.strings.homeScreen.categories}
-        </Text>
-      </View>
-      <TouchableOpacity onPress={() => {}} style={styles.linkView}>
-        <Text style={styles.link}>{config.strings.homeScreen.seeAll}</Text>
+    if (shouldFetchData) {
+      this.props.interviewsFetcher(this.props.categories.categorySelected.id);
+    }
+  };
+
+  renderIntro = () => {
+    const {
+      all_categories,
+      categoryModalOpen,
+      categorySelected
+    } = this.props.categories;
+    const chevronUp = "chevron-with-circle-up";
+    const chevronDown = "chevron-with-circle-down";
+
+    return (
+      <TouchableOpacity
+        style={styles.headerView}
+        onPress={all_categories ? this.props.categoryModalAction : null}
+      >
+        <Text style={styles.header}>{categorySelected.name}</Text>
+        <IconEntypo
+          name={categoryModalOpen ? chevronUp : chevronDown}
+          size={40}
+          color={config.colors.thinkerGreen}
+          style={styles.iconShare}
+        />
       </TouchableOpacity>
-    </View>
-  );
+    );
+  };
 
   renderActivityIndicator = () => {
     const { isFetchingInterviews } = this.props.interviews;
@@ -97,7 +107,7 @@ class HomeScreen extends React.Component {
     return null;
   };
 
-  renderVideoItem = (item, index) => {
+  renderItem = (item, index) => {
     const VideoComponent = index ? VideoItem : VideoItemFeatured;
 
     return (
@@ -108,16 +118,6 @@ class HomeScreen extends React.Component {
           this.props.navigation.navigate("Article");
         }}
       />
-    );
-  };
-
-  renderCategoryItem = (item, index) => {
-    console.log("TCL: HomeScreen -> renderCategoryItem -> index", index);
-    console.log("TCL: HomeScreen -> renderCategoryItem -> item", item);
-    return (
-      <View style={styles.categoryElementView}>
-        <Text style={styles.categoryElementText}>{item.name}</Text>
-      </View>
     );
   };
 
@@ -182,14 +182,8 @@ class HomeScreen extends React.Component {
   };
 
   render() {
-    const {
-      data,
-      isFetchingCategories,
-      isFetchingInterviews
-    } = this.props.interviews;
-    const { all_categories } = this.props.categories;
-    const isFetching = isFetchingCategories && isFetchingInterviews;
-    const allData = all_categories && data;
+    let { data } = this.props.interviews;
+    let { all_categories } = this.props.categories;
 
     return (
       <View style={config.styles.containerNoPadding}>
@@ -201,19 +195,17 @@ class HomeScreen extends React.Component {
           ref={sectionList => {
             this.sectionList = sectionList;
           }}
+          bounces={false}
           refreshing={false}
+          onEndReachedThreshold={0.4}
+          onEndReached={this._onEnReached}
           onRefresh={this.startAppFromZero}
+          renderSectionFooter={this.renderFooter}
           sections={[
             {
               data: [1],
               keyExtractor: (item, index) => index,
-              renderItem: (item, index) => this.renderHeader()
-            },
-            {
-              data: [1],
-              keyExtractor: (item, index) => index,
-              renderItem: (item, index) =>
-                allData && !isFetching ? this.renderIntroInterviews() : null
+              renderItem: (item, index) => this.renderIntro()
             },
             {
               data: [1],
@@ -226,24 +218,10 @@ class HomeScreen extends React.Component {
               renderItem: (item, index) => this.renderError()
             },
             {
-              data: allData ? data.slice(0, 3) : "",
+              data: all_categories ? (data ? data : "") : "",
               keyExtractor: (item, index) => item.id,
-              renderItem: item => this.renderVideoItem(item.item, item.index)
-            },
-            {
-              data: [1],
-              keyExtractor: (item, index) => index,
-              renderItem: (item, index) =>
-                allData && !isFetching ? this.renderIntroCategories() : null
+              renderItem: item => this.renderItem(item.item, item.index)
             }
-            // {
-            //   data: allData ? all_categories : "",
-            //   keyExtractor: (item, index) => index,
-            //   renderItem: (item, index) =>
-            //     allData && !isFetching
-            //       ? this.renderCategoryItem(item.item, item.index)
-            //       : null
-            // }
           ]}
         />
       </View>
@@ -253,38 +231,18 @@ class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   headerView: {
-    ...config.styles.container,
-    paddingTop: 40
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 40,
+    paddingBottom: 20
   },
   header: {
-    fontSize: 30,
+    fontSize: 24,
     fontFamily: config.fonts.titleFont,
-    paddingBottom: 10,
+    paddingBottom: 6,
     paddingRight: 6,
     color: config.colors.blackTorn
-  },
-  introView: {
-    ...config.styles.container,
-    flexDirection: "row",
-    paddingBottom: 10,
-    paddingTop: 20
-  },
-  subHeader: {
-    fontSize: 22,
-    fontFamily: config.fonts.titleFont,
-    paddingBottom: 4,
-    paddingRight: 6,
-    color: config.colors.blackTorn
-  },
-  linkView: {
-    flex: 1,
-    alignItems: "flex-end",
-    justifyContent: "center"
-  },
-  link: {
-    fontSize: 16,
-    fontFamily: config.fonts.bodyFont,
-    color: config.colors.thinkerGreen
   },
   errorView: {
     ...config.styles.container,
@@ -311,13 +269,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: config.fonts.bodyFont,
     color: config.colors.blackTorn
-  },
-  categoryElementView: {
-    flex: 1,
-    backgroundColor: config.colors.thinkerGreen
-  },
-  categoryElementText: {
-    fontSize: 18
   }
 });
 
