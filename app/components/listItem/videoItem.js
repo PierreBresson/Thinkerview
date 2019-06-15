@@ -81,8 +81,7 @@ class VideoItem extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    paddingTop: 14,
-    paddingBottom: 14,
+    paddingVertical: 8,
     ...config.styles.container
   },
   img: {

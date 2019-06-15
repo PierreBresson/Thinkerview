@@ -59,7 +59,6 @@ class VideoItemFeatured extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 10,
     ...config.styles.container
   },
   imgView: {
