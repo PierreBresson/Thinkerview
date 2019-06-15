@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   text: {
     marginTop: 2,
     fontSize: 16,
-    fontFamily: config.fonts.bold,
+    fontFamily: config.fonts.header,
     color: config.colors.black
   },
   categoriesView: {

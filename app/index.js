@@ -56,22 +56,16 @@ const TabScreens = createBottomTabNavigator(
         }
       ),
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ tintColor, focused }) =>
-          focused ? (
-            <IconEntypo
-              name={"folder-video"}
-              size={28}
-              color={config.colors.thinkerGreen}
-              style={styles.icon}
-            />
-          ) : (
-            <IconEntypo
-              name={"folder-video"}
-              size={28}
-              color={config.colors.blackTorn}
-              style={styles.icon}
-            />
-          ),
+        tabBarIcon: ({ tintColor, focused }) => (
+          <IconEntypo
+            name={"folder-video"}
+            size={28}
+            color={
+              focused ? config.colors.thinkerGreen : config.colors.blackTorn
+            }
+            style={styles.icon}
+          />
+        ),
         tabBarOnPress: ({ navigation }) => {
           if (navigation.isFocused()) {
             App.store.dispatch(interviewsScrollToTop());
@@ -84,22 +78,16 @@ const TabScreens = createBottomTabNavigator(
     Podcast: {
       screen: PodcastScreen,
       navigationOptions: {
-        tabBarIcon: ({ tintColor, focused }) =>
-          focused ? (
-            <FontAwesome
-              name={"podcast"}
-              size={28}
-              color={config.colors.thinkerGreen}
-              style={styles.icon}
-            />
-          ) : (
-            <FontAwesome
-              name={"podcast"}
-              size={28}
-              color={config.colors.blackTorn}
-              style={styles.icon}
-            />
-          )
+        tabBarIcon: ({ tintColor, focused }) => (
+          <FontAwesome
+            name={"podcast"}
+            size={28}
+            color={
+              focused ? config.colors.thinkerGreen : config.colors.blackTorn
+            }
+            style={styles.icon}
+          />
+        )
       }
     },
     Offline: {
@@ -121,43 +109,31 @@ const TabScreens = createBottomTabNavigator(
         }
       ),
       navigationOptions: {
-        tabBarIcon: ({ tintColor, focused }) =>
-          focused ? (
-            <IconEntypo
-              name={"download"}
-              size={28}
-              color={config.colors.thinkerGreen}
-              style={styles.icon}
-            />
-          ) : (
-            <IconEntypo
-              name={"download"}
-              size={28}
-              color={config.colors.blackTorn}
-              style={styles.icon}
-            />
-          )
+        tabBarIcon: ({ tintColor, focused }) => (
+          <IconEntypo
+            name={"download"}
+            size={28}
+            color={
+              focused ? config.colors.thinkerGreen : config.colors.blackTorn
+            }
+            style={styles.icon}
+          />
+        )
       }
     },
     About: {
       screen: AboutScreen,
       navigationOptions: {
-        tabBarIcon: ({ tintColor, focused }) =>
-          focused ? (
-            <IconEntypo
-              name={"info-with-circle"}
-              size={28}
-              color={config.colors.thinkerGreen}
-              style={styles.icon}
-            />
-          ) : (
-            <IconEntypo
-              name={"info-with-circle"}
-              size={28}
-              color={config.colors.blackTorn}
-              style={styles.icon}
-            />
-          )
+        tabBarIcon: ({ tintColor, focused }) => (
+          <IconEntypo
+            name={"info-with-circle"}
+            size={28}
+            color={
+              focused ? config.colors.thinkerGreen : config.colors.blackTorn
+            }
+            style={styles.icon}
+          />
+        )
       }
     }
   },

@@ -41,18 +41,6 @@
 	<string/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Gilroy-ExtraBold.ttf</string>
-		<string>Gilroy-Light.ttf</string>
-		<string>Lato-Black.ttf</string>
-		<string>Lato-BlackItalic.ttf</string>
-		<string>Lato-Bold.ttf</string>
-		<string>Lato-BoldItalic.ttf</string>
-		<string>Lato-Hairline.ttf</string>
-		<string>Lato-HairlineItalic.ttf</string>
-		<string>Lato-Italic.ttf</string>
-		<string>Lato-Light.ttf</string>
-		<string>Lato-LightItalic.ttf</string>
-		<string>Lato-Regular.ttf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>
 		<string>Feather.ttf</string>
@@ -67,6 +55,16 @@
 		<string>FontAwesome5_Brands.ttf</string>
 		<string>FontAwesome5_Regular.ttf</string>
 		<string>FontAwesome5_Solid.ttf</string>
+		<string>Raleway-Bold.ttf</string>
+		<string>Raleway-ExtraBold.ttf</string>
+		<string>Raleway-ExtraLight.ttf</string>
+		<string>Raleway-Heavy.ttf</string>
+		<string>Raleway-Light.ttf</string>
+		<string>Raleway-Medium.ttf</string>
+		<string>Raleway-Regular.ttf</string>
+		<string>Raleway-SemiBold.ttf</string>
+		<string>Raleway-Thin.ttf</string>
+		<string>Raleway-Regular-normal.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

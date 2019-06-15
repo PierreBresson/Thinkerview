@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   text: {
     marginTop: 2,
     fontSize: 18,
-    fontFamily: config.fonts.bold,
+    fontFamily: config.fonts.header,
     color: config.colors.black,
     paddingBottom: 8
   },

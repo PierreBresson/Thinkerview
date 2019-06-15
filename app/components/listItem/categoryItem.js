@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    fontFamily: config.fonts.bodyFont,
+    fontFamily: config.fonts.header,
     color: config.colors.black
   }
 });

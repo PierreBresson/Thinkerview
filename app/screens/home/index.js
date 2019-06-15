@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
   },
   subHeader: {
     fontSize: 22,
-    fontFamily: config.fonts.titleFont,
+    fontFamily: config.fonts.subTitleFont,
     paddingBottom: 4,
     paddingRight: 6,
     color: config.colors.blackTorn

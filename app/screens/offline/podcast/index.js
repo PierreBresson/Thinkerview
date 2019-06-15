@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === "ios" ? 20 : 0,
     fontSize: 20,
     color: config.colors.black,
-    fontFamily: config.fonts.black
+    fontFamily: config.fonts.titleFont
   },
   body: {
     fontSize: 16,
