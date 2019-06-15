@@ -68,6 +68,7 @@
 		F5005C93CA644DD799F7D8FB /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B52D632E746A41B69ECF1B83 /* libRNVectorIcons.a */; };
 		F6E436C3E80F4947BDCE34B1 /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE6B91903DED426AAA23E43F /* libRNShare.a */; };
 		FF38E304302C45D482DFCB21 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D87FEB992BF347DDA6CFA5C2 /* FontAwesome5_Regular.ttf */; };
+		D2E236CBCBED4EAA98E505DE /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBD69D120A734041BC827BB9 /* AntDesign.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -461,6 +462,7 @@
 		EAC9F8A9193E4DDAA7F2E700 /* Raleway-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-SemiBold.ttf"; path = "../assets/fonts/Raleway-SemiBold.ttf"; sourceTree = "<group>"; };
 		F0A17AFB75C64F9E8DA9D056 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		F0EF43042B8D4CE49EB9B258 /* RNBackgroundDownloader.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNBackgroundDownloader.xcodeproj; path = "../node_modules/react-native-background-downloader/ios/RNBackgroundDownloader.xcodeproj"; sourceTree = "<group>"; };
+		BBD69D120A734041BC827BB9 /* AntDesign.ttf */ = {isa = PBXFileReference; name = "AntDesign.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -827,6 +829,7 @@
 				EAC9F8A9193E4DDAA7F2E700 /* Raleway-SemiBold.ttf */,
 				39E859CA37B145D59E4F83C8 /* Raleway-Thin.ttf */,
 				99C0BA873CA84878BDD9A75A /* Raleway-Regular.ttf */,
+				BBD69D120A734041BC827BB9 /* AntDesign.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1379,6 +1382,7 @@
 				9D5DF90497FC4A9689B624FF /* Raleway-SemiBold.ttf in Resources */,
 				0F024050DA2B41A8B996A293 /* Raleway-Thin.ttf in Resources */,
 				57B0BAAB9C594DA6818AD6F1 /* Raleway-Regular.ttf in Resources */,
+				D2E236CBCBED4EAA98E505DE /* AntDesign.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

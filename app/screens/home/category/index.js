@@ -7,27 +7,22 @@ import {
   Linking,
   SectionList,
   StyleSheet,
-  StatusBar,
-  TouchableOpacity
+  StatusBar
 } from "react-native";
 import { connect } from "react-redux";
 import {
   interviewsFetcher,
   selectArticle,
-  categoriesFetcher,
-  selectCategory,
-  categoryModalAction,
   resetInterviewsFetcher,
   interviewsScrollToTop
-} from "../../actions";
-import IconEntypo from "react-native-vector-icons/Entypo";
-import Button from "../../components/button";
-import VideoItem from "../../components/listItem/videoItem";
-import VideoItemFeatured from "../../components/listItem/videoItemFeatured";
-import CategoryModal from "../../components/categoryModal";
-import config from "../../config";
+} from "../../../actions";
+import Header from "../../../components/header";
+import Button from "../../../components/button";
+import VideoItem from "../../../components/listItem/videoItem";
+import VideoItemFeatured from "../../../components/listItem/videoItemFeatured";
+import config from "../../../config";
 
-class HomeScreen extends React.Component {
+class Category extends React.Component {
   constructor(props) {
     super(props);
     this.startAppFromZero();
@@ -46,11 +41,12 @@ class HomeScreen extends React.Component {
 
   startAppFromZero = () => {
     const { isFetchingInterviews } = this.props.interviews;
-    const { isFetchingCategories } = this.props.categories;
-
-    if (!isFetchingCategories && !isFetchingInterviews) {
+    console.log(
+      "TCL: Category -> startAppFromZero -> this.props.categories.categorySelected.id undefined",
+      this.props.categories.categorySelected.id
+    );
+    if (!isFetchingInterviews) {
       this.props.interviewsFetcher(this.props.categories.categorySelected.id);
-      this.props.categoriesFetcher();
     }
   };
 
@@ -59,48 +55,16 @@ class HomeScreen extends React.Component {
       isFetchingInterviews,
       errorFetchingInterviews
     } = this.props.interviews;
-    const { errorFetchingCategories } = this.props.categories;
 
-    const shouldFetchData =
-      !isFetchingInterviews &&
-      !errorFetchingInterviews &&
-      !errorFetchingCategories;
+    const shouldFetchData = !isFetchingInterviews && !errorFetchingInterviews;
 
     if (shouldFetchData) {
       this.props.interviewsFetcher(this.props.categories.categorySelected.id);
     }
   };
 
-  renderIntro = () => {
-    const {
-      all_categories,
-      categoryModalOpen,
-      categorySelected
-    } = this.props.categories;
-    const chevronUp = "chevron-with-circle-up";
-    const chevronDown = "chevron-with-circle-down";
-
-    return (
-      <TouchableOpacity
-        style={styles.headerView}
-        onPress={all_categories ? this.props.categoryModalAction : null}
-      >
-        <Text style={styles.header}>{categorySelected.name}</Text>
-        <IconEntypo
-          name={categoryModalOpen ? chevronUp : chevronDown}
-          size={40}
-          color={config.colors.thinkerGreen}
-          style={styles.iconShare}
-        />
-      </TouchableOpacity>
-    );
-  };
-
   renderActivityIndicator = () => {
-    const { isFetchingInterviews } = this.props.interviews;
-    const { isFetchingCategories } = this.props.categories;
-
-    if (isFetchingInterviews || isFetchingCategories) {
+    if (this.props.interviews.isFetchingInterviews) {
       return <ActivityIndicator size="large" color="black" />;
     }
 
@@ -150,47 +114,55 @@ class HomeScreen extends React.Component {
 
   renderError = () => {
     const { errorFetchingInterviews } = this.props.interviews;
-    const { errorFetchingCategories } = this.props.categories;
     const { isFetchingInterviews } = this.props.interviews;
-    const { isFetchingCategories } = this.props.categories;
 
-    if (!isFetchingInterviews && !isFetchingCategories) {
-      if (errorFetchingInterviews || errorFetchingCategories) {
-        return (
-          <View style={styles.errorView}>
-            <Text style={styles.error}>{config.strings.errorLoading}</Text>
-            <Button
-              message={config.strings.tryAgain}
-              iconName={"refresh"}
-              onPress={this.startAppFromZero}
-            />
-            <Text style={styles.error}>
-              {config.strings.homeScreen.check_website_message}
-            </Text>
-            <Button
-              message={config.strings.homeScreen.check_website_button}
-              onPress={() =>
-                Linking.openURL(config.urls.links.thinkerview.website)
-              }
-            />
-          </View>
-        );
-      }
+    if (!isFetchingInterviews && errorFetchingInterviews) {
+      return (
+        <View style={styles.errorView}>
+          <Text style={styles.error}>{config.strings.errorLoading}</Text>
+          <Button
+            message={config.strings.tryAgain}
+            iconName={"refresh"}
+            onPress={this.startAppFromZero}
+          />
+          <Text style={styles.error}>
+            {config.strings.homeScreen.check_website_message}
+          </Text>
+          <Button
+            message={config.strings.homeScreen.check_website_button}
+            onPress={() =>
+              Linking.openURL(config.urls.links.thinkerview.website)
+            }
+          />
+        </View>
+      );
     }
 
     return null;
   };
 
+  renderVideoItem = (item, index) => {
+    const VideoComponent = index ? VideoItem : VideoItemFeatured;
+
+    return (
+      <VideoComponent
+        item={item}
+        onPress={() => {
+          this.props.selectArticle(item);
+          this.props.navigation.navigate("Article");
+        }}
+      />
+    );
+  };
+
   render() {
     let { data } = this.props.interviews;
-    let { all_categories } = this.props.categories;
 
     return (
       <View style={config.styles.containerNoPadding}>
         <StatusBar
           barStyle={Platform.OS === "ios" ? "dark-content" : "light-content"}
         />
-        <CategoryModal />
         <SectionList
           ref={sectionList => {
             this.sectionList = sectionList;
@@ -205,7 +177,14 @@ class HomeScreen extends React.Component {
             {
               data: [1],
               keyExtractor: (item, index) => index,
-              renderItem: (item, index) => this.renderIntro()
+              renderItem: item => (
+                <Header onPressLeft={() => this.props.navigation.goBack()} />
+              )
+            },
+            {
+              data: data ? data : "",
+              keyExtractor: (item, index) => item.id,
+              renderItem: item => this.renderVideoItem(item.item, item.index)
             },
             {
               data: [1],
@@ -216,11 +195,6 @@ class HomeScreen extends React.Component {
               data: [1],
               keyExtractor: (item, index) => index,
               renderItem: (item, index) => this.renderError()
-            },
-            {
-              data: all_categories ? (data ? data : "") : "",
-              keyExtractor: (item, index) => item.id,
-              renderItem: item => this.renderItem(item.item, item.index)
             }
           ]}
         />
@@ -281,9 +255,6 @@ const mapDispatchToProps = dispatch => {
     selectArticle: article => dispatch(selectArticle(article)),
     interviewsFetcher: category_id => dispatch(interviewsFetcher(category_id)),
     resetInterviewsFetcher: () => dispatch(resetInterviewsFetcher()),
-    categoriesFetcher: () => dispatch(categoriesFetcher()),
-    selectCategory: category => dispatch(selectCategory(category)),
-    categoryModalAction: () => dispatch(categoryModalAction()),
     interviewsScrollToTop: () => dispatch(interviewsScrollToTop())
   };
 };
@@ -291,4 +262,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HomeScreen);
+)(Category);

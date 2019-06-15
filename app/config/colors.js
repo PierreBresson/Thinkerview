@@ -6,6 +6,7 @@ const colors = {
   blackTorn: "#333333",
   silverTwo: "#c8c7cc",
   thinkerGreen: "#45be84",
+  thinkerGreenWashedOut: "#DAF2E6",
   socialMedia: {
     facebook: "#3b5999",
     twitter: "#55acee",

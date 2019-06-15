@@ -20,11 +20,10 @@ import {
   resetInterviewsFetcher,
   interviewsScrollToTop
 } from "../../actions";
-import IconEntypo from "react-native-vector-icons/Entypo";
+import CategoryItem from "../../components/listItem/categoryItem";
 import Button from "../../components/button";
 import VideoItem from "../../components/listItem/videoItem";
 import VideoItemFeatured from "../../components/listItem/videoItemFeatured";
-import CategoryModal from "../../components/categoryModal";
 import config from "../../config";
 
 class HomeScreen extends React.Component {
@@ -49,7 +48,7 @@ class HomeScreen extends React.Component {
     const { isFetchingCategories } = this.props.categories;
 
     if (!isFetchingCategories && !isFetchingInterviews) {
-      this.props.interviewsFetcher(this.props.categories.categorySelected.id);
+      this.props.interviewsFetcher(0);
       this.props.categoriesFetcher();
     }
   };
@@ -60,6 +59,12 @@ class HomeScreen extends React.Component {
     </View>
   );
 
+  goToCategory = (category = 0) => {
+    this.props.selectCategory(category);
+    this.props.resetInterviewsFetcher();
+    this.props.navigation.navigate("Category");
+  };
+
   renderIntroInterviews = () => (
     <View style={styles.introView}>
       <View style={{ flex: 3 }}>
@@ -67,7 +72,7 @@ class HomeScreen extends React.Component {
           {config.strings.homeScreen.lastestInterviews}
         </Text>
       </View>
-      <TouchableOpacity onPress={() => {}} style={styles.linkView}>
+      <TouchableOpacity style={styles.linkView} onPress={this.goToCategory}>
         <Text style={styles.link}>{config.strings.homeScreen.seeAll}</Text>
       </TouchableOpacity>
     </View>
@@ -75,14 +80,9 @@ class HomeScreen extends React.Component {
 
   renderIntroCategories = () => (
     <View style={styles.introView}>
-      <View style={{ flex: 3 }}>
-        <Text style={styles.subHeader}>
-          {config.strings.homeScreen.categories}
-        </Text>
-      </View>
-      <TouchableOpacity onPress={() => {}} style={styles.linkView}>
-        <Text style={styles.link}>{config.strings.homeScreen.seeAll}</Text>
-      </TouchableOpacity>
+      <Text style={styles.subHeader}>
+        {config.strings.homeScreen.categories}
+      </Text>
     </View>
   );
 
@@ -111,15 +111,9 @@ class HomeScreen extends React.Component {
     );
   };
 
-  renderCategoryItem = (item, index) => {
-    console.log("TCL: HomeScreen -> renderCategoryItem -> index", index);
-    console.log("TCL: HomeScreen -> renderCategoryItem -> item", item);
-    return (
-      <View style={styles.categoryElementView}>
-        <Text style={styles.categoryElementText}>{item.name}</Text>
-      </View>
-    );
-  };
+  renderCategoryItem = (item, index) => (
+    <CategoryItem item={item} onPress={() => this.goToCategory(item.id)} />
+  );
 
   renderFooter = ({ section }) => {
     const { isFetchingInterviews, lastPage } = this.props.interviews;
@@ -196,7 +190,6 @@ class HomeScreen extends React.Component {
         <StatusBar
           barStyle={Platform.OS === "ios" ? "dark-content" : "light-content"}
         />
-        <CategoryModal />
         <SectionList
           ref={sectionList => {
             this.sectionList = sectionList;
@@ -235,15 +228,15 @@ class HomeScreen extends React.Component {
               keyExtractor: (item, index) => index,
               renderItem: (item, index) =>
                 allData && !isFetching ? this.renderIntroCategories() : null
+            },
+            {
+              data: allData ? all_categories : "",
+              keyExtractor: (item, index) => index,
+              renderItem: (item, index) =>
+                allData && !isFetching
+                  ? this.renderCategoryItem(item.item, item.index)
+                  : null
             }
-            // {
-            //   data: allData ? all_categories : "",
-            //   keyExtractor: (item, index) => index,
-            //   renderItem: (item, index) =>
-            //     allData && !isFetching
-            //       ? this.renderCategoryItem(item.item, item.index)
-            //       : null
-            // }
           ]}
         />
       </View>

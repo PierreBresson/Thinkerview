@@ -3,6 +3,8 @@ import { AppState, Platform, StyleSheet } from "react-native";
 import { Provider } from "react-redux";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { createStore, applyMiddleware } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
@@ -24,6 +26,7 @@ import OfflineScreen from "./screens/offline";
 import AboutScreen from "./screens/about";
 
 import ArticleScreen from "./screens/home/article";
+import CategoryScreen from "./screens/home/category";
 import OfflinePodcastScreen from "./screens/offline/podcast";
 
 // Temporary fix for not show a warning due to react navigation
@@ -43,6 +46,10 @@ const TabScreens = createBottomTabNavigator(
             screen: HomeScreen,
             path: "home"
           },
+          Category: {
+            screen: CategoryScreen,
+            path: "category"
+          },
           Article: {
             screen: ArticleScreen
           }
@@ -57,8 +64,8 @@ const TabScreens = createBottomTabNavigator(
       ),
       navigationOptions: ({ navigation }) => ({
         tabBarIcon: ({ tintColor, focused }) => (
-          <IconEntypo
-            name={"folder-video"}
+          <Ionicons
+            name={"md-compass"}
             size={28}
             color={
               focused ? config.colors.thinkerGreen : config.colors.blackTorn
@@ -110,8 +117,8 @@ const TabScreens = createBottomTabNavigator(
       ),
       navigationOptions: {
         tabBarIcon: ({ tintColor, focused }) => (
-          <IconEntypo
-            name={"download"}
+          <MaterialCommunityIcons
+            name={"library-music"}
             size={28}
             color={
               focused ? config.colors.thinkerGreen : config.colors.blackTorn
