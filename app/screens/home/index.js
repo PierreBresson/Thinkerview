@@ -16,8 +16,6 @@ import {
   selectArticle,
   categoriesFetcher,
   selectCategory,
-  categoryModalAction,
-  resetInterviewsFetcher,
   interviewsScrollToTop
 } from "../../actions";
 import CategoryItem from "../../components/listItem/categoryItem";
@@ -59,9 +57,8 @@ class HomeScreen extends React.Component {
     </View>
   );
 
-  goToCategory = (category = 0) => {
-    this.props.selectCategory(category);
-    this.props.resetInterviewsFetcher();
+  goToCategory = (item = { id: 0, name: "Toutes les inteviews" }) => {
+    this.props.selectCategory(item);
     this.props.navigation.navigate("Category");
   };
 
@@ -112,7 +109,15 @@ class HomeScreen extends React.Component {
   };
 
   renderCategoryItem = (item, index) => (
-    <CategoryItem item={item} onPress={() => this.goToCategory(item.id)} />
+    <CategoryItem
+      item={item}
+      style={
+        this.props.categories.all_categories.length - 2 === index
+          ? { marginBottom: 20 }
+          : null
+      }
+      onPress={() => this.goToCategory(item)}
+    />
   );
 
   renderFooter = ({ section }) => {
@@ -205,13 +210,13 @@ class HomeScreen extends React.Component {
             {
               data: [1],
               keyExtractor: (item, index) => index,
-              renderItem: (item, index) =>
-                allData && !isFetching ? this.renderIntroInterviews() : null
+              renderItem: (item, index) => this.renderActivityIndicator()
             },
             {
               data: [1],
               keyExtractor: (item, index) => index,
-              renderItem: (item, index) => this.renderActivityIndicator()
+              renderItem: (item, index) =>
+                allData && !isFetching ? this.renderIntroInterviews() : null
             },
             {
               data: [1],
@@ -322,10 +327,8 @@ const mapDispatchToProps = dispatch => {
   return {
     selectArticle: article => dispatch(selectArticle(article)),
     interviewsFetcher: category_id => dispatch(interviewsFetcher(category_id)),
-    resetInterviewsFetcher: () => dispatch(resetInterviewsFetcher()),
     categoriesFetcher: () => dispatch(categoriesFetcher()),
     selectCategory: category => dispatch(selectCategory(category)),
-    categoryModalAction: () => dispatch(categoryModalAction()),
     interviewsScrollToTop: () => dispatch(interviewsScrollToTop())
   };
 };

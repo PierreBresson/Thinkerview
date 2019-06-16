@@ -11,10 +11,10 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import {
-  interviewsFetcher,
+  categoryInterviewsFetcher,
   selectArticle,
-  resetInterviewsFetcher,
-  interviewsScrollToTop
+  categoryInterviewsScrollToTop,
+  resetCategoryInterviewsFetcher
 } from "../../../actions";
 import Header from "../../../components/header";
 import Button from "../../../components/button";
@@ -29,8 +29,8 @@ class Category extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.interviews.shouldScrollToTop) {
-      this.props.interviewsScrollToTop();
+    if (nextProps.categoryInterviews.shouldScrollToTop) {
+      this.props.categoryInterviewsScrollToTop();
       this.sectionList.scrollToLocation({
         sectionIndex: 0,
         itemIndex: 0
@@ -40,31 +40,33 @@ class Category extends React.Component {
   }
 
   startAppFromZero = () => {
-    const { isFetchingInterviews } = this.props.interviews;
-    console.log(
-      "TCL: Category -> startAppFromZero -> this.props.categories.categorySelected.id undefined",
-      this.props.categories.categorySelected.id
-    );
-    if (!isFetchingInterviews) {
-      this.props.interviewsFetcher(this.props.categories.categorySelected.id);
+    const { isFetchingCategoryInterviews } = this.props.categoryInterviews;
+    this.props.resetCategoryInterviewsFetcher();
+    if (!isFetchingCategoryInterviews) {
+      this.props.categoryInterviewsFetcher(
+        this.props.categories.categorySelected.id
+      );
     }
   };
 
   _onEnReached = () => {
     const {
-      isFetchingInterviews,
-      errorFetchingInterviews
-    } = this.props.interviews;
+      isFetchingCategoryInterviews,
+      errorFetchingCategoryInterviews
+    } = this.props.categoryInterviews;
 
-    const shouldFetchData = !isFetchingInterviews && !errorFetchingInterviews;
+    const shouldFetchData =
+      !isFetchingCategoryInterviews && !errorFetchingCategoryInterviews;
 
     if (shouldFetchData) {
-      this.props.interviewsFetcher(this.props.categories.categorySelected.id);
+      this.props.categoryInterviewsFetcher(
+        this.props.categories.categorySelected.id
+      );
     }
   };
 
   renderActivityIndicator = () => {
-    if (this.props.interviews.isFetchingInterviews) {
+    if (this.props.categoryInterviews.isFetchingCategoryInterviews) {
       return <ActivityIndicator size="large" color="black" />;
     }
 
@@ -86,11 +88,14 @@ class Category extends React.Component {
   };
 
   renderFooter = ({ section }) => {
-    const { isFetchingInterviews, lastPage } = this.props.interviews;
+    const {
+      isFetchingCategoryInterviews,
+      lastPage
+    } = this.props.categoryInterviews;
 
     if (section.data)
       if (section.data.length > 1)
-        if (isFetchingInterviews) {
+        if (isFetchingCategoryInterviews) {
           return (
             <ActivityIndicator
               style={styles.loader}
@@ -113,10 +118,10 @@ class Category extends React.Component {
   };
 
   renderError = () => {
-    const { errorFetchingInterviews } = this.props.interviews;
-    const { isFetchingInterviews } = this.props.interviews;
+    const { errorFetchingCategoryInterviews } = this.props.categoryInterviews;
+    const { isFetchingCategoryInterviews } = this.props.categoryInterviews;
 
-    if (!isFetchingInterviews && errorFetchingInterviews) {
+    if (!isFetchingCategoryInterviews && errorFetchingCategoryInterviews) {
       return (
         <View style={styles.errorView}>
           <Text style={styles.error}>{config.strings.errorLoading}</Text>
@@ -156,7 +161,7 @@ class Category extends React.Component {
   };
 
   render() {
-    let { data } = this.props.interviews;
+    let { data } = this.props.categoryInterviews;
 
     return (
       <View style={config.styles.containerNoPadding}>
@@ -247,15 +252,21 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  return { interviews: state.interviews, categories: state.categories };
+  return {
+    categoryInterviews: state.categoryInterviews,
+    categories: state.categories
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    resetCategoryInterviewsFetcher: () =>
+      dispatch(resetCategoryInterviewsFetcher()),
     selectArticle: article => dispatch(selectArticle(article)),
-    interviewsFetcher: category_id => dispatch(interviewsFetcher(category_id)),
-    resetInterviewsFetcher: () => dispatch(resetInterviewsFetcher()),
-    interviewsScrollToTop: () => dispatch(interviewsScrollToTop())
+    categoryInterviewsFetcher: category_id =>
+      dispatch(categoryInterviewsFetcher(category_id)),
+    categoryInterviewsScrollToTop: () =>
+      dispatch(categoryInterviewsScrollToTop())
   };
 };
 

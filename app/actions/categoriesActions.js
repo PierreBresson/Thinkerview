@@ -2,16 +2,9 @@ import {
   FETCHING_CATEGORIES,
   FETCHING_CATEGORIES_SUCCESS,
   FETCHING_CATEGORIES_ERROR,
-  SELECT_CATEGORY,
-  CATEGORY_MODAL_ACTION
+  SELECT_CATEGORY
 } from "./types";
 import getAllCategories from "../services/api/getAllCategories";
-
-export const categoryModalAction = () => {
-  return {
-    type: CATEGORY_MODAL_ACTION
-  };
-};
 
 export const selectCategory = category => {
   return {
