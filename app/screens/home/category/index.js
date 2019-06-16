@@ -48,7 +48,7 @@ class Category extends React.Component {
     this.props.resetCategoryInterviewsFetcher();
     if (!isFetchingCategoryInterviews) {
       this.props.categoryInterviewsFetcher(
-        this.props.categories.categorySelected.id
+        this.props.navigation.state.params.id
       );
     }
   };
@@ -64,7 +64,7 @@ class Category extends React.Component {
 
     if (shouldFetchData) {
       this.props.categoryInterviewsFetcher(
-        this.props.categories.categorySelected.id
+        this.props.navigation.state.params.id
       );
     }
   };

@@ -60,8 +60,7 @@ class HomeScreen extends React.Component {
 
   goToCategory = item => {
     const itemDefault = { id: 0, name: "Toutes les inteviews" };
-    this.props.selectCategory(item ? item : itemDefault);
-    this.props.navigation.navigate("Category");
+    this.props.navigation.navigate("Category", item);
   };
 
   renderIntroInterviews = () => (
