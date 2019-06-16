@@ -32,10 +32,6 @@ class HomeScreen extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log(
-      "TCL: HomeScreen -> shouldComponentUpdate -> nextProps",
-      nextProps
-    );
     if (nextProps.interviews.shouldScrollToTop) {
       this.props.interviewsScrollToTop();
       this.sectionList.scrollToLocation({
@@ -62,8 +58,9 @@ class HomeScreen extends React.Component {
     </View>
   );
 
-  goToCategory = (item = { id: 0, name: "Toutes les inteviews" }) => {
-    this.props.selectCategory(item);
+  goToCategory = item => {
+    const itemDefault = { id: 0, name: "Toutes les inteviews" };
+    this.props.selectCategory(item ? item : itemDefault);
     this.props.navigation.navigate("Category");
   };
 
