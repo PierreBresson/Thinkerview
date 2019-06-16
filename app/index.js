@@ -78,7 +78,6 @@ const TabScreens = createBottomTabNavigator(
           />
         ),
         tabBarOnPress: ({ navigation }) => {
-          console.log("TCL: navigation", navigation);
           if (navigation.isFocused()) {
             const { routes } = navigation.state;
             if (!isArray(routes)) {

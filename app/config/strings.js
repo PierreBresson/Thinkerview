@@ -25,7 +25,7 @@ const strings = {
   aboutScreen: {
     about: "À propos",
     aboutAuthor:
-      "Cette application a été conçue par Pierre Bresson, bénévolement. N'hésitez pas à me faire parvenir vos bugs et la procédure pour les reproduire, de façon civilisée.",
+      "Cette application a été conçue par Pierre Bresson, bénévolement, avec l'aide d'Anthony Abitbol pour le design. N'hésitez pas à me faire parvenir vos bugs et la procédure pour les reproduire, de façon civilisée.",
     thinkerview: "Thinkerview",
     thinkerviewDescription:
       "ThinkerView est un groupe indépendant issu d'internet, très diffèrent de la plup" +
