@@ -29,6 +29,10 @@ class Category extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    console.log(
+      "TCL: Category -> shouldComponentUpdate -> nextProps",
+      nextProps
+    );
     if (nextProps.categoryInterviews.shouldScrollToTop) {
       this.props.categoryInterviewsScrollToTop();
       this.sectionList.scrollToLocation({

@@ -32,6 +32,10 @@ class HomeScreen extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    console.log(
+      "TCL: HomeScreen -> shouldComponentUpdate -> nextProps",
+      nextProps
+    );
     if (nextProps.interviews.shouldScrollToTop) {
       this.props.interviewsScrollToTop();
       this.sectionList.scrollToLocation({

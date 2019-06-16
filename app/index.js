@@ -16,8 +16,10 @@ import {
   createBottomTabNavigator,
   createStackNavigator
 } from "react-navigation";
+import { is } from "ramda";
 import { updatePlayback } from "./actions/playerActions";
 import { interviewsScrollToTop } from "./actions/interviewsActions";
+import { categoryInterviewsScrollToTop } from "./actions/categoryInterviewsActions";
 import config from "./config";
 
 import HomeScreen from "./screens/home";
@@ -36,6 +38,8 @@ YellowBox.ignoreWarnings([
   "Remote debugger is in a background tab which may cause apps to perform slowly"
 ]);
 console.ignoredYellowBox = ["Remote debugger"];
+
+const isArray = is(Array);
 
 const TabScreens = createBottomTabNavigator(
   {
@@ -74,8 +78,17 @@ const TabScreens = createBottomTabNavigator(
           />
         ),
         tabBarOnPress: ({ navigation }) => {
+          console.log("TCL: navigation", navigation);
           if (navigation.isFocused()) {
-            App.store.dispatch(interviewsScrollToTop());
+            const { routes } = navigation.state;
+            if (!isArray(routes)) {
+              return;
+            }
+            if (routes.length === 1) {
+              App.store.dispatch(interviewsScrollToTop());
+            } else if (routes.length === 2) {
+              App.store.dispatch(categoryInterviewsScrollToTop());
+            }
           } else {
             navigation.navigate("Home");
           }
