@@ -76,22 +76,22 @@ const TabScreens = createBottomTabNavigator(
             }
             style={styles.icon}
           />
-        ),
-        tabBarOnPress: ({ navigation }) => {
-          if (navigation.isFocused()) {
-            const { routes } = navigation.state;
-            if (!isArray(routes)) {
-              return;
-            }
-            if (routes.length === 1) {
-              App.store.dispatch(interviewsScrollToTop());
-            } else if (routes.length === 2) {
-              App.store.dispatch(categoryInterviewsScrollToTop());
-            }
-          } else {
-            navigation.navigate("Home");
-          }
-        }
+        )
+        // tabBarOnPress: ({ navigation }) => {
+        //   if (navigation.isFocused()) {
+        //     const { routes } = navigation.state;
+        //     if (!isArray(routes)) {
+        //       return;
+        //     }
+        //     if (routes.length === 1) {
+        //       App.store.dispatch(interviewsScrollToTop());
+        //     } else if (routes.length === 2) {
+        //       App.store.dispatch(categoryInterviewsScrollToTop());
+        //     }
+        //   } else {
+        //     navigation.navigate("Home");
+        //   }
+        // }
       })
     },
     Podcast: {
