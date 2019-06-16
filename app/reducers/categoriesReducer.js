@@ -32,7 +32,7 @@ export default (categoriesReducer = (state = initialState, action) => {
     case FETCHING_CATEGORIES_SUCCESS:
       return {
         ...state,
-        all_categories: [initialcategorySelected, ...action.categories],
+        all_categories: action.categories,
         isFetchingCategories: false,
         errorFetchingCategories: false
       };

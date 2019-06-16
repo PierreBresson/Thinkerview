@@ -11,6 +11,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import { connect } from "react-redux";
+import { sortBy, prop } from "ramda";
 import {
   interviewsFetcher,
   selectArticle,
@@ -235,7 +236,7 @@ class HomeScreen extends React.Component {
                 allData && !isFetching ? this.renderIntroCategories() : null
             },
             {
-              data: allData ? all_categories : "",
+              data: allData ? sortBy(prop("name"))(all_categories) : "",
               keyExtractor: (item, index) => index,
               renderItem: (item, index) =>
                 allData && !isFetching

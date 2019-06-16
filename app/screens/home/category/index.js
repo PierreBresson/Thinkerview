@@ -66,7 +66,11 @@ class Category extends React.Component {
   };
 
   renderActivityIndicator = () => {
-    if (this.props.categoryInterviews.isFetchingCategoryInterviews) {
+    const {
+      isFetchingCategoryInterviews,
+      data
+    } = this.props.categoryInterviews;
+    if (isFetchingCategoryInterviews && !data) {
       return <ActivityIndicator size="large" color="black" />;
     }
 
@@ -187,14 +191,14 @@ class Category extends React.Component {
               )
             },
             {
-              data: data ? data : "",
-              keyExtractor: (item, index) => item.id,
-              renderItem: item => this.renderVideoItem(item.item, item.index)
-            },
-            {
               data: [1],
               keyExtractor: (item, index) => index,
               renderItem: (item, index) => this.renderActivityIndicator()
+            },
+            {
+              data: data ? data : "",
+              keyExtractor: (item, index) => item.id,
+              renderItem: item => this.renderVideoItem(item.item, item.index)
             },
             {
               data: [1],
