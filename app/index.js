@@ -1,5 +1,5 @@
-import React, { PureComponent } from "react";
-import { AppState, Platform, StyleSheet } from "react-native";
+import React, { Component } from "react";
+import { AppState, Platform, StyleSheet, View } from "react-native";
 import { Provider } from "react-redux";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -17,7 +17,9 @@ import {
   createStackNavigator
 } from "react-navigation";
 import { is } from "ramda";
-import { updatePlayback } from "./actions/playerActions";
+import TrackPlayer from "react-native-track-player";
+
+import { playbackState, updatePlayback } from "./actions/playerActions";
 import { interviewsScrollToTop } from "./actions/interviewsActions";
 import { categoryInterviewsScrollToTop } from "./actions/categoryInterviewsActions";
 import config from "./config";
@@ -181,7 +183,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, getRootReducer());
 
-class App extends PureComponent {
+class App extends Component {
   static store = createStore(
     persistedReducer,
     applyMiddleware(logger, thunkMiddleware)
@@ -189,32 +191,87 @@ class App extends PureComponent {
   static persistor = persistStore(App.store);
 
   async componentDidMount() {
-    AppState.addEventListener("change", this._handleStateChange);
+    TrackPlayer.setupPlayer({}).then(() => {
+      this.onTrackChanged = TrackPlayer.addEventListener(
+        "playback-track-changed",
+        async data => {
+          if (data.nextTrack) {
+            App.store.dispatch(updatePlayback(data.nextTrack));
+          }
+        }
+      );
 
-    // TODO remove temp code
-    await TrackPlayer.setupPlayer({});
+      this.onStateChanged = TrackPlayer.addEventListener(
+        "playback-state",
+        data => {
+          if (data.state) {
+            App.store.dispatch(playbackState(data.state));
+          }
+        }
+      );
+
+      this.onRemotePlay = TrackPlayer.addEventListener("remote-play", () =>
+        TrackPlayer.play()
+      );
+
+      this.onRemotePause = TrackPlayer.addEventListener("remote-pause", () =>
+        TrackPlayer.pause()
+      );
+
+      this.onError = TrackPlayer.addEventListener("playback-error", () => {
+        Alert.alert("An error ocurred");
+      });
+
+      this.onStop = TrackPlayer.addEventListener("remote-stop", () => {
+        TrackPlayer.destroy();
+      });
+
+      this.onJumpForward = TrackPlayer.addEventListener(
+        "remote-jump-forward",
+        async data => {
+          if (data.position) {
+            TrackPlayer.seekTo(data.position + 15);
+          }
+        }
+      );
+
+      this.onJumpBackward = TrackPlayer.addEventListener(
+        "remote-jump-backward",
+        async data => {
+          if (data.position) {
+            TrackPlayer.seekTo(data.position - 15);
+          }
+        }
+      );
+    });
+
     TrackPlayer.updateOptions({
+      stopWithApp: true,
       jumpInterval: 15,
-      stopWithApp: false,
       capabilities: [
         TrackPlayer.CAPABILITY_PLAY,
         TrackPlayer.CAPABILITY_PAUSE,
         TrackPlayer.CAPABILITY_SEEK_TO,
         TrackPlayer.CAPABILITY_JUMP_BACKWARD,
-        TrackPlayer.CAPABILITY_JUMP_FORWARD
+        TrackPlayer.CAPABILITY_JUMP_FORWARD,
+        TrackPlayer.CAPABILITY_STOP
+      ],
+      compactCapabilities: [
+        TrackPlayer.CAPABILITY_PLAY,
+        TrackPlayer.CAPABILITY_PAUSE
       ]
     });
   }
 
-  async componentWillUnmount() {
-    AppState.removeEventListener("change", this._handleStateChange);
-  }
-
-  _handleStateChange(appState) {
-    if (appState == "active") {
-      // Updates the playback information when the app is back from background mode
-      App.store.dispatch(updatePlayback());
-    }
+  componentWillUnmount() {
+    this.onTrackChanged.remove();
+    this.onStateChanged.remove();
+    this.onRemotePlay.remove();
+    this.onRemotePause.remove();
+    this.onError.remove();
+    this.onStop.remove();
+    this.onJumpForward.remove();
+    this.onJumpBackward.remove();
   }
 
   render() {
@@ -226,6 +283,10 @@ class App extends PureComponent {
       </Provider>
     );
   }
+
+  // render() {
+  //   return <View />;
+  // }
 }
 
 const marginIosIconTab = 10;
@@ -241,10 +302,4 @@ const styles = StyleSheet.create({
   }
 });
 
-import { AppRegistry } from "react-native";
-import TrackPlayer from "react-native-track-player";
-
-import createEventHandler from "./player-handler";
-
-AppRegistry.registerComponent("thinkerview", () => App);
-TrackPlayer.registerEventHandler(createEventHandler(App.store));
+export default App;
