@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AppState, Platform, StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import { Provider } from "react-redux";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -190,60 +190,8 @@ class App extends Component {
   );
   static persistor = persistStore(App.store);
 
-  async componentDidMount() {
-    TrackPlayer.setupPlayer({}).then(() => {
-      this.onTrackChanged = TrackPlayer.addEventListener(
-        "playback-track-changed",
-        async data => {
-          if (data.nextTrack) {
-            App.store.dispatch(updatePlayback(data.nextTrack));
-          }
-        }
-      );
-
-      this.onStateChanged = TrackPlayer.addEventListener(
-        "playback-state",
-        data => {
-          if (data.state) {
-            App.store.dispatch(playbackState(data.state));
-          }
-        }
-      );
-
-      this.onRemotePlay = TrackPlayer.addEventListener("remote-play", () =>
-        TrackPlayer.play()
-      );
-
-      this.onRemotePause = TrackPlayer.addEventListener("remote-pause", () =>
-        TrackPlayer.pause()
-      );
-
-      this.onError = TrackPlayer.addEventListener("playback-error", () => {
-        Alert.alert("An error ocurred");
-      });
-
-      this.onStop = TrackPlayer.addEventListener("remote-stop", () => {
-        TrackPlayer.destroy();
-      });
-
-      this.onJumpForward = TrackPlayer.addEventListener(
-        "remote-jump-forward",
-        async data => {
-          if (data.position) {
-            TrackPlayer.seekTo(data.position + 15);
-          }
-        }
-      );
-
-      this.onJumpBackward = TrackPlayer.addEventListener(
-        "remote-jump-backward",
-        async data => {
-          if (data.position) {
-            TrackPlayer.seekTo(data.position - 15);
-          }
-        }
-      );
-    });
+  componentDidMount() {
+    TrackPlayer.setupPlayer();
 
     TrackPlayer.updateOptions({
       stopWithApp: true,
@@ -261,17 +209,6 @@ class App extends Component {
         TrackPlayer.CAPABILITY_PAUSE
       ]
     });
-  }
-
-  componentWillUnmount() {
-    this.onTrackChanged.remove();
-    this.onStateChanged.remove();
-    this.onRemotePlay.remove();
-    this.onRemotePause.remove();
-    this.onError.remove();
-    this.onStop.remove();
-    this.onJumpForward.remove();
-    this.onJumpBackward.remove();
   }
 
   render() {
