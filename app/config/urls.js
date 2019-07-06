@@ -10,7 +10,7 @@ const urls = {
   links: {
     author: {
       twitter: "https://twitter.com/bresson_pierre",
-      website: "http://pierrebresson.com",
+      website: "http://pierre.bresson.io",
       github: "https://github.com/PierreBresson"
     },
     thinkerview: {
