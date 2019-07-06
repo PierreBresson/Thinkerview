@@ -19,6 +19,7 @@ import {
 import { is } from "ramda";
 import TrackPlayer from "react-native-track-player";
 
+import createEventHandler from "./event-handler";
 import { playbackState, updatePlayback } from "./actions/playerActions";
 import { interviewsScrollToTop } from "./actions/interviewsActions";
 import { categoryInterviewsScrollToTop } from "./actions/categoryInterviewsActions";
@@ -239,4 +240,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default App;
+import { AppRegistry } from "react-native";
+
+AppRegistry.registerComponent("thinkerview", () => App);
+TrackPlayer.registerPlaybackService(() => createEventHandler(App.store));
