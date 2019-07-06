@@ -10,6 +10,10 @@ const strings = {
     copyLink: "Copier le lien"
   },
   homeScreen: {
+    explorer: "Explorer",
+    lastestInterviews: "Dernières interviews",
+    seeAll: "Tout voir",
+    categories: "Catégories",
     endOfList: "The end!",
     check_website_message: "Peut être que le site Thinkerview ne répond plus.",
     check_website_button: "Vérifier état du site"
@@ -21,7 +25,7 @@ const strings = {
   aboutScreen: {
     about: "À propos",
     aboutAuthor:
-      "Cette application a été conçue par Pierre Bresson, bénévolement. N'hésitez pas à me faire parvenir vos bugs et la procédure pour les reproduire, de façon civilisée. Si l'application n'arrive pas à charger les interviews, c'est peut-être que le site de Thinkerview ne marche pas et dans ce cas je ne peux malheureusement rien faire.",
+      "Cette application a été conçue par Pierre Bresson, bénévolement, avec l'aide d'Anthony Abitbol pour le design. N'hésitez pas à me faire parvenir vos bugs et la procédure pour les reproduire, de façon civilisée.",
     thinkerview: "Thinkerview",
     thinkerviewDescription:
       "ThinkerView est un groupe indépendant issu d'internet, très diffèrent de la plup" +

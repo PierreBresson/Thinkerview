@@ -1,11 +1,11 @@
 const fonts = {
-    titleFont: "Gilroy-ExtraBold",
-    subTitleFont: "Gilroy-Light",
-    extraLight: "Lato-Hairline",
-    light: "Lato-Light",
-    bodyFont: "Lato-Regular",
-    bold: "Lato-Bold",
-    black: "Lato-Black"    
+  titleFont: "Raleway-ExtraBold",
+  subTitleFont: "Raleway-Bold",
+  bold: "Raleway-Bold",
+  header: "Raleway-SemiBold",
+  bodyFont: "Raleway-Regular",
+  light: "Raleway-Light",
+  extraLight: "Raleway-Thin"
 };
 
 export default fonts;

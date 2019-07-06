@@ -1,8 +1,10 @@
-import React, { PureComponent } from "react";
-import { AppState, Platform, StyleSheet } from "react-native";
+import React, { Component } from "react";
+import { Platform, StyleSheet, View } from "react-native";
 import { Provider } from "react-redux";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { createStore, applyMiddleware } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
@@ -14,8 +16,13 @@ import {
   createBottomTabNavigator,
   createStackNavigator
 } from "react-navigation";
-import { updatePlayback } from "./actions/playerActions";
+import { is } from "ramda";
+import TrackPlayer from "react-native-track-player";
+
+import createEventHandler from "./event-handler";
+import { playbackState, updatePlayback } from "./actions/playerActions";
 import { interviewsScrollToTop } from "./actions/interviewsActions";
+import { categoryInterviewsScrollToTop } from "./actions/categoryInterviewsActions";
 import config from "./config";
 
 import HomeScreen from "./screens/home";
@@ -24,6 +31,7 @@ import OfflineScreen from "./screens/offline";
 import AboutScreen from "./screens/about";
 
 import ArticleScreen from "./screens/home/article";
+import CategoryScreen from "./screens/home/category";
 import OfflinePodcastScreen from "./screens/offline/podcast";
 
 // Temporary fix for not show a warning due to react navigation
@@ -34,6 +42,8 @@ YellowBox.ignoreWarnings([
 ]);
 console.ignoredYellowBox = ["Remote debugger"];
 
+const isArray = is(Array);
+
 const TabScreens = createBottomTabNavigator(
   {
     Home: {
@@ -42,6 +52,10 @@ const TabScreens = createBottomTabNavigator(
           Home: {
             screen: HomeScreen,
             path: "home"
+          },
+          Category: {
+            screen: CategoryScreen,
+            path: "category"
           },
           Article: {
             screen: ArticleScreen
@@ -56,50 +70,46 @@ const TabScreens = createBottomTabNavigator(
         }
       ),
       navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ tintColor, focused }) =>
-          focused ? (
-            <IconEntypo
-              name={"folder-video"}
-              size={28}
-              color={config.colors.thinkerGreen}
-              style={styles.icon}
-            />
-          ) : (
-            <IconEntypo
-              name={"folder-video"}
-              size={28}
-              color={config.colors.blackTorn}
-              style={styles.icon}
-            />
-          ),
-        tabBarOnPress: ({ navigation }) => {
-          if (navigation.isFocused()) {
-            App.store.dispatch(interviewsScrollToTop());
-          } else {
-            navigation.navigate("Home");
-          }
-        }
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Ionicons
+            name={"md-compass"}
+            size={28}
+            color={
+              focused ? config.colors.thinkerGreen : config.colors.blackTorn
+            }
+            style={styles.icon}
+          />
+        )
+        // tabBarOnPress: ({ navigation }) => {
+        //   if (navigation.isFocused()) {
+        //     const { routes } = navigation.state;
+        //     if (!isArray(routes)) {
+        //       return;
+        //     }
+        //     if (routes.length === 1) {
+        //       App.store.dispatch(interviewsScrollToTop());
+        //     } else if (routes.length === 2) {
+        //       App.store.dispatch(categoryInterviewsScrollToTop());
+        //     }
+        //   } else {
+        //     navigation.navigate("Home");
+        //   }
+        // }
       })
     },
     Podcast: {
       screen: PodcastScreen,
       navigationOptions: {
-        tabBarIcon: ({ tintColor, focused }) =>
-          focused ? (
-            <FontAwesome
-              name={"podcast"}
-              size={28}
-              color={config.colors.thinkerGreen}
-              style={styles.icon}
-            />
-          ) : (
-            <FontAwesome
-              name={"podcast"}
-              size={28}
-              color={config.colors.blackTorn}
-              style={styles.icon}
-            />
-          )
+        tabBarIcon: ({ tintColor, focused }) => (
+          <FontAwesome
+            name={"podcast"}
+            size={28}
+            color={
+              focused ? config.colors.thinkerGreen : config.colors.blackTorn
+            }
+            style={styles.icon}
+          />
+        )
       }
     },
     Offline: {
@@ -121,43 +131,31 @@ const TabScreens = createBottomTabNavigator(
         }
       ),
       navigationOptions: {
-        tabBarIcon: ({ tintColor, focused }) =>
-          focused ? (
-            <IconEntypo
-              name={"download"}
-              size={28}
-              color={config.colors.thinkerGreen}
-              style={styles.icon}
-            />
-          ) : (
-            <IconEntypo
-              name={"download"}
-              size={28}
-              color={config.colors.blackTorn}
-              style={styles.icon}
-            />
-          )
+        tabBarIcon: ({ tintColor, focused }) => (
+          <MaterialCommunityIcons
+            name={"library-music"}
+            size={28}
+            color={
+              focused ? config.colors.thinkerGreen : config.colors.blackTorn
+            }
+            style={styles.icon}
+          />
+        )
       }
     },
     About: {
       screen: AboutScreen,
       navigationOptions: {
-        tabBarIcon: ({ tintColor, focused }) =>
-          focused ? (
-            <IconEntypo
-              name={"info-with-circle"}
-              size={28}
-              color={config.colors.thinkerGreen}
-              style={styles.icon}
-            />
-          ) : (
-            <IconEntypo
-              name={"info-with-circle"}
-              size={28}
-              color={config.colors.blackTorn}
-              style={styles.icon}
-            />
-          )
+        tabBarIcon: ({ tintColor, focused }) => (
+          <IconEntypo
+            name={"info-with-circle"}
+            size={28}
+            color={
+              focused ? config.colors.thinkerGreen : config.colors.blackTorn
+            }
+            style={styles.icon}
+          />
+        )
       }
     }
   },
@@ -186,40 +184,32 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, getRootReducer());
 
-class App extends PureComponent {
+class App extends Component {
   static store = createStore(
     persistedReducer,
     applyMiddleware(logger, thunkMiddleware)
   );
   static persistor = persistStore(App.store);
 
-  async componentDidMount() {
-    AppState.addEventListener("change", this._handleStateChange);
+  componentDidMount() {
+    TrackPlayer.setupPlayer();
 
-    // TODO remove temp code
-    await TrackPlayer.setupPlayer({});
     TrackPlayer.updateOptions({
+      stopWithApp: true,
       jumpInterval: 15,
-      stopWithApp: false,
       capabilities: [
         TrackPlayer.CAPABILITY_PLAY,
         TrackPlayer.CAPABILITY_PAUSE,
         TrackPlayer.CAPABILITY_SEEK_TO,
         TrackPlayer.CAPABILITY_JUMP_BACKWARD,
-        TrackPlayer.CAPABILITY_JUMP_FORWARD
+        TrackPlayer.CAPABILITY_JUMP_FORWARD,
+        TrackPlayer.CAPABILITY_STOP
+      ],
+      compactCapabilities: [
+        TrackPlayer.CAPABILITY_PLAY,
+        TrackPlayer.CAPABILITY_PAUSE
       ]
     });
-  }
-
-  async componentWillUnmount() {
-    AppState.removeEventListener("change", this._handleStateChange);
-  }
-
-  _handleStateChange(appState) {
-    if (appState == "active") {
-      // Updates the playback information when the app is back from background mode
-      App.store.dispatch(updatePlayback());
-    }
   }
 
   render() {
@@ -231,6 +221,10 @@ class App extends PureComponent {
       </Provider>
     );
   }
+
+  // render() {
+  //   return <View />;
+  // }
 }
 
 const marginIosIconTab = 10;
@@ -247,9 +241,6 @@ const styles = StyleSheet.create({
 });
 
 import { AppRegistry } from "react-native";
-import TrackPlayer from "react-native-track-player";
-
-import createEventHandler from "./player-handler";
 
 AppRegistry.registerComponent("thinkerview", () => App);
-TrackPlayer.registerEventHandler(createEventHandler(App.store));
+TrackPlayer.registerPlaybackService(() => createEventHandler(App.store));

@@ -2,8 +2,7 @@ import {
   FETCHING_CATEGORIES,
   FETCHING_CATEGORIES_SUCCESS,
   FETCHING_CATEGORIES_ERROR,
-  SELECT_CATEGORY,
-  CATEGORY_MODAL_ACTION
+  SELECT_CATEGORY
 } from "../actions/types";
 
 const initialcategorySelected = {
@@ -14,17 +13,11 @@ const initialState = {
   isFetchingCategories: false,
   errorFetchingCategories: false,
   all_categories: null,
-  categorySelected: initialcategorySelected,
-  categoryModalOpen: false
+  categorySelected: initialcategorySelected
 };
 
 export default (categoriesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CATEGORY_MODAL_ACTION:
-      return {
-        ...state,
-        categoryModalOpen: !state.categoryModalOpen
-      };
     case SELECT_CATEGORY:
       return {
         ...state,
@@ -39,7 +32,7 @@ export default (categoriesReducer = (state = initialState, action) => {
     case FETCHING_CATEGORIES_SUCCESS:
       return {
         ...state,
-        all_categories: [initialcategorySelected, ...action.categories],
+        all_categories: action.categories,
         isFetchingCategories: false,
         errorFetchingCategories: false
       };

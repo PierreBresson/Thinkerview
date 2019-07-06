@@ -1,26 +1,18 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import config from "../config";
 
 export default (LabelCategory = ({ category }) => (
-  <View style={styles.tagView}>
-    <Text style={styles.text}>{category}</Text>
-  </View>
+  <Text style={styles.text}>{category.toUpperCase()}</Text>
 ));
 
 const styles = StyleSheet.create({
-  tagView: {
-    backgroundColor: config.colors.thinkerGreen,
-    marginRight: 10,
-    paddingTop: 4,
-    paddingBottom: 6,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderRadius: 20
-  },
   text: {
-    color: "white",
+    marginTop: 4,
+    color: config.colors.thinkerGreen,
     fontSize: 12,
-    fontFamily: config.fonts.bodyFont
+    fontFamily: config.fonts.bodyFont,
+    paddingRight: 4,
+    zIndex: 1
   }
 });

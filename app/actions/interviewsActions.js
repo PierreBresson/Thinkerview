@@ -2,7 +2,6 @@ import {
   FETCHING_INTERVIEWS,
   FETCHING_INTERVIEWS_SUCCESS,
   FETCHING_INTERVIEWS_ERROR,
-  FETCHING_INTERVIEWS_RESET,
   FETCHING_INTERVIEWS_LAST_PAGE,
   INTERVIEWS_SCROLL_TO_TOP
 } from "./types";
@@ -48,12 +47,6 @@ export const interviewsFetcher = (category_id = 0) => {
           }
         });
     }
-  };
-};
-
-export const resetInterviewsFetcher = () => {
-  return {
-    type: FETCHING_INTERVIEWS_RESET
   };
 };
 

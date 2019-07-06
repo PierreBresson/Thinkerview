@@ -2,7 +2,6 @@ import {
   FETCHING_INTERVIEWS,
   FETCHING_INTERVIEWS_SUCCESS,
   FETCHING_INTERVIEWS_ERROR,
-  FETCHING_INTERVIEWS_RESET,
   FETCHING_INTERVIEWS_LAST_PAGE,
   INTERVIEWS_SCROLL_TO_TOP
 } from "../actions/types";
@@ -33,26 +32,20 @@ export default (interviewsReducer = (state = initialState, action) => {
           isFetchingInterviews: false,
           errorFetchingInterviews: false
         };
-      } else {
-        return {
-          ...state,
-          page: state.page + 1,
-          data: [...state.data, ...action.interviews],
-          isFetchingInterviews: false,
-          errorFetchingInterviews: false
-        };
       }
+      return {
+        ...state,
+        page: state.page + 1,
+        data: [...state.data, ...action.interviews],
+        isFetchingInterviews: false,
+        errorFetchingInterviews: false
+      };
     case FETCHING_INTERVIEWS_ERROR:
       return {
         ...state,
         ...initialState,
         isFetchingInterviews: false,
         errorFetchingInterviews: true
-      };
-    case FETCHING_INTERVIEWS_RESET:
-      return {
-        ...state,
-        ...initialState
       };
     case FETCHING_INTERVIEWS_LAST_PAGE:
       return {

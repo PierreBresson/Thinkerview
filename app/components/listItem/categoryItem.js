@@ -1,6 +1,7 @@
 import React from "react";
 import ReactNative, { StyleSheet } from "react-native";
 import config from "../../config";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import _ from "lodash";
 
 export default class CategoryItem extends React.Component {
@@ -22,6 +23,12 @@ export default class CategoryItem extends React.Component {
         <ReactNative.Text numberOfLines={1} style={styles.text}>
           {_.capitalize(name)}
         </ReactNative.Text>
+        <MaterialCommunityIcons
+          name={"chevron-right"}
+          size={22}
+          color={config.colors.thinkerGreen}
+          style={styles.iconShare}
+        />
       </ReactNative.TouchableOpacity>
     );
   }
@@ -29,16 +36,20 @@ export default class CategoryItem extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    marginHorizontal: 20,
+    paddingHorizontal: 8,
     flexDirection: "row",
-    paddingTop: 14,
-    paddingBottom: 14,
-    paddingLeft: 20,
-    borderBottomWidth: 0.5,
-    borderBottomColor: config.colors.silverTwo
+    justifyContent: "space-between",
+    marginVertical: 4,
+    paddingVertical: 10,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: config.colors.thinkerGreen,
+    backgroundColor: config.colors.thinkerGreenWashedOut
   },
   text: {
-    fontSize: 20,
-    fontFamily: config.fonts.bodyFont,
-    color: config.colors.black
+    fontSize: 18,
+    fontFamily: config.fonts.bold,
+    color: config.colors.thinkerGreen
   }
 });

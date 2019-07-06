@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  TouchableOpacity,
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  ScrollView
-} from "react-native";
+import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import LabelCategory from "../labelCategory";
 import config from "../../config";
@@ -67,19 +60,19 @@ class VideoItem extends React.Component {
 
     return (
       <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
+        <View style={styles.textView}>
+          <View style={styles.categoriesView}>
+            {this.renderCategories(categories)}
+          </View>
+          <Text numberOfLines={2} style={styles.text}>
+            {_.capitalize(title)}
+          </Text>
+        </View>
         <Image
           style={styles.img}
           resizeMode="cover"
           source={{ uri: img_url }}
         />
-        <View style={styles.textView}>
-          <Text numberOfLines={2} style={styles.text}>
-            {_.capitalize(title)}
-          </Text>
-          <View style={styles.categoriesView}>
-            {this.renderCategories(categories)}
-          </View>
-        </View>
       </TouchableOpacity>
     );
   }
@@ -88,30 +81,27 @@ class VideoItem extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    paddingTop: 14,
-    paddingBottom: 14,
-    paddingLeft: 20,
-    borderBottomWidth: 0.5,
-    borderBottomColor: config.colors.silverTwo
+    paddingVertical: 8,
+    ...config.styles.container
   },
   img: {
+    zIndex: 2,
+    borderRadius: 4,
     height: 76,
     width: 134
   },
   textView: {
     flexDirection: "column",
-    flex: 1,
-    marginLeft: 10,
-    marginRight: 10
+    flex: 1
   },
   text: {
+    marginTop: 2,
     fontSize: 16,
-    fontFamily: config.fonts.bold,
+    fontFamily: config.fonts.header,
     color: config.colors.black
   },
   categoriesView: {
-    flexDirection: "row",
-    marginTop: 14
+    flexDirection: "row"
   }
 });
 
