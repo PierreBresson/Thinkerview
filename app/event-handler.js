@@ -6,12 +6,10 @@ import { playbackState, playbackTrack } from "./actions";
 
 async function eventHandler(store, data) {
   TrackPlayer.addEventListener("remote-play", () => {
-    console.warn("TCL: eventHandler -> remote-play");
     TrackPlayer.play();
   });
 
   TrackPlayer.addEventListener("remote-pause", () => {
-    console.warn("TCL: eventHandler -> remote-pause");
     TrackPlayer.pause();
   });
 
