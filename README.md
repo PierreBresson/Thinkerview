@@ -31,4 +31,4 @@ And then :
 
 ## Design
 
-A big thanks to Anthony Abitbol for the design of v2.2.0. Sketch file can be found [here](https://github.com/PierreBresson/thinkerview/tree/master/design)
+A big thanks to [Anthony Abitbol](https://dribbble.com/Anthony_A) for the new design. Sketch file can be found [here](https://github.com/PierreBresson/thinkerview/tree/master/design)
