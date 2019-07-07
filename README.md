@@ -28,3 +28,7 @@ And then :
 
 `react-native run-ios`
 `react-native run-android`
+
+## Design
+
+A big thanks to Anthony Abitbol for the design of v2.2.0. Sketch file can be found [here](https://github.com/PierreBresson/thinkerview/tree/master/design)
