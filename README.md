@@ -1,5 +1,10 @@
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/P5P813IQT)
 
+### Coming soon
+
+Re-write app architecture : try to remove redux and use context. 
+Update libs and implement new design.
+
 # Thinkerview
 
 Watch Thinkerview videos and listen to podcast.
