@@ -7,7 +7,7 @@ import com.rnfs.RNFSPackage;
 import com.guichaguri.trackplayer.TrackPlayer;
 import com.rpt.reactnativecheckpackageinstallation.CheckPackageInstallationPackage;
 import cl.json.RNSharePackage;
-import com.eko.RNBackgroundDownloaderPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.rpt.reactnativecheckpackageinstallation.CheckPackageInstallationPackage;
 import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
@@ -33,7 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
           new RNFSPackage(),
           new TrackPlayer(), 
-          new RNBackgroundDownloaderPackage(), 
+          new RNFetchBlobPackage(), 
           new RNSharePackage(),
           new VectorIconsPackage(), 
           new CheckPackageInstallationPackage(), 

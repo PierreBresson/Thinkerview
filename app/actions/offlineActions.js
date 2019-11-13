@@ -7,7 +7,7 @@ import {
   DELETE_PODCAST_OFFLINE,
   DELETE_PODCAST_OFFLINE_ERROR
 } from "./types";
-import RNBackgroundDownloader from "react-native-background-downloader";
+import RNFetchBlob from "rn-fetch-blob";
 import { hasPath, pathOr } from "ramda";
 var RNFS = require("react-native-fs");
 
@@ -28,37 +28,36 @@ const downloadPodcast = (dispatch, podcast) => {
       }
     }
 
-    const taskMusic = RNBackgroundDownloader.download({
-      id: String(podcast.id),
-      url: audio_link,
-      destination:
-        `${RNBackgroundDownloader.directories.documents}/` +
-        String(podcast.id) +
-        ".mp3"
+    RNFetchBlob.config({
+      fileCache: true,
+      overwrite: true,
+      path: RNFetchBlob.fs.dirs.DocumentDir + "/" + podcast.id + ".mp3"
     })
-      .begin(expectedBytes => {
-        console.log(`TCL downloadPodcast Going to dl  ${expectedBytes} bytes!`);
-      })
-      .progress(percent => {
-        console.log("TCL downloadPodcast: percent", percent);
+      .fetch("GET", audio_link)
+      .progress({ interval: 4000 }, (received, total) => {
         dispatch({
           type: SAVE_PODCAST_OFFLINE_UPDATE,
           podcast: podcast,
           key: "progress",
-          value: String(Math.floor(percent * 100))
+          value: String(Math.floor((received / total) * 100))
         });
       })
-      .done(() => {
-        const path =
-          `${RNBackgroundDownloader.directories.documents}/` +
-          String(podcast.id) +
-          ".mp3";
-        console.log("TCL taskMusic done", path);
-        resolve(Platform.OS === "ios" ? "file://" + path : path);
+      .then(res => {
+        dispatch({
+          type: SAVE_PODCAST_OFFLINE_UPDATE,
+          podcast: podcast,
+          key: "path",
+          value: res.path()
+        });
+        resolve();
       })
-      .error(error => {
-        console.log("TCL: downloadPodcast error", error);
-        reject(error);
+      .catch(err => {
+        console.log(err);
+        dispatch({
+          type: SAVE_PODCAST_OFFLINE_ERROR,
+          podcast
+        });
+        reject();
       });
   });
 };
@@ -70,32 +69,6 @@ const downloadImage = podcast =>
     }
 
     console.log("TCL: podcast downloadImage", podcast);
-
-    const taskImage = RNBackgroundDownloader.download({
-      id: String(podcast.id),
-      url: podcast.img_url,
-      destination:
-        `${RNBackgroundDownloader.directories.documents}/` +
-        String(podcast.id) +
-        ".jpg"
-    })
-      .begin(expectedBytes => {
-        console.log(`TCL downloadImage Going to dl ${expectedBytes} bytes!`);
-      })
-      .progress(percent => {
-        console.log(`TCL downloadImage Downloaded: ${percent * 100}%`);
-      })
-      .done(() => {
-        const path =
-          `${RNBackgroundDownloader.directories.documents}/` +
-          String(podcast.id) +
-          ".jpg";
-        console.log("TCL: path", path);
-        resolve(Platform.OS === "ios" ? "file://" + path : path);
-      })
-      .error(error => {
-        reject(error);
-      });
   });
 
 const deleteFile = path =>
@@ -166,14 +139,7 @@ export const savePodcastOfflineStart = podcast => {
       // }
 
       try {
-        const pathMusic = await downloadPodcast(dispatch, podcast);
-        console.log("TCL: pathMusic", pathMusic);
-        dispatch({
-          type: SAVE_PODCAST_OFFLINE_UPDATE,
-          podcast: podcast,
-          key: "path",
-          value: pathMusic
-        });
+        await downloadPodcast(dispatch, podcast);
       } catch (error) {
         console.log("TCL: shouldStartDownload Podcast error", error);
         return dispatch({
