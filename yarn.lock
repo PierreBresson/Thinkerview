@@ -4320,9 +4320,9 @@ locate-path@^3.0.0:
     path-exists "^3.0.0"
 
 lodash-es@^4.17.5, lodash-es@^4.2.1:
-  version "4.17.11"
-  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.11.tgz#145ab4a7ac5c5e52a3531fb4f310255a152b4be0"
-  integrity sha512-DHb1ub+rMjjrxqlB3H56/6MXtm1lSksDp2rA2cNWjG8mlDUYFhUj3Di2Zn5IwSU87xLv8tNIQ7sSwE/YOX/D/Q==
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.15.tgz#21bd96839354412f23d7a10340e5eac6ee455d78"
+  integrity sha512-rlrc3yU3+JNOpZ9zj5pQtxnx2THmvRykwL4Xlxoa8I9lHBlVbbyPhgyPMioxVZ4NqyxaVVtaJnzsyOidQIhyyQ==
 
 lodash.pad@^4.1.0:
   version "4.5.1"
@@ -5661,11 +5661,6 @@ react-lifecycles-compat@^3, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
-
-react-native-background-downloader@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-background-downloader/-/react-native-background-downloader-2.0.1.tgz#14446436f27634d326e89a0c06f9e7652364e614"
-  integrity sha512-Svo/AqbPsuRNFTGud2aH6SvKbzLpJnpoHiQ0u2k9raVBVnH5KrvqzwP0eoloyzBfE03R4uaUam0kORxLQvoAWg==
 
 react-native-check-app-install@0.0.4:
   version "0.0.4"
