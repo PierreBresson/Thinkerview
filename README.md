@@ -2,7 +2,7 @@
 
 ### Coming soon
 
-Re-write app architecture : try to remove redux and use context. 
+Re-write app architecture. 
 Update libs and implement new design.
 
 # Thinkerview
